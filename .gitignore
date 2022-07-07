@@ -58,3 +58,9 @@ Assembler/.vs/Assembler/v16/Browse.VC.db-shm
 Assembler/.vs/Assembler/v16/Browse.VC.db-wal
 
 Assembler/.vs/Assembler/v16/Browse.VC.opendb
+
+*.vsidx
+
+Assembler/.vs/
+
+Assembler/Debug/
