@@ -3,25 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct 
-{
-	char* key;
-	char* value;
-}   entry;
-
-typedef struct
-{
-	entry* items;
-	int used_size;
-	int allocated_size;
-}   dictionary;
-
 //Dictionary constructor 
 dictionary* create_dictionary()
 {
 	dictionary* d = malloc(sizeof(dictionary));
 	d->items = malloc(sizeof(entry) * 5);
+	//Used space in dictionary
 	d->used_size = 0;
+	//Allocated memory for dictionary
 	d->allocated_size = 5;
 	return d;
 }
@@ -50,12 +39,26 @@ char* get_value(dictionary* d, char* key)
 {
 	for (int i = 0; i < d->used_size; i++)
 	{
-		if (strcmp(d->items[i].key, key == 0))
+		if (strcmp(d->items[i].key, key) == 0)
 		{
 			return d->items[i].value;
 		}
 	}
 }
+
+int key_exists(dictionary* d, char* search_key)
+{
+	for (int i = 0; i < d->used_size; i++)
+	{
+		if (strcmp(d->items[i].key, search_key) == 0)
+		{
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 
 
 
