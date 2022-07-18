@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 	fread(buffer, 1, length, file);
 	fclose(file);
 
-	expand_macro(buffer);
+	char* expanded_output = expand_macro(buffer);
 	
 
 	return 0;

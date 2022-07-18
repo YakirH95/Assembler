@@ -18,6 +18,12 @@ dictionary* create_dictionary()
 //Dictionary destructor
 void delete_dictionary(dictionary* d)
 {
+	for (int i = 0; i < d->used_size; i++)
+	{
+		free(d->items[i].key);
+		free(d->items[i].value);
+	}
+
 	free(d->items);
 	free(d);
 }
@@ -30,8 +36,8 @@ void add_entry(dictionary* d, char* k, char* v)
 		d->items = realloc(d->items, d->allocated_size);
 	}
 
-	d->items[d->used_size].key = k;
-	d->items[d->used_size].value = v;
+	d->items[d->used_size].key = _strdup(k);
+	d->items[d->used_size].value = _strdup(v);
 	d->used_size++;
 }
 
@@ -58,8 +64,6 @@ int key_exists(dictionary* d, char* search_key)
 
 	return 0;
 }
-
-
 
 
 

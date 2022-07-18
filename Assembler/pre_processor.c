@@ -62,6 +62,5 @@ char* expand_macro(char* assembly_input)
 
 	delete_dictionary(macro_dict);
 
-
 	return get_internal_string(output);
 }
