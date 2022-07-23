@@ -1,13 +1,13 @@
-#include "pre_proccessor.h"
-#include <stdio.h>
 #include <string.h>
-#include "dictionary.h"
 #include "dynamic_string.h"
+#include <stdio.h>
+#include "dictionary.h"
+#include "pre_proccessor.h"
 
 const char* search_word = "macro ";
 const char* exit_word = "endmacro";
 
-char* expand_macro(char* assembly_input)
+FILE* expand_macro(char* assembly_input)
 {
 	dictionary* macro_dict = create_dictionary();
 
@@ -41,7 +41,7 @@ char* expand_macro(char* assembly_input)
 		else if (key_exists(macro_dict, current_line))
 		{
 			add_string(output, get_value(macro_dict, current_line));
-			add_string(output, "\n");
+			//add_string(output, "\n");
 		}
 
 		//Identify macro name and add to dictionary
@@ -62,5 +62,16 @@ char* expand_macro(char* assembly_input)
 
 	delete_dictionary(macro_dict);
 
-	return get_internal_string(output);
+	FILE* post_prep;
+	post_prep = fopen("Post Prep.txt", "w+");
+	
+	if (post_prep == NULL)
+	{
+		/* File not created hence exit */
+		printf("Unable to create file.\n");
+		return NULL;
+	}
+	fputs(get_internal_string(output), post_prep);
+	fclose(post_prep);
+	return post_prep;
 }

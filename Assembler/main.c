@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	fread(buffer, 1, length, file);
 	fclose(file);
 
-	char* expanded_output = expand_macro(buffer);
+	FILE* expanded_output = expand_macro(buffer);
 	
 	return 0;
 }

@@ -1,3 +1,4 @@
 #pragma once
+#include <stdio.h>
 
-char* expand_macro(char* assembly_input);
+FILE* expand_macro(char* assembly_input);

@@ -24,12 +24,27 @@
     <ClCompile Include="dictionary.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dynamic_string.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamic_string.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="first_process.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="operations_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pre_proccessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="first_process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

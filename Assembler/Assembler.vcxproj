@@ -22,11 +22,14 @@
     <ClCompile Include="dictionary.c" />
     <ClCompile Include="dynamic_string.c" />
     <ClCompile Include="dynamic_string.h" />
+    <ClCompile Include="first_process.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="operations_table.c" />
     <ClCompile Include="pre_processor.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dictionary.h" />
+    <ClInclude Include="first_process.h" />
     <ClInclude Include="pre_proccessor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

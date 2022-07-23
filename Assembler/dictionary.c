@@ -52,10 +52,16 @@ char* get_value(dictionary* d, char* key)
 	}
 }
 
+int get_int_value(dictionary* d, char* key)
+{
+
+}
+
 int key_exists(dictionary* d, char* search_key)
 {
 	for (int i = 0; i < d->used_size; i++)
 	{
+		//If string are equal
 		if (strcmp(d->items[i].key, search_key) == 0)
 		{
 			return 1;
