@@ -71,5 +71,10 @@ int key_exists(dictionary* d, char* search_key)
 	return 0;
 }
 
+char* get_key(dictionary* d, int index)
+{
+	return d->items[index].key;
+}
+
 
 

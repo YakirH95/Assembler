@@ -30,6 +30,8 @@
   <ItemGroup>
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="first_process.h" />
+    <ClInclude Include="memory_image.h" />
+    <ClInclude Include="operations_table.h" />
     <ClInclude Include="pre_proccessor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -28,12 +28,15 @@ int main(int argc, char* argv[])
 	//Point to beggining of file
 	fseek(file, 0, SEEK_SET);
 	//Allocate memory for file
-	buffer = malloc(length);
+	buffer = malloc(length + 1);
 	//Read file to buffer
 	fread(buffer, 1, length, file);
+	buffer[length] = 0;
 	fclose(file);
 
 	FILE* expanded_output = expand_macro(buffer);
+
+	
 	
 	return 0;
 }

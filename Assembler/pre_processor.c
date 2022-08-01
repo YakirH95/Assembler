@@ -41,7 +41,6 @@ FILE* expand_macro(char* assembly_input)
 		else if (key_exists(macro_dict, current_line))
 		{
 			add_string(output, get_value(macro_dict, current_line));
-			//add_string(output, "\n");
 		}
 
 		//Identify macro name and add to dictionary
@@ -63,7 +62,7 @@ FILE* expand_macro(char* assembly_input)
 	delete_dictionary(macro_dict);
 
 	FILE* post_prep;
-	post_prep = fopen("Post Prep.txt", "w+");
+	post_prep = fopen("Post Prep.am", "w");
 	
 	if (post_prep == NULL)
 	{
@@ -71,7 +70,8 @@ FILE* expand_macro(char* assembly_input)
 		printf("Unable to create file.\n");
 		return NULL;
 	}
-	fputs(get_internal_string(output), post_prep);
+	char* out = get_internal_string(output);
+	fputs(out, post_prep);
 	fclose(post_prep);
 	return post_prep;
 }

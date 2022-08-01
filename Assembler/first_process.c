@@ -3,15 +3,17 @@
 #include "pre_proccessor.h"
 #include <stdio.h>
 #include <string.h>
-
+#include "operations_table.h"
 
 
 dictionary* identify_labels(char* assembly_input)
 {
 	int IC = 0;
 	int DC = 0;
-	int is_label_define = 0;
-	dictionary* labels_dict = create_dictionary();
+	int is_symbol_define = 0;
+	dictionary* data_symbols_dict = create_dictionary();
+	dictionary* instructions_symbols_dict = create_dictionary();
+	dictionary* operation_dict = create_operations_dict();
 
 	char* current_line = NULL;
 
@@ -22,40 +24,11 @@ dictionary* identify_labels(char* assembly_input)
 	{
 		if (strstr(current_line, ":") != NULL)
 		{
-			is_label_define = 1;
-			
+			is_symbol_define = 1;
 		}
 
-		if (strstr(current_line, ".data") != NULL)
-		{
+	
 
-		}
-
-		else if (strstr(current_line, ".string") != NULL)
-		{
-
-		}
-
-		else if (strstr(current_line, ".struct") != NULL)
-		{
-
-		}
-
-		else if (strstr(current_line, ".extern") != NULL)
-		{
-
-		}
-
-		else if (strstr(current_line, ".entry") != NULL)
-		{
-
-		}
-
-		//None of the above
-		else
-		{
-			define_label(labels_dict, current_line, IC);
-		}
 	}
 }
 
@@ -75,4 +48,16 @@ void define_label(dictionary* label_dict, char* current_line, int IC)
 	add_entry(label_dict, label_name, IC_str);
 
 	
+}
+
+int search_operation(dictionary* operation_table, char* current_line)
+{
+	for (int i = 0; i < operation_table->used_size; i++)
+	{
+		if (strstr(current_line, get_key(operation_table, i)))
+		{
+			return 1;
+		}
+		return 0;
+	}
 }

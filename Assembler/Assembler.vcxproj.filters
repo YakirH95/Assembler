@@ -47,5 +47,11 @@
     <ClInclude Include="first_process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="operations_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="memory_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
