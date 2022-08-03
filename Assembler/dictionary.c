@@ -52,10 +52,6 @@ char* get_value(dictionary* d, char* key)
 	}
 }
 
-int get_int_value(dictionary* d, char* key)
-{
-
-}
 
 int key_exists(dictionary* d, char* search_key)
 {

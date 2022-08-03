@@ -26,6 +26,8 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="operations_table.c" />
     <ClCompile Include="pre_processor.c" />
+    <ClCompile Include="static_arrays.c" />
+    <ClCompile Include="symbol_table.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dictionary.h" />
@@ -33,6 +35,7 @@
     <ClInclude Include="memory_image.h" />
     <ClInclude Include="operations_table.h" />
     <ClInclude Include="pre_proccessor.h" />
+    <ClInclude Include="symbol_table.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
