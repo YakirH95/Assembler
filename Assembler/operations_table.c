@@ -25,3 +25,22 @@ dictionary* create_operations_dict()
 	return operations_table;
 }
 
+dictionary* delete_operations_dict(dictionary* dict)
+{
+	delete_dictionary(dict);
+}
+
+
+int is_operation(dictionary* operation_table, char* current_line)
+{
+	for (int i = 0; i < operation_table->used_size; i++)
+	{
+		if (strstr(current_line, get_key(operation_table, i)) != NULL)
+		{
+			return 1;
+		}
+	}
+
+	return 0;
+}
+

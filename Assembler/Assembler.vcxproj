@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="data_image.c" />
     <ClCompile Include="dictionary.c" />
     <ClCompile Include="dynamic_string.c" />
     <ClCompile Include="dynamic_string.h" />
@@ -26,10 +27,10 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="operations_table.c" />
     <ClCompile Include="pre_processor.c" />
-    <ClCompile Include="static_arrays.c" />
     <ClCompile Include="symbol_table.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="data_image.h" />
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="first_process.h" />
     <ClInclude Include="memory_image.h" />

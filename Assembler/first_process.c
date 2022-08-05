@@ -6,18 +6,20 @@
 #include <stdlib.h>
 #include "operations_table.h"
 #include "symbol_table.h"
+#include "first_process.h"
+#include "data_image.h"
 
 
-int is_symbol_define = 0;
-symbol_table* identify_symbols(char* assembly_input)
+symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict)
 {
+	data_entry* data_image = initialize_data_image();
+	int is_symbol_define = 0;
+
 	int IC = 0;
 	int DC = 0;
 	symbol_table* symbols_table = create_table();
-	dictionary* operation_dict = create_operations_dict();
-	int data_counter = 0;
+	
 	char* symbol_name = NULL;
-
 	char* current_line = NULL;
 
 	//Next line
@@ -36,28 +38,29 @@ symbol_table* identify_symbols(char* assembly_input)
 			if (is_symbol_define)
 			{
 				define_symbol(symbols_table,symbol_name, current_line, DC);
-				DC ++;
-				char* token = strtok(current_line + strlen(symbol_name), ","); ///check with amit
+				DC++;
 			}
 
-			char* token = strtok(current_line, ",");
-				// count tokens
-				// delimiters present in current line.
-			while (token != NULL) {
-				data_counter++;
-				//need to add insert token to data array******
-				token = strtok(NULL, ",");
+			
+			if (strstr(current_line, ".data"))
+			{
 			}
 
-			DC += data_counter;
-			data_counter = 0;
+			else if (strstr(current_line, ".string"))
+			{
+			}
+			
+			else if (strstr(current_line, ".struct"))
+			{
+				
+			}
 		}
 
 		else if (strstr(current_line, ".extern") || strstr(current_line, ".entry"))
 		{
 			if (strstr(current_line, ".extern"))
 			{
-				define_extern_symbol(symbols_table, current_line);
+				define_extern_symbol(symbols_table, current_line, is_symbol_define);
 			}
 
 			else if (strstr(current_line, ".entry"))
@@ -66,6 +69,7 @@ symbol_table* identify_symbols(char* assembly_input)
 			}
 		}
 
+		// If it's symbol only, without data or instruction
 		else 
 		{
 			if (is_symbol_define)
@@ -84,43 +88,59 @@ symbol_table* identify_symbols(char* assembly_input)
 	}
 
 	//if there are errors, stop
+	return symbols_table;
 }
 
-void define_extern_symbol(symbol_table* symbol_table, char* current_line)
+void extract_parameters(char* current_line, char* data_type, int DC, data_entry* data_entry)
 {
-	if (is_symbol_define)
-	{
-		printf("Warning- symbol defined before extern won't be added to the symbol table");
-	}
-
-	char* extern_symbol_name = NULL;
-	char* toBeSearched = ".entry";
-	extern_symbol_name = strstr(current_line, toBeSearched) + strlen(toBeSearched +1);
+	char* token = NULL;
 	
-	add_symbol_entry(symbol_table, extern_symbol_name, current_line, 0, 1);
-}
-
-void define_symbol(symbol_table* symbol_table, char* symbol_name, char* current_line, int IC_DC)
-{
-	symbol_name = strtok(current_line, ":");
-	if (symbol_exists(symbol_table, symbol_name))
+	//Point to after ".data"
+	token = strstr(current_line, data_type) + strlen(data_type + 1);
+	
+	if (strcmp(data_type, ".data"))
 	{
-		printf("label already exist");
-		return;
-	}
-
-	add_symbol_entry(symbol_table, symbol_name, current_line, IC_DC, 0);
-}
-
-int is_operation(dictionary* operation_table, char* current_line)
-{
-	for (int i = 0; i < operation_table->used_size; i++)
-	{
-		if (strstr(current_line, get_key(operation_table, i)) != NULL)
+		char* parameter = strtok(token, ",");
+		while (parameter != NULL)
 		{
-			return 1;
+			int num_paramater = atoi(parameter);
+			// count tokens
+			// delimiters present in current line.	
+
+			insert_data_image(data_entry, num_paramater ,DC);
+			DC++;
+			parameter = strtok(NULL, ",");
 		}
 	}
 
-	return 0;
+	else if (strcmp(data_type, ".string"))
+	{
+		for (int i = 0; i < strlen(token); i++)
+		{
+			char c = token[i];
+			int ascii_val = (int)c;
+			insert_data_image(data_entry, ascii_val, DC);
+			DC++;
+		}
+	}
+
+	else
+	{
+		char* parameter = strtok(token, ",");
+		int num_paramater = atoi(parameter);
+		insert_data_image(data_entry, num_paramater, DC);
+		DC++;
+		parameter = strtok(NULL, ",");
+		
+		for (int i = 0; i < strlen(token); i++)
+		{
+			char c = token[i];
+			int ascii_val = (int)c;
+			insert_data_image(data_entry, ascii_val, DC);
+			DC++;
+		}
+	}
 }
+
+
+

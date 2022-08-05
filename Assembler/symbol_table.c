@@ -24,7 +24,7 @@ void delete_table(symbol_table* s_t)
 	for (int i = 0; i < s_t->used_size; i++)
 	{
 		free(s_t->items[i].symbol_name);
-		free(s_t->items[i].symbol_address);
+		
 	}
 
 	free(s_t->items);
@@ -57,4 +57,30 @@ int symbol_exists(symbol_table* s_t, char* search_symbol)
 	}
 
 	return 0;
+}
+
+void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is_symbol_define)
+{
+	if (is_symbol_define)
+	{
+		printf("Warning- symbol defined before extern won't be added to the symbol table");
+	}
+
+	char* extern_symbol_name = NULL;
+	char* toBeSearched = ".entry";
+	extern_symbol_name = strstr(current_line, toBeSearched) + strlen(toBeSearched + 1);
+
+	add_symbol_entry(symbol_table, extern_symbol_name, 0, 1);
+}
+
+void define_symbol(symbol_table* symbol_table, char* symbol_name, char* current_line, int IC_DC)
+{
+	symbol_name = strtok(current_line, ":");
+	if (symbol_exists(symbol_table, symbol_name))
+	{
+		printf("label already exist");
+		return;
+	}
+
+	add_symbol_entry(symbol_table, symbol_name, IC_DC, 0);
 }

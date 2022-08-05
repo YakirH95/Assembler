@@ -39,7 +39,7 @@
     <ClCompile Include="symbol_table.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="static_arrays.c">
+    <ClCompile Include="data_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="symbol_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="data_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
