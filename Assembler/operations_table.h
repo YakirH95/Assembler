@@ -3,4 +3,4 @@
 
 dictionary* create_operations_dict();
 int is_operation(dictionary* operation_table, char* current_line);
-dictionary* delete_operations_dict(dictionary* dict);
+void delete_operations_dict(dictionary* dict);

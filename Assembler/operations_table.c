@@ -25,7 +25,7 @@ dictionary* create_operations_dict()
 	return operations_table;
 }
 
-dictionary* delete_operations_dict(dictionary* dict)
+void delete_operations_dict(dictionary* dict)
 {
 	delete_dictionary(dict);
 }

@@ -6,8 +6,8 @@
 //Dictionary constructor 
 dictionary* create_dictionary()
 {
-	dictionary* d = malloc(sizeof(dictionary));
-	d->items = malloc(sizeof(entry) * 5);
+	dictionary* d = (dictionary*)malloc(sizeof(dictionary));
+	d->items = (entry*)malloc(sizeof(entry) * 5);
 	//Used space in dictionary
 	d->used_size = 0;
 	//Allocated memory for dictionary
@@ -33,11 +33,11 @@ void add_entry(dictionary* d, char* k, char* v)
 	if (d->used_size == d->allocated_size)
 	{
 		d->allocated_size += 5;
-		d->items = realloc(d->items, d->allocated_size);
+		d->items = realloc(d->items, d->allocated_size * sizeof(entry));
 	}
 
-	d->items[d->used_size].key = _strdup(k);
-	d->items[d->used_size].value = _strdup(v);
+	d->items[d->used_size].key = strdup(k);
+	d->items[d->used_size].value = strdup(v);
 	d->used_size++;
 }
 
@@ -50,6 +50,8 @@ char* get_value(dictionary* d, char* key)
 			return d->items[i].value;
 		}
 	}
+
+	return NULL;
 }
 
 

@@ -86,8 +86,9 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			}
 			else
 			{
-				char* operation_name = get_key(operation_dict, operation_index);
-				insert_code_image(code_image, operation_name, IC);
+				// TODO: bad function argument
+				//char* operation_name = get_key(operation_dict, operation_index);
+				//insert_code_image(code_image, operation_name, IC);
 			}
 		}
 

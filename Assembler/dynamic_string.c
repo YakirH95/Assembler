@@ -8,7 +8,7 @@ dynamic_string* create_dynamic_string()
 	dynamic_string* d_s = malloc(sizeof(dynamic_string));
 	d_s->allocated_size = 10;
 	d_s->string = malloc(sizeof(char) * 10);
-	d_s->string[0] = NULL;
+	d_s->string[0] = 0;
 
 	return d_s;
 }

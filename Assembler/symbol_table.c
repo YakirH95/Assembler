@@ -39,7 +39,7 @@ void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, 
 		s_t->items = realloc(s_t->items, s_t->allocated_size);
 	}
 
-	s_t->items[s_t->used_size].symbol_name = _strdup(symbol_name);
+	s_t->items[s_t->used_size].symbol_name = strdup(symbol_name);
 	s_t->items[s_t->used_size].symbol_address = symbol_address;
 	s_t->items[s_t->used_size].symbol_type = is_external;
 	s_t->used_size++;
