@@ -31,7 +31,7 @@ void delete_table(symbol_table* s_t)
 	free(s_t);
 }
 
-void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, int symbol_type)
+void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, int is_external)
 {
 	if (s_t->used_size == s_t->allocated_size)
 	{
@@ -41,7 +41,7 @@ void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, 
 
 	s_t->items[s_t->used_size].symbol_name = _strdup(symbol_name);
 	s_t->items[s_t->used_size].symbol_address = symbol_address;
-	s_t->items[s_t->used_size].symbol_type = symbol_type;
+	s_t->items[s_t->used_size].symbol_type = is_external;
 	s_t->used_size++;
 }
 
@@ -67,7 +67,7 @@ void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is
 	}
 
 	char* extern_symbol_name = NULL;
-	char* toBeSearched = ".entry";
+	char* toBeSearched = ".extern";
 	extern_symbol_name = strstr(current_line, toBeSearched) + strlen(toBeSearched + 1);
 
 	add_symbol_entry(symbol_table, extern_symbol_name, 0, 1);

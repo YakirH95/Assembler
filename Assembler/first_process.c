@@ -10,11 +10,10 @@
 #include "data_image.h"
 
 
-symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict)
+symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_entry* data_image, code_entry* code_image)
 {
-	data_entry* data_image = initialize_data_image();
 	int is_symbol_define = 0;
-
+	int L = 0;
 	int IC = 0;
 	int DC = 0;
 	symbol_table* symbols_table = create_table();
@@ -33,6 +32,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict)
 			is_symbol_define = 1;
 		}
 
+		//Ex LENGTH: .data 6
 		if (strstr(current_line, ".data") || strstr(current_line, ".string") || strstr(current_line, ".struct"))
 		{
 			if (is_symbol_define)
@@ -41,21 +41,23 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict)
 				DC++;
 			}
 
-			
 			if (strstr(current_line, ".data"))
 			{
+				extract_parameters(current_line, ".data", DC, data_image);
 			}
 
 			else if (strstr(current_line, ".string"))
 			{
+				extract_parameters(current_line, ".string", DC, data_image);
 			}
 			
 			else if (strstr(current_line, ".struct"))
 			{
-				
+				extract_parameters(current_line, ".struct", DC, data_image);
 			}
 		}
 
+		//EX .extern HELLO
 		else if (strstr(current_line, ".extern") || strstr(current_line, ".entry"))
 		{
 			if (strstr(current_line, ".extern"))
@@ -69,7 +71,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict)
 			}
 		}
 
-		// If it's symbol only, without data or instruction
+		// If it's symbol + operation ex  MAIN: mov
 		else 
 		{
 			if (is_symbol_define)
@@ -77,9 +79,15 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict)
 				define_symbol(symbols_table, symbol_name, current_line, IC);
 			}
 
-			if (is_operation(operation_dict, current_line) == 0)
+			int operation_index = is_operation(operation_dict, current_line);
+			if (operation_index == 0)
 			{
 				printf("Operation name is invalid");
+			}
+			else
+			{
+				char* operation_name = get_key(operation_dict, operation_index);
+				insert_code_image(code_image, operation_name, IC);
 			}
 		}
 
@@ -122,9 +130,11 @@ void extract_parameters(char* current_line, char* data_type, int DC, data_entry*
 			insert_data_image(data_entry, ascii_val, DC);
 			DC++;
 		}
+		insert_data_image(data_entry, '\0', DC);
+		DC++;
 	}
 
-	else
+	else if (strcmp(data_type, ".struct"))
 	{
 		char* parameter = strtok(token, ",");
 		int num_paramater = atoi(parameter);
@@ -139,6 +149,8 @@ void extract_parameters(char* current_line, char* data_type, int DC, data_entry*
 			insert_data_image(data_entry, ascii_val, DC);
 			DC++;
 		}
+		insert_data_image(data_entry, '\0', DC);
+		DC++;
 	}
 }
 

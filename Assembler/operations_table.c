@@ -5,22 +5,22 @@
 dictionary* create_operations_dict()
 {
 	dictionary* operations_table = create_dictionary();
-	add_entry(operations_table, "mov", "0");
-	add_entry(operations_table, "cmp", "1");
-	add_entry(operations_table, "add", "2");
-	add_entry(operations_table, "sub", "3");
-	add_entry(operations_table, "not", "4");
-	add_entry(operations_table, "clr", "5");
-	add_entry(operations_table, "lea", "6");
-	add_entry(operations_table, "inc", "7");
-	add_entry(operations_table, "dec", "8");
-	add_entry(operations_table, "jmp", "9");
-	add_entry(operations_table, "bne", "10");
-	add_entry(operations_table, "get", "11");
-	add_entry(operations_table, "prn", "12");
-	add_entry(operations_table, "jsr", "13");
-	add_entry(operations_table, "rts", "14");
-	add_entry(operations_table, "hlt", "15");
+	add_entry(operations_table, "mov", "0000");
+	add_entry(operations_table, "cmp", "0001");
+	add_entry(operations_table, "add", "0010");
+	add_entry(operations_table, "sub", "0011");
+	add_entry(operations_table, "not", "0100");
+	add_entry(operations_table, "clr", "0101");
+	add_entry(operations_table, "lea", "0110");
+	add_entry(operations_table, "inc", "0111");
+	add_entry(operations_table, "dec", "1000");
+	add_entry(operations_table, "jmp", "1001");
+	add_entry(operations_table, "bne", "1010");
+	add_entry(operations_table, "get", "1011");
+	add_entry(operations_table, "prn", "1100");
+	add_entry(operations_table, "jsr", "1101");
+	add_entry(operations_table, "rts", "1110");
+	add_entry(operations_table, "hlt", "1111");
 
 	return operations_table;
 }
@@ -37,7 +37,7 @@ int is_operation(dictionary* operation_table, char* current_line)
 	{
 		if (strstr(current_line, get_key(operation_table, i)) != NULL)
 		{
-			return 1;
+			return i;
 		}
 	}
 
