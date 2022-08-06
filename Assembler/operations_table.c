@@ -44,3 +44,5 @@ int is_operation(dictionary* operation_table, char* current_line)
 	return 0;
 }
 
+
+

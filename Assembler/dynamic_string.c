@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdlib.h> 
 
-
 dynamic_string* create_dynamic_string()
 {
 	dynamic_string* d_s = malloc(sizeof(dynamic_string));

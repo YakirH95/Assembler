@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,29 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="data_image.c" />
-    <ClCompile Include="dictionary.c" />
-    <ClCompile Include="dynamic_string.c" />
-    <ClCompile Include="dynamic_string.h" />
-    <ClCompile Include="first_process.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="operations_table.c" />
-    <ClCompile Include="pre_processor.c" />
-    <ClCompile Include="symbol_table.c" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="data_image.h" />
     <ClInclude Include="dictionary.h" />
+    <ClInclude Include="dynamic_string.h" />
     <ClInclude Include="first_process.h" />
     <ClInclude Include="memory_image.h" />
     <ClInclude Include="operations_table.h" />
     <ClInclude Include="pre_proccessor.h" />
     <ClInclude Include="symbol_table.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="data_image.c" />
+    <ClCompile Include="dictionary.c" />
+    <ClCompile Include="dynamic_string.c" />
+    <ClCompile Include="first_process.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="memory_image.c" />
+    <ClCompile Include="operations_table.c" />
+    <ClCompile Include="pre_processor.c" />
+    <ClCompile Include="static_arrays.c" />
+    <ClCompile Include="symbol_table.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b802f0b0-d67e-4c6c-b153-4a98adeffe71}</ProjectGuid>
+    <ProjectGuid>{42800a8b-878b-44c1-a909-50ddbb8c7357}</ProjectGuid>
     <RootNamespace>Assembler</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -90,21 +92,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -134,7 +124,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
