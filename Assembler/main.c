@@ -60,6 +60,9 @@ int main(int argc, char* argv[])
 	buffer[length] = 0;
 	fclose(expanded_output);
 	symbol_table* sym_table = identify_symbols(buffer, operation_dict, address_table, registers_dict);
+
+	//Return pointer to beggining of file
+
 	
 	delete_registers_dict(registers_dict);
 	delete_operations_dict(operation_dict);

@@ -42,6 +42,12 @@
     <ClInclude Include="registers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="second_process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="base32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="memory_image.c">
@@ -75,6 +81,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="registers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="second_process.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="base32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -26,7 +26,7 @@ void insert_data_image(image_entries* i_e, int decimal_address, char* binary_num
 		i_e->entries = realloc(i_e->entries, i_e->allocated_size * sizeof(data_image));
 	}
 
-	i_e->entries[i_e->used_size].decimal_address = decimal_address;
+	i_e->entries[i_e->used_size].decimal_address = 100 + decimal_address;
 	strncpy(i_e->entries[i_e->used_size].binary_code, binary_num, 10);
 	i_e->used_size++;
 }

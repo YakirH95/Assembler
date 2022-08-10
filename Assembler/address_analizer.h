@@ -1,4 +1,7 @@
 #pragma once
+#include "dictionary.h"
+#include "symbol_table.h"
+
 
 void dec_to_binary(int decimal_num, int* output);
 void ndec_to_binary(int decimal_num, int* output);

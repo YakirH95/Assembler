@@ -89,6 +89,9 @@ char* analize_operands(dictionary* operation_table, char* operation_name, char* 
             value = get_value(registers_dict, second_operand);
             strncpy(binary_num[4], value, 4);
         }
+
+        binary_num[8] = '0';
+        binary_num[9] = '0';
     }
 
     return binary_num;

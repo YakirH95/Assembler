@@ -89,10 +89,10 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			{
 				// TODO: bad function argument
 				char* operation_name = get_key(operation_dict, operation_index);
-				insert_data_image(data_image, IC, get_value(operation_dict, operation_name));
 				char binary_code[10] = { 0 };
 				binary_code[10] = analize_operands(operation_dict, operation_name, current_line, symbols_table, register_dict, L);
 				IC += L;
+				insert_data_image(data_image, IC, binary_code);
 				L = 0;
 			}
 		}

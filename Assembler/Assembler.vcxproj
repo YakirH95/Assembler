@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="address_analizer.h" />
+    <ClInclude Include="base32.h" />
     <ClInclude Include="data_image.h" />
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="dynamic_string.h" />
@@ -27,10 +28,12 @@
     <ClInclude Include="operations_table.h" />
     <ClInclude Include="pre_proccessor.h" />
     <ClInclude Include="registers.h" />
+    <ClInclude Include="second_process.h" />
     <ClInclude Include="symbol_table.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="address_analizer.c" />
+    <ClCompile Include="base32.c" />
     <ClCompile Include="data_image.c" />
     <ClCompile Include="dictionary.c" />
     <ClCompile Include="dynamic_string.c" />
@@ -40,6 +43,7 @@
     <ClCompile Include="operations_table.c" />
     <ClCompile Include="pre_processor.c" />
     <ClCompile Include="registers.c" />
+    <ClCompile Include="second_process.c" />
     <ClCompile Include="symbol_table.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
