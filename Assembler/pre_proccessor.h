@@ -5,4 +5,4 @@
 #include "dictionary.h"
 #include "pre_proccessor.h"
 
-FILE* expand_macro(char* assembly_input);
+char* expand_macro(char* assembly_input);

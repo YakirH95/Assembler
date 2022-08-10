@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="address_analizer.h" />
     <ClInclude Include="data_image.h" />
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="dynamic_string.h" />
@@ -26,9 +27,11 @@
     <ClInclude Include="memory_image.h" />
     <ClInclude Include="operations_table.h" />
     <ClInclude Include="pre_proccessor.h" />
+    <ClInclude Include="registers.h" />
     <ClInclude Include="symbol_table.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="address_analizer.c" />
     <ClCompile Include="data_image.c" />
     <ClCompile Include="dictionary.c" />
     <ClCompile Include="dynamic_string.c" />
@@ -37,7 +40,7 @@
     <ClCompile Include="memory_image.c" />
     <ClCompile Include="operations_table.c" />
     <ClCompile Include="pre_processor.c" />
-    <ClCompile Include="static_arrays.c" />
+    <ClCompile Include="registers.c" />
     <ClCompile Include="symbol_table.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

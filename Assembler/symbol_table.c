@@ -36,7 +36,7 @@ void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, 
 	if (s_t->used_size == s_t->allocated_size)
 	{
 		s_t->allocated_size += 5;
-		s_t->items = realloc(s_t->items, s_t->allocated_size);
+		s_t->items = realloc(s_t->items, s_t->allocated_size * sizeof(symbol_entry));
 	}
 
 	s_t->items[s_t->used_size].symbol_name = strdup(symbol_name);
@@ -73,9 +73,15 @@ void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is
 	add_symbol_entry(symbol_table, extern_symbol_name, 0, 1);
 }
 
-void define_symbol(symbol_table* symbol_table, char* symbol_name, char* current_line, int IC_DC)
+void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC)
 {
-	symbol_name = strtok(current_line, ":");
+	char* colon_start = strchr(current_line, ':');
+	int symbol_name_length = colon_start - current_line;
+	char* symbol_name = malloc(symbol_name_length + 1);
+	symbol_name[symbol_name_length] = 0;
+	strncpy(symbol_name, current_line, symbol_name_length);
+
+
 	if (symbol_exists(symbol_table, symbol_name))
 	{
 		printf("label already exist");

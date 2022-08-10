@@ -7,7 +7,7 @@
 const char* search_word = "macro ";
 const char* exit_word = "endmacro";
 
-FILE* expand_macro(char* assembly_input)
+char* expand_macro(char* assembly_input)
 {
 	dictionary* macro_dict = create_dictionary();
 
@@ -73,5 +73,5 @@ FILE* expand_macro(char* assembly_input)
 	char* out = get_internal_string(output);
 	fputs(out, post_prep);
 	fclose(post_prep);
-	return post_prep;
+	return "Post Prep.am";
 }

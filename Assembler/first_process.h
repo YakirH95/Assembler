@@ -8,6 +8,6 @@
 #include "operations_table.h"
 #include "data_image.h"
 
-symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_entry* data_image, code_entry* code_image);
-void extract_parameters(char* current_line, char* data_type, int DC, data_entry* data_entry);
+symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_image* data_image);
+void extract_parameters(char* current_line, char* data_type, int DC, data_image* data_entry);
 

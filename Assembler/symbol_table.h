@@ -26,4 +26,4 @@ void delete_table(symbol_table* s_t);
 void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, int is_external);
 int symbol_exists(symbol_table* s_t, char* search_symbol);
 void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is_symbol_define);
-void define_symbol(symbol_table* symbol_table, char* symbol_name, char* current_line, int IC_DC);
+void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC);

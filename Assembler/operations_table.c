@@ -41,7 +41,8 @@ int is_operation(dictionary* operation_table, char* current_line)
 		}
 	}
 
-	return 0;
+	// if operation not found, return -1
+	return -1;
 }
 
 

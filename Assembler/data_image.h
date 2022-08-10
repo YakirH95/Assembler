@@ -3,21 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+//Line 
 typedef struct
 {
-	int* data_image;
-	int used_size;
-	int allocated_size;
-}   data_entry;
+	int decimal_address;
+	char binary_code[10];
+}   data_image;
 
+//All gruops
 typedef struct
 {
-	char* code_image;
+	data_image* entries;
 	int used_size;
 	int allocated_size;
-}   code_entry;
+}   image_entries;
 
-data_entry* initialize_data_image();
-code_entry* initialize_code_image();
-void insert_data_image(data_entry* d_i, int value, int DC);
-void insert_code_image(code_entry* d_i, char value, int IC);
+image_entries* initialize_data_image();
+void insert_data_image(image_entries* i_e, int decimal_address, char* binary_num);

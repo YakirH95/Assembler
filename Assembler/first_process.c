@@ -8,9 +8,10 @@
 #include "symbol_table.h"
 #include "first_process.h"
 #include "data_image.h"
+#include "address_analizer.h"
 
 
-symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_entry* data_image, code_entry* code_image)
+symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_image* data_image)
 {
 	int is_symbol_define = 0;
 	int L = 0;
@@ -18,7 +19,6 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	int DC = 0;
 	symbol_table* symbols_table = create_table();
 	
-	char* symbol_name = NULL;
 	char* current_line = NULL;
 
 	//Next line
@@ -32,12 +32,12 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			is_symbol_define = 1;
 		}
 
-		//Ex LENGTH: .data 6
+		// Check if .data .string or .struct line for Ex LENGTH: .data 6
 		if (strstr(current_line, ".data") || strstr(current_line, ".string") || strstr(current_line, ".struct"))
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table,symbol_name, current_line, DC);
+				define_symbol(symbols_table, current_line, DC);
 				DC++;
 			}
 
@@ -76,19 +76,19 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, symbol_name, current_line, IC);
+				define_symbol(symbols_table, current_line, IC);
 			}
 
 			int operation_index = is_operation(operation_dict, current_line);
-			if (operation_index == 0)
+			if (operation_index == -1)
 			{
 				printf("Operation name is invalid");
 			}
 			else
 			{
 				// TODO: bad function argument
-				//char* operation_name = get_key(operation_dict, operation_index);
-				//insert_code_image(code_image, operation_name, IC);
+				char* operation_name = get_key(operation_dict, operation_index);
+				insert_code_image(data_image, operation_name, IC);
 			}
 		}
 
@@ -100,57 +100,114 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	return symbols_table;
 }
 
-void extract_parameters(char* current_line, char* data_type, int DC, data_entry* data_entry)
+void extract_parameters(char* current_line, char* data_type, int DC, data_image* data_image)
 {
 	char* token = NULL;
 	
 	//Point to after ".data"
-	token = strstr(current_line, data_type) + strlen(data_type + 1);
+	token = strstr(current_line, data_type) + strlen(data_type);
+	while (token != NULL && *token == ' ')
+	{
+		token++;
+	}
 	
 	if (strcmp(data_type, ".data"))
 	{
-		char* parameter = strtok(token, ",");
-		while (parameter != NULL)
+		while (token != NULL)
 		{
-			int num_paramater = atoi(parameter);
-			// count tokens
-			// delimiters present in current line.	
+			char* comma_ptr = strchr(token, ',');
+			int length = comma_ptr - token;
+			char* parameter = calloc(length + 1, 1);
+			strncpy(parameter, token, length);
 
-			insert_data_image(data_entry, num_paramater ,DC);
+			int num_paramater = atoi(parameter);
+
+			int binary_converted[10] = {0};
+			if (parameter[0] == '-')
+			{
+				num_paramater *= -1;
+				ndec_to_binary(num_paramater, binary_converted);
+			}
+
+			else
+			{
+				dec_to_binary(num_paramater, binary_converted);
+			}
+
+			char binary_char[10] = { 0 };
+			sprintf(binary_char, "%d", binary_converted);
+				
+			insert_data_image(data_image, DC, binary_char);
 			DC++;
-			parameter = strtok(NULL, ",");
+			token = comma_ptr + 1;
 		}
 	}
 
 	else if (strcmp(data_type, ".string"))
 	{
-		for (int i = 0; i < strlen(token); i++)
+		char* chars = strchr(token, '"') + 1;
+		int binary_converted = NULL;
+		for (int i = 0; i < strlen(chars); i++)
 		{
-			char c = token[i];
+			char c = chars[i];
 			int ascii_val = (int)c;
-			insert_data_image(data_entry, ascii_val, DC);
+			dec_to_binary(ascii_val, binary_converted);
+			insert_data_image(data_image, DC, binary_converted);
 			DC++;
 		}
-		insert_data_image(data_entry, '\0', DC);
+
+		char binary_char[10] = { 0 };
+		sprintf(binary_char, "%d", binary_converted);
+		insert_data_image(data_image, DC, binary_char);
 		DC++;
 	}
 
+	// EDIT
 	else if (strcmp(data_type, ".struct"))
 	{
-		char* parameter = strtok(token, ",");
-		int num_paramater = atoi(parameter);
-		insert_data_image(data_entry, num_paramater, DC);
-		DC++;
-		parameter = strtok(NULL, ",");
-		
-		for (int i = 0; i < strlen(token); i++)
+		while (token != NULL)
 		{
-			char c = token[i];
+			char* comma_ptr = strchr(token, ',');
+			int length = comma_ptr - token;
+			char* parameter = calloc(length + 1, 1);
+			strncpy(parameter, token, length);
+
+			int num_paramater = atoi(parameter);
+
+			int binary_converted[10] = { 0 };
+			if (parameter[0] == '-')
+			{
+				num_paramater *= -1;
+				ndec_to_binary(num_paramater, binary_converted);
+			}
+
+			else
+			{
+				dec_to_binary(num_paramater, binary_converted);
+			}
+
+			char binary_char[10] = { 0 };
+			sprintf(binary_char, "%d", binary_converted);
+
+			insert_data_image(data_image, DC, binary_char);
+			DC++;
+			token = comma_ptr + 1;
+		}
+
+		char* chars = strchr(token, '"') + 1;
+		int binary_converted = NULL;
+		for (int i = 0; i < strlen(chars); i++)
+		{
+			char c = chars[i];
 			int ascii_val = (int)c;
-			insert_data_image(data_entry, ascii_val, DC);
+			dec_to_binary(ascii_val, binary_converted);
+			insert_data_image(data_image, DC, binary_converted);
 			DC++;
 		}
-		insert_data_image(data_entry, '\0', DC);
+
+		char binary_char[10] = { 0 };
+		sprintf(binary_char, "%d", binary_converted);
+		insert_data_image(data_image, DC, binary_char);
 		DC++;
 	}
 }

@@ -3,46 +3,31 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-data_entry* initialize_data_image()
+image_entries* initialize_data_image()
 {
-	data_entry* d_i = malloc(sizeof(data_entry));
-	d_i->data_image = (int*)malloc(sizeof(int)*10);
-	d_i->used_size = 0;
-	d_i->allocated_size = 5;
-	return d_i;
+	image_entries* i_e = malloc(sizeof(image_entries));
+	i_e->entries = (data_image*)malloc(sizeof(data_image) * 5);
+	i_e->allocated_size = 0;
+	i_e->used_size = 5;
+	return i_e;
 }
 
-code_entry* initialize_code_image()
+void delete_data_image(image_entries* i_e)
 {
-	code_entry* d_i = malloc(sizeof(code_entry));
-	d_i->code_image = (char*)malloc(sizeof(char) * 10);
-	d_i->used_size = 0;
-	d_i->allocated_size = 5;
-	return d_i;
+	free(i_e->entries);
+	free(i_e);
 }
 
-void insert_data_image(data_entry* d_i, int value, int DC)
+void insert_data_image(image_entries* i_e, int decimal_address, char* binary_num)
 {
-	if (d_i->used_size == d_i->allocated_size)
+	if (i_e->used_size == i_e->allocated_size)
 	{
-		d_i->allocated_size += 5;
-		d_i->data_image = realloc(d_i->data_image, d_i->allocated_size);
+		i_e->allocated_size += 5;
+		i_e->entries = realloc(i_e->entries, i_e->allocated_size * sizeof(data_image));
 	}
 
-	*(d_i->data_image + DC) = value;
+	i_e->entries[i_e->used_size].decimal_address = decimal_address;
+	strncpy(i_e->entries[i_e->used_size].binary_code, binary_num, 10);
+	i_e->used_size++;
 }
 
-
-
-void insert_code_image(code_entry* d_i, char value, int IC)
-{
-	if (d_i->used_size == d_i->allocated_size)
-	{
-		d_i->allocated_size += 5;
-		d_i->code_image = realloc(d_i->code_image, d_i->allocated_size);
-	}
-
-
-	*(d_i->code_image + IC) = value;
-}

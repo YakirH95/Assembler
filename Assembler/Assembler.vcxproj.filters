@@ -39,6 +39,12 @@
     <ClInclude Include="dynamic_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="address_analizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="registers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="memory_image.c">
@@ -68,7 +74,10 @@
     <ClCompile Include="pre_processor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="static_arrays.c">
+    <ClCompile Include="address_analizer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="registers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

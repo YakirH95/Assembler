@@ -16,8 +16,7 @@ int main(int argc, char* argv[])
 	}
 
 	dictionary* operation_dict = create_operations_dict();
-	data_entry* data_image = initialize_data_image();
-	code_entry* code_image = initialize_code_image();
+	image_entries* address_table = initialize_data_image();
 	
 	char* buffer = 0;
 	int length;
@@ -42,7 +41,9 @@ int main(int argc, char* argv[])
 	buffer[length] = 0;
 	fclose(file);
 
-	FILE* expanded_output = expand_macro(buffer);
+	char* expanded_output_file_name = expand_macro(buffer);
+
+	FILE* expanded_output = fopen(expanded_output_file_name, "rt");
 	
 	//Point to end of file
 	fseek(expanded_output, 0, SEEK_END);
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
 	fread(buffer, 1, length, expanded_output);
 	buffer[length] = 0;
 	fclose(expanded_output);
-	//symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_image, code_image);
+	symbol_table* sym_table = identify_symbols(buffer, operation_dict, address_table);
 	
 	
 	delete_operations_dict(operation_dict);
