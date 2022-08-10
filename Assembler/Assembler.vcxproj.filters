@@ -30,9 +30,6 @@
     <ClInclude Include="pre_proccessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="memory_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>

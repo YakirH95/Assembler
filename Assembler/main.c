@@ -5,6 +5,7 @@
 #include "operations_table.h"
 #include "first_process.h"
 #include "data_image.h"
+#include "registers.h"
 
 
 int main(int argc, char* argv[])
@@ -17,6 +18,7 @@ int main(int argc, char* argv[])
 
 	dictionary* operation_dict = create_operations_dict();
 	image_entries* address_table = initialize_data_image();
+	dictionary* registers_dict = create_registers_dict();
 	
 	char* buffer = 0;
 	int length;
@@ -57,9 +59,9 @@ int main(int argc, char* argv[])
 	fread(buffer, 1, length, expanded_output);
 	buffer[length] = 0;
 	fclose(expanded_output);
-	symbol_table* sym_table = identify_symbols(buffer, operation_dict, address_table);
+	symbol_table* sym_table = identify_symbols(buffer, operation_dict, address_table, registers_dict);
 	
-	
+	delete_registers_dict(registers_dict);
 	delete_operations_dict(operation_dict);
 	return 0;
 }

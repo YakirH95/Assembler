@@ -9,9 +9,10 @@
 #include "first_process.h"
 #include "data_image.h"
 #include "address_analizer.h"
+#include "registers.h"
 
 
-symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_image* data_image)
+symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_image* data_image, dictionary* register_dict)
 {
 	int is_symbol_define = 0;
 	int L = 0;
@@ -88,7 +89,11 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			{
 				// TODO: bad function argument
 				char* operation_name = get_key(operation_dict, operation_index);
-				insert_code_image(data_image, operation_name, IC);
+				insert_data_image(data_image, IC, get_value(operation_dict, operation_name));
+				char binary_code[10] = { 0 };
+				binary_code[10] = analize_operands(operation_dict, operation_name, current_line, symbols_table, register_dict, L);
+				IC += L;
+				L = 0;
 			}
 		}
 

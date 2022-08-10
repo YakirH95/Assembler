@@ -16,7 +16,7 @@ dictionary* create_registers_dict()
 	return registers_table;
 }
 
-void delete_operations_dict(dictionary* dict)
+void delete_registers_dict(dictionary* dict)
 {
 	delete_dictionary(dict);
 }
