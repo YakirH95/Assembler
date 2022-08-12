@@ -1,18 +1,9 @@
 ﻿  address_analizer.c
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(11,18): error C2085: 'address_entry': not in formal parameter list
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(16,2): error C2061: syntax error: identifier 'address_entry'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(19,1): error C2059: syntax error: '}'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(21,16): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,53): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,86): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(11,68): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(11,68): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(11,68): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(11,79): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(12,56): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(105,1): fatal error C1506: unrecoverable block scoping error
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(97,34): warning C4047: 'function': 'char *' differs in levels of indirection from 'char'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(97,31): warning C4024: 'strncpy': different types for formal and actual parameter 1
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(62,28): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(137,27): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(147,18): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   address_table.c
   base32.c
   dictionary.c
@@ -21,139 +12,43 @@ C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assem
   dynamic_string.c
 C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\dynamic_string.c(24,47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   first_process.c
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(11,18): error C2085: 'address_entry': not in formal parameter list
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(16,2): error C2061: syntax error: identifier 'address_entry'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(19,1): error C2059: syntax error: '}'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(21,16): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,53): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,86): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,126): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,140): error C2371: 'dictionary': redefinition; different basic types
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\dictionary.h(15): message : see declaration of 'dictionary'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,150): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,165): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2081: 'address_entry': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,95): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,68): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,68): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,68): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,79): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,169): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,36): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,36): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,36): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,38): error C2086: 'int *data_table': redefinition
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10): message : see declaration of 'data_table'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,50): error C2086: 'int address_entries': redefinition
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10): message : see declaration of 'address_entries'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,65): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,67): error C2086: 'int *code_table': redefinition
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10): message : see declaration of 'code_table'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,79): error C2371: 'dictionary': redefinition; different basic types
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\dictionary.h(15): message : see declaration of 'dictionary'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,89): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,104): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(16,91): error C2086: 'int *register_dict': redefinition
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10): message : see declaration of 'register_dict'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(17,1): error C2054: expected '(' to follow 'register_dict'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(109,83): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(109,83): error C2081: 'address_entry': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(109,83): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(109,95): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(110,1): error C2054: expected '(' to follow 'data_table'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(48,61): warning C4133: 'function': incompatible types - from 'address_entries *' to 'address_entry *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(53,63): warning C4133: 'function': incompatible types - from 'address_entries *' to 'address_entry *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(58,63): warning C4133: 'function': incompatible types - from 'address_entries *' to 'address_entry *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(94,86): warning C4047: '=': 'char' differs in levels of indirection from 'char *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(144,25): warning C4477: 'sprintf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'int *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(144,25): warning C4313: 'sprintf': '%d' in format string conflicts with argument 1 of type 'int *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(146,35): warning C4133: 'function': incompatible types - from 'address_entry *' to 'address_entries *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(160,45): warning C4047: 'function': 'int *' differs in levels of indirection from 'int'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(160,29): warning C4024: 'dec_to_binary': different types for formal and actual parameter 2
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(161,35): warning C4133: 'function': incompatible types - from 'address_entry *' to 'address_entries *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(161,57): warning C4047: 'function': 'char *' differs in levels of indirection from 'int'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(161,41): warning C4024: 'insert_address_entry': different types for formal and actual parameter 3
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(167,34): warning C4133: 'function': incompatible types - from 'address_entry *' to 'address_entries *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(196,25): warning C4477: 'sprintf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'int *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(196,25): warning C4313: 'sprintf': '%d' in format string conflicts with argument 1 of type 'int *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(198,35): warning C4133: 'function': incompatible types - from 'address_entry *' to 'address_entries *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(209,45): warning C4047: 'function': 'int *' differs in levels of indirection from 'int'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(209,29): warning C4024: 'dec_to_binary': different types for formal and actual parameter 2
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(210,35): warning C4133: 'function': incompatible types - from 'address_entry *' to 'address_entries *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(210,57): warning C4047: 'function': 'char *' differs in levels of indirection from 'int'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(210,41): warning C4024: 'insert_address_entry': different types for formal and actual parameter 3
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(216,34): warning C4133: 'function': incompatible types - from 'address_entry *' to 'address_entries *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(125,27): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(155,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(177,27): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(204,1): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
   main.c
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(11,18): error C2085: 'address_entry': not in formal parameter list
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(16,2): error C2061: syntax error: identifier 'address_entry'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(19,1): error C2059: syntax error: '}'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(21,16): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,53): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,86): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,126): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,140): error C2371: 'dictionary': redefinition; different basic types
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\dictionary.h(15): message : see declaration of 'dictionary'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,150): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,165): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2081: 'address_entry': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,95): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\main.c(20,17): error C2297: '*': not valid as right operand has type 'int *'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\main.c(21,17): error C2297: '*': not valid as right operand has type 'int *'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\main.c(63,28): warning C4013: 'identify_symbols' undefined; assuming extern returning int
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\main.c(63,1): warning C4047: 'initializing': 'symbol_table *' differs in levels of indirection from 'int'
   memory_image.c
   operations_table.c
   pre_processor.c
   registers.c
 C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\registers.c(28,7): warning C4013: 'strcmp' undefined; assuming extern returning int
   second_process.c
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(11,18): error C2085: 'address_entry': not in formal parameter list
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(16,2): error C2061: syntax error: identifier 'address_entry'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(19,1): error C2059: syntax error: '}'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(21,16): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,53): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,86): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,126): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,140): error C2371: 'dictionary': redefinition; different basic types
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\dictionary.h(15): message : see declaration of 'dictionary'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,150): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,165): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2081: 'address_entry': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,95): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,68): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,68): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,68): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,79): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.h(9,169): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\second_process.c(16,68): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\second_process.c(16,68): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\second_process.c(16,68): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\second_process.c(16,86): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\second_process.c(16,102): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\second_process.c(47,1): fatal error C1506: unrecoverable block scoping error
   static_arrays.c
   symbol_table.c
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(11,18): error C2085: 'address_entry': not in formal parameter list
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(16,2): error C2061: syntax error: identifier 'address_entry'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(19,1): error C2059: syntax error: '}'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(21,16): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,42): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,53): error C2059: syntax error: 'type'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_table.h(22,86): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2081: 'address_entries': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,97): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,126): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,140): error C2371: 'dictionary': redefinition; different basic types
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\dictionary.h(15): message : see declaration of 'dictionary'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,150): error C2143: syntax error: missing ';' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(10,165): error C2059: syntax error: ')'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing ')' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2081: 'address_entry': name in formal parameter list illegal
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,83): error C2143: syntax error: missing '{' before '*'
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.h(11,95): error C2059: syntax error: ')'
 C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\symbol_table.c(43,43): error C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
 C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\symbol_table.c(80,39): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\symbol_table.c(101,6): error C2084: function 'void modify_symbol_type(symbol_table *,int,int)' already has a body
-C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\symbol_table.h(26): message : see previous definition of 'modify_symbol_type'
   Generating Code...
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\first_process.c(93): error C4789: buffer 'binary_code' of size 10 bytes will be overrun; 1 bytes will be written starting at offset 10
+C:\Users\Yakir\Documents\Computer Science BS\Systems Programming C\Project\Assembler\Assembler\address_analizer.c(104): warning C4172: returning address of local variable or temporary: binary_num

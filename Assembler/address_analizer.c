@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-//#include "address_analizer.h"
-//#include "operations_table.h"
+#include "address_analizer.h"
+#include "operations_table.h"
 #include "symbol_table.h"
 #include "address_table.h"
 #include "dictionary.h"
-//#include "registers.h"
+#include "registers.h"
 
 char* analize_operands(dictionary* operation_table, address_entries* d_i, char* operation_name, char* current_line, 
     symbol_table* s_t,dictionary* registers_dict, int L)
