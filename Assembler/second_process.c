@@ -7,13 +7,13 @@
 #include "operations_table.h"
 #include "symbol_table.h"
 #include "first_process.h"
-#include "data_image.h"
+#include "address_table.h"
 #include "address_analizer.h"
 #include "registers.h"
 
 
 
-void fill_address_table(image_entries* data_image, char* assembly_input)
+void fill_address_table(symbol_table* symbol_table, address_entries* data_image, char* assembly_input)
 {
 	
 	int L = 0;
@@ -31,11 +31,14 @@ void fill_address_table(image_entries* data_image, char* assembly_input)
 		if (strstr(current_line, ".data") || strstr(current_line, ".string") || strstr(current_line, ".struct") || strstr(current_line, "extern"))
 		{
 			current_line = strtok(NULL, "\r\n");
+			continue;
 		}
 		
 		else if (strstr(current_line, ".entry"))
 		{
-
+			char* symbol_after_entry = strstr(current_line, ".entry") + strlen(".entry");
+			int symbol_index = symbol_exists(symbol_table, symbol_after_entry);
+			modify_symbol_type(symbol_table, symbol_index, 3);
 		}
 
 

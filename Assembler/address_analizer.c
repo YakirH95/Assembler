@@ -1,14 +1,15 @@
-#include "address_analizer.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "operations_table.h"
+//#include "address_analizer.h"
+//#include "operations_table.h"
 #include "symbol_table.h"
-#include "data_image.h"
+#include "address_table.h"
 #include "dictionary.h"
-#include "registers.h"
+//#include "registers.h"
 
-char* analize_operands(dictionary* operation_table, char* operation_name, char* current_line, symbol_table* s_t,dictionary* registers_dict, int L)
+char* analize_operands(dictionary* operation_table, address_entries* d_i, char* operation_name, char* current_line, 
+    symbol_table* s_t,dictionary* registers_dict, int L)
 {
     char binary_num[10] = { 0 };
 	char* first_operand = NULL;
@@ -17,13 +18,13 @@ char* analize_operands(dictionary* operation_table, char* operation_name, char* 
 
     char* value = get_value(operation_table, operation_name);
 
-    //First 4 bits
+    //9 8 7 6 bits
     strncpy(binary_num, value, 4);
     
-
+    //5 4 bits
     first_operand = get_first_operand(current_line, operation_name);
-    char* dot_address = strchr(first_operand, '.');
     
+    //its number
     if (strchr(first_operand, '#'))
     {
         L++;
@@ -31,14 +32,19 @@ char* analize_operands(dictionary* operation_table, char* operation_name, char* 
         binary_num[5] = '0';
     }
 
-    else if (symbol_exists(s_t, first_operand) == 1)
+    //Its symbol
+    else if (symbol_exists(s_t, first_operand) != -1)
     {
         L++;
         binary_num[4] = '0';
         binary_num[5] = '1';
     }
+    
+    //It's struct
     else if (strchr(first_operand, '.'))
     {
+        int struct_field = 
+        //insert_data_image(d_i, IC + 2)
         L += 2;
         binary_num[4] = '1';
         binary_num[5] = '0';
@@ -55,6 +61,7 @@ char* analize_operands(dictionary* operation_table, char* operation_name, char* 
     char* comma_ptr = strchr(first_operand , ',');
     int length = comma_ptr - first_operand;
     char* parameter = calloc(length + 1, 1);
+    //3 2 bits
     second_operand = get_second_operand(current_line);
     
     if (second_operand != NULL)
@@ -66,7 +73,7 @@ char* analize_operands(dictionary* operation_table, char* operation_name, char* 
             binary_num[7] = '0';
         }
 
-        else if (symbol_exists(s_t, first_operand) == 1)
+        else if (symbol_exists(s_t, first_operand) != -1)
         {
             L++;
             binary_num[6] = '0';

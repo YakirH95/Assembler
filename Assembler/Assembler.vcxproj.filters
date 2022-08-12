@@ -15,25 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="data_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="symbol_table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="first_process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="operations_table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pre_proccessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dictionary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dynamic_string.h">
+    <ClInclude Include="second_process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="address_analizer.h">
@@ -42,51 +27,72 @@
     <ClInclude Include="registers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="second_process.h">
+    <ClInclude Include="symbol_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pre_proccessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="operations_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="address_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="base32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="memory_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dictionary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamic_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="memory_image.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dynamic_string.c">
+    <ClCompile Include="address_analizer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="first_process.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="operations_table.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="data_image.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="symbol_table.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dictionary.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pre_processor.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="address_analizer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="registers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="second_process.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="address_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="symbol_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="registers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="base32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="operations_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pre_processor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dictionary.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamic_string.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="memory_image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="static_arrays.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

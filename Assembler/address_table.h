@@ -8,15 +8,15 @@ typedef struct
 {
 	int decimal_address;
 	char binary_code[10];
-}   data_image;
+}   address_entry;
 
 //All gruops
 typedef struct
 {
-	data_image* entries;
+	address_entry* entries;
 	int used_size;
 	int allocated_size;
-}   image_entries;
+}   address_entries;
 
-image_entries* initialize_data_image();
-void insert_data_image(image_entries* i_e, int decimal_address, char* binary_num);
+address_entries* initialize_address_table();
+void insert_address_entry(address_entries* i_e, int decimal_address, char* binary_num);

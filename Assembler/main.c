@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "operations_table.h"
 #include "first_process.h"
-#include "data_image.h"
+#include "address_table.h"
 #include "registers.h"
 
 
@@ -17,7 +17,8 @@ int main(int argc, char* argv[])
 	}
 
 	dictionary* operation_dict = create_operations_dict();
-	image_entries* address_table = initialize_data_image();
+	address_entries* data_table = initialize_address_table();
+	address_entries* code_table = initialize_address_table();
 	dictionary* registers_dict = create_registers_dict();
 	
 	char* buffer = 0;
@@ -59,7 +60,7 @@ int main(int argc, char* argv[])
 	fread(buffer, 1, length, expanded_output);
 	buffer[length] = 0;
 	fclose(expanded_output);
-	symbol_table* sym_table = identify_symbols(buffer, operation_dict, address_table, registers_dict);
+	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict);
 
 	//Return pointer to beggining of file
 

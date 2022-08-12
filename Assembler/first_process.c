@@ -1,5 +1,5 @@
-#include "dictionary.h"
 #include "first_process.h"
+#include "dictionary.h"
 #include "pre_proccessor.h"
 #include <stdio.h>
 #include <string.h>
@@ -7,12 +7,13 @@
 #include "operations_table.h"
 #include "symbol_table.h"
 #include "first_process.h"
-#include "data_image.h"
+#include "address_table.h"
 #include "address_analizer.h"
 #include "registers.h"
 
 
-symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict, data_image* data_image, dictionary* register_dict)
+symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
+	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict)
 {
 	int is_symbol_define = 0;
 	int L = 0;
@@ -38,23 +39,23 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, DC);
+				define_symbol(symbols_table, current_line, DC, 0);
 				DC++;
 			}
 
 			if (strstr(current_line, ".data"))
 			{
-				extract_parameters(current_line, ".data", DC, data_image);
+				extract_parameters(current_line, ".data", DC, data_table);
 			}
 
 			else if (strstr(current_line, ".string"))
 			{
-				extract_parameters(current_line, ".string", DC, data_image);
+				extract_parameters(current_line, ".string", DC, data_table);
 			}
 			
 			else if (strstr(current_line, ".struct"))
 			{
-				extract_parameters(current_line, ".struct", DC, data_image);
+				extract_parameters(current_line, ".struct", DC, data_table);
 			}
 		}
 
@@ -77,7 +78,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, IC);
+				define_symbol(symbols_table, current_line, IC, 1);
 			}
 
 			int operation_index = is_operation(operation_dict, current_line);
@@ -87,12 +88,12 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			}
 			else
 			{
-				// TODO: bad function argument
 				char* operation_name = get_key(operation_dict, operation_index);
 				char binary_code[10] = { 0 };
-				binary_code[10] = analize_operands(operation_dict, operation_name, current_line, symbols_table, register_dict, L);
-				IC += L;
-				insert_data_image(data_image, IC, binary_code);
+				binary_code[10] = analize_operands(operation_dict, code_table, operation_name, 
+					                                  current_line, symbols_table, register_dict, L);
+				insert_address_entry(code_table, IC, binary_code);
+				IC += (L + 1);
 				L = 0;
 			}
 		}
@@ -105,7 +106,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	return symbols_table;
 }
 
-void extract_parameters(char* current_line, char* data_type, int DC, data_image* data_image)
+void extract_parameters(char* current_line, char* data_type, int DC, address_entry* data_table)
 {
 	char* token = NULL;
 	
@@ -142,7 +143,7 @@ void extract_parameters(char* current_line, char* data_type, int DC, data_image*
 			char binary_char[10] = { 0 };
 			sprintf(binary_char, "%d", binary_converted);
 				
-			insert_data_image(data_image, DC, binary_char);
+			insert_address_entry(data_table, DC, binary_char);
 			DC++;
 			token = comma_ptr + 1;
 		}
@@ -157,13 +158,13 @@ void extract_parameters(char* current_line, char* data_type, int DC, data_image*
 			char c = chars[i];
 			int ascii_val = (int)c;
 			dec_to_binary(ascii_val, binary_converted);
-			insert_data_image(data_image, DC, binary_converted);
+			insert_address_entry(data_table, DC, binary_converted);
 			DC++;
 		}
 
 		char binary_char[10] = { 0 };
 		sprintf(binary_char, "%d", binary_converted);
-		insert_data_image(data_image, DC, binary_char);
+		insert_address_entry(data_table, DC, binary_char);
 		DC++;
 	}
 
@@ -194,7 +195,7 @@ void extract_parameters(char* current_line, char* data_type, int DC, data_image*
 			char binary_char[10] = { 0 };
 			sprintf(binary_char, "%d", binary_converted);
 
-			insert_data_image(data_image, DC, binary_char);
+			insert_address_entry(data_table, DC, binary_char);
 			DC++;
 			token = comma_ptr + 1;
 		}
@@ -206,13 +207,13 @@ void extract_parameters(char* current_line, char* data_type, int DC, data_image*
 			char c = chars[i];
 			int ascii_val = (int)c;
 			dec_to_binary(ascii_val, binary_converted);
-			insert_data_image(data_image, DC, binary_converted);
+			insert_address_entry(data_table, DC, binary_converted);
 			DC++;
 		}
 
 		char binary_char[10] = { 0 };
 		sprintf(binary_char, "%d", binary_converted);
-		insert_data_image(data_image, DC, binary_char);
+		insert_address_entry(data_table, DC, binary_char);
 		DC++;
 	}
 }

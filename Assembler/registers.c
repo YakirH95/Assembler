@@ -11,7 +11,6 @@ dictionary* create_registers_dict()
 	add_entry(registers_table, "r5", "0101");
 	add_entry(registers_table, "r6", "0110");
 	add_entry(registers_table, "r7", "0111");
-	add_entry(registers_table, "r8", "1000");
 
 	return registers_table;
 }

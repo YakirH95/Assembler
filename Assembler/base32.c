@@ -1,12 +1,16 @@
 #include "base32.h"
+#include <stdio.h>
+#include <stdio.h>
+#include "dictionary.h"
+#include <stdlib.h>
+#include <string.h>
 
-base32_table* initialize_data_image()
+/*char base32_table[32] = {'!','@','#','$','%','^','&','*','<','>','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v'};
+char* initialize_data_image()
 {
-	base32_table* b32_t = malloc(sizeof(base32_table));
-	b32_t->items = (entry*)malloc(sizeof(entry) * 5);
-	b32_t->allocated_size = 0;
-	b32_t->used_size = 5;
-	return b32_t;
+	base32_table =  {'!','@','#','$','%','^','&','*','<','>','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v'};
+	
+	return base32_table;
 }
 
 void delete_data_image(base32_table* b32_t)
@@ -65,3 +69,4 @@ base32_table* create_base32_table()
 
 	return base32_dict;
 }
+*/
