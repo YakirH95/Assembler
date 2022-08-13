@@ -25,7 +25,6 @@
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="dynamic_string.h" />
     <ClInclude Include="first_process.h" />
-    <ClInclude Include="memory_image.h" />
     <ClInclude Include="operations_table.h" />
     <ClInclude Include="pre_proccessor.h" />
     <ClInclude Include="registers.h" />
@@ -40,7 +39,6 @@
     <ClCompile Include="dynamic_string.c" />
     <ClCompile Include="first_process.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="memory_image.c" />
     <ClCompile Include="operations_table.c" />
     <ClCompile Include="pre_processor.c" />
     <ClCompile Include="registers.c" />

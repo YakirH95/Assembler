@@ -42,9 +42,6 @@
     <ClInclude Include="base32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="memory_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -87,9 +84,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dynamic_string.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memory_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

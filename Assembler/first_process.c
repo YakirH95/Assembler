@@ -106,7 +106,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	return symbols_table;
 }
 
-void extract_parameters(char* current_line, char* data_type, int DC, address_entry* data_table)
+void extract_parameters(char* current_line, char* data_type, int* DC, address_entry* data_table)
 {
 	char* token = NULL;
 	
@@ -143,8 +143,8 @@ void extract_parameters(char* current_line, char* data_type, int DC, address_ent
 			char binary_char[10] = { 0 };
 			sprintf(binary_char, "%d", binary_converted);
 				
-			insert_address_entry(data_table, DC, binary_char);
-			DC++;
+			insert_address_entry(data_table,  * DC, binary_char);
+			(* DC)++;
 			token = comma_ptr + 1;
 		}
 	}
@@ -158,14 +158,14 @@ void extract_parameters(char* current_line, char* data_type, int DC, address_ent
 			char c = chars[i];
 			int ascii_val = (int)c;
 			dec_to_binary(ascii_val, binary_converted);
-			insert_address_entry(data_table, DC, binary_converted);
-			DC++;
+			insert_address_entry(data_table, *DC, binary_converted);
+			(* DC)++;
 		}
 
 		char binary_char[10] = { 0 };
 		sprintf(binary_char, "%d", binary_converted);
-		insert_address_entry(data_table, DC, binary_char);
-		DC++;
+		insert_address_entry(data_table, *DC, binary_char);
+		(* DC)++;
 	}
 
 	// EDIT
@@ -195,8 +195,8 @@ void extract_parameters(char* current_line, char* data_type, int DC, address_ent
 			char binary_char[10] = { 0 };
 			sprintf(binary_char, "%d", binary_converted);
 
-			insert_address_entry(data_table, DC, binary_char);
-			DC++;
+			insert_address_entry(data_table, *DC, binary_char);
+			(* DC)++;
 			token = comma_ptr + 1;
 		}
 
@@ -207,14 +207,14 @@ void extract_parameters(char* current_line, char* data_type, int DC, address_ent
 			char c = chars[i];
 			int ascii_val = (int)c;
 			dec_to_binary(ascii_val, binary_converted);
-			insert_address_entry(data_table, DC, binary_converted);
-			DC++;
+			insert_address_entry(data_table, *DC, binary_converted);
+			(* DC)++;
 		}
 
 		char binary_char[10] = { 0 };
 		sprintf(binary_char, "%d", binary_converted);
-		insert_address_entry(data_table, DC, binary_char);
-		DC++;
+		insert_address_entry(data_table, *DC, binary_char);
+		(* DC)++;
 	}
 }
 

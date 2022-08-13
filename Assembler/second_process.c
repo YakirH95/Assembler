@@ -13,7 +13,7 @@
 
 
 
-void fill_address_table(symbol_table* symbol_table, address_entries* data_image, char* assembly_input)
+void fill_address_table(symbol_table* symbol_table, address_entries* address_table, char* assembly_input)
 {
 	
 	int L = 0;
@@ -41,6 +41,9 @@ void fill_address_table(symbol_table* symbol_table, address_entries* data_image,
 			modify_symbol_type(symbol_table, symbol_index, 3);
 		}
 
+		fill_address_table(symbol_table, address_table, current_line);
+		IC += (L+1);
+		L = 0;
 
 		current_line = strtok(NULL, "\r\n");
 	}
