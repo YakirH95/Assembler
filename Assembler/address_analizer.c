@@ -8,84 +8,174 @@
 #include "dictionary.h"
 #include "registers.h"
 
-char* analize_operands(dictionary* operation_table, address_entries* d_i, char* operation_name, char* current_line, 
-    symbol_table* s_t,dictionary* registers_dict, int L)
+char* analize_operands(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line, 
+    symbol_table* s_t,dictionary* registers_dict, int L, int IC)
 {
     char binary_num[10] = { 0 };
 	char* first_operand = NULL;
 	char* second_operand = NULL;
     int first_is_register = 0;
+    //5 4 bits
+    first_operand = get_first_operand(current_line, operation_name);
+
+    char* comma_ptr = strchr(first_operand, ',');
+    int length = comma_ptr - first_operand;
+    char* parameter = calloc(length + 1, 1);
+    //3 2 bits
+    second_operand = get_second_operand(current_line);
 
     char* value = get_value(operation_table, operation_name);
 
     //9 8 7 6 bits
     strncpy(binary_num, value, 4);
     
-    //5 4 bits
-    first_operand = get_first_operand(current_line, operation_name);
+    
     
     //its number
     if (strchr(first_operand, '#'))
     {
+        //Encode first row of command
         L++;
         binary_num[4] = '0';
         binary_num[5] = '0';
+
+
+        //Encode given number in next row
+        int output = {0};
+        if (strstr(first_operand, "-"))
+        {
+            int* num_ptr = (int*)first_operand + 2;
+            ndec_to_binary(num_ptr, output);
+            output = output << 2; // CHECK
+        }
+
+        else
+        {
+            int* num_ptr = (int*)first_operand + 1;
+            dec_to_binary(num_ptr, output);
+        }
+        char binary_char[10] = { 0 };
+        sprintf(binary_char, "%d", output);
+        insert_address_entry(a_e, IC + 1, output);
     }
 
     //Its symbol
     else if (symbol_exists(s_t, first_operand) != -1)
     {
+        if (second_operand == NULL)
+        {
+            binary_num[4] = '0';
+            binary_num[5] = '0';
+            binary_num[6] = '1';
+            binary_num[7] = '0';
+        }
+        else
+        {
+            binary_num[4] = '0';
+            binary_num[5] = '1';
+        }
         L++;
-        binary_num[4] = '0';
-        binary_num[5] = '1';
     }
     
     //It's struct
     else if (strchr(first_operand, '.'))
     {
-        int struct_field = 
-        //insert_data_image(d_i, IC + 2)
+        //Encode struct's field
+        char* dot_ptr = strchr(first_operand, '.');
+        char* struct_field = dot_ptr + 1;
+        if (strcmp( struct_field, "1"))
+        {
+            insert_address_entry(a_e, IC + 2, "0000000100");
+        }
+        else
+        {
+            insert_address_entry(a_e, IC + 2, "0000001000");
+        }
         L += 2;
+
+        //Encode first row
         binary_num[4] = '1';
         binary_num[5] = '0';
     }
 
-    else if (is_register(registers_dict, first_operand) == 1)
+    //It's register
+    else if (is_register(registers_dict, first_operand) != -1)
     {
+        //Encode first row of command
         first_is_register = 1;
         L++;
         value = get_value(registers_dict, first_operand);
         strncpy(binary_num, value, 4);
+
+        //Encode register number in next row
+        int register_num = is_register(registers_dict, first_operand);
+        char* register_binary = NULL;
+        //Get binary code of certain register and add 0's
+        strncpy(register_binary, registers_dict->items[register_num].value, 4);
+        strcat(register_binary, "000000");
+        insert_address_entry(a_e, IC + 1, register_binary);
+    
     }
 
-    char* comma_ptr = strchr(first_operand , ',');
-    int length = comma_ptr - first_operand;
-    char* parameter = calloc(length + 1, 1);
-    //3 2 bits
-    second_operand = get_second_operand(current_line);
+   
     
     if (second_operand != NULL)
     {
+        //It's number
         if (strchr(second_operand, '#'))
         {
             L++;
             binary_num[6] = '0';
             binary_num[7] = '0';
+
+            //Encode given number in next row
+            int output = { 0 };
+            if (strstr(second_operand, "-"))
+            {
+                int* num_ptr = (int*)second_operand + 2;
+                ndec_to_binary(num_ptr, output);
+                output = output << 2; // CHECK
+            }
+
+            else
+            {
+                int* num_ptr = (int*)first_operand + 1;
+                dec_to_binary(num_ptr, output);
+            }
+            char binary_char[10] = { 0 };
+            sprintf(binary_char, "%d", output);
+            insert_address_entry(a_e, IC + 1, output);
         }
 
+        //It's symbol
         else if (symbol_exists(s_t, first_operand) != -1)
         {
             L++;
             binary_num[6] = '0';
             binary_num[7] = '1';
         }
+
+        //It's struct
         else if (strchr(first_operand, '.'))
         {
             L += 2;
             binary_num[6] = '1';
             binary_num[7] = '0';
+
+            //Encode struct's field
+            char* dot_ptr = strchr(first_operand, '.');
+            char* struct_field = dot_ptr + 1;
+            if (strcmp(struct_field, "1"))
+            {
+                insert_address_entry(a_e, IC + 2, "0000000100");
+            }
+            else
+            {
+                insert_address_entry(a_e, IC + 2, "0000001000");
+            }
         }
 
+        //It's register
         else if (is_register(registers_dict, second_operand) == 1)
         {
             if (first_is_register == 0)
@@ -95,6 +185,14 @@ char* analize_operands(dictionary* operation_table, address_entries* d_i, char* 
 
             value = get_value(registers_dict, second_operand);
             strncpy(binary_num[4], value, 4);
+
+            //Encode register number in next row
+            int register_num = is_register(registers_dict, first_operand);
+            char* register_binary = NULL;
+            //Get binary code of certain register and add 0's
+            strncpy(register_binary, registers_dict->items[register_num].value, 4);
+            strcat(register_binary, "000000");
+            insert_address_entry(a_e, IC + 1, register_binary);
         }
 
         binary_num[8] = '0';

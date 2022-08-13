@@ -45,7 +45,6 @@
     <ClCompile Include="pre_processor.c" />
     <ClCompile Include="registers.c" />
     <ClCompile Include="second_process.c" />
-    <ClCompile Include="static_arrays.c" />
     <ClCompile Include="symbol_table.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

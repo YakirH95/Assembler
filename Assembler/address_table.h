@@ -19,4 +19,4 @@ typedef struct
 }   address_entries;
 
 address_entries* initialize_address_table();
-void insert_address_entry(address_entries* i_e, int decimal_address, char* binary_num);
+void insert_address_entry(address_entries* a_e, int decimal_address, char* binary_num);

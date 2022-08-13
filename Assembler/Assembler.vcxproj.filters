@@ -92,8 +92,5 @@
     <ClCompile Include="memory_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="static_arrays.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

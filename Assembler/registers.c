@@ -27,10 +27,10 @@ int is_register(dictionary* registers_table, char* operand)
 	{
 		if (strcmp(registers_table->items[i].key, operand) == 0)
 		{
-			return 1;
+			return i;
 		}
 	}
 
-	return 0;
+	return -1;
 }
 
