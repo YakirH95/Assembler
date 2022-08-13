@@ -62,11 +62,11 @@ int key_exists(dictionary* d, char* search_key)
 		//If string are equal
 		if (strcmp(d->items[i].key, search_key) == 0)
 		{
-			return 1;
+			return i;
 		}
 	}
 
-	return 0;
+	return -1;
 }
 
 char* get_key(dictionary* d, int index)

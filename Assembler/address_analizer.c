@@ -77,14 +77,14 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             binary_num[5] = '1';
         }
         (* L)++;
-        insert_address_entry(a_e, IC + (*L), NULL);
+        insert_address_entry(a_e, IC + (*L), "?");
     }
     
     /*It's struct*/
     else if (strchr(first_operand, '.'))
     {
         /*Create empty field for structs address, to be filled later*/
-        insert_address_entry(a_e, IC + 1, NULL);
+        insert_address_entry(a_e, IC + 1, "?");
 
         /*Encode struct's field*/
         char* dot_ptr = strchr(first_operand, '.');
@@ -158,7 +158,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             binary_num[6] = '0';
             binary_num[7] = '1';
 
-            insert_address_entry(a_e, IC + (* L), NULL);
+            insert_address_entry(a_e, IC + (* L), "?");
         }
 
         /*It's struct*/
@@ -181,7 +181,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             }
 
             /*To be filled in second process*/
-            insert_address_entry(a_e, IC + (*L) -1, NULL);
+            insert_address_entry(a_e, IC + (*L) -1, "?");
         }
 
         /*It's register*/
@@ -304,18 +304,33 @@ char* get_first_operand(char* current_line, char* operation_name)
 {
    char* start_from_first_operand = strstr(current_line, operation_name) + strlen(operation_name);
    char* comma_ptr = strchr(start_from_first_operand, ',');
-   int length = comma_ptr - start_from_first_operand;
-   char* first_operand = NULL;
+   if (comma_ptr != NULL)
+   {
+       int length = comma_ptr - start_from_first_operand;
+       char* first_operand = calloc(length + 1, 1);
 
-   strncpy(first_operand, start_from_first_operand, length);
-   return first_operand;
+       strncpy(first_operand, start_from_first_operand, length);
+       return first_operand;
+   }
+   else
+   {
+       return strdup(start_from_first_operand);
+   }
 }
 
 char* get_second_operand(char* current_line)
 {
-    char* coma_ptr = strchr(current_line, ',') + 1;
-    int length = strlen(coma_ptr);
-    char* second_operand = NULL;
-    strncpy(second_operand, coma_ptr, length);
-    return second_operand;
+    char* coma_ptr = strchr(current_line, ',');
+    if (coma_ptr != NULL)
+    {
+        coma_ptr++;
+        int length = strlen(coma_ptr);
+        char* second_operand = calloc(length + 1, 1);
+        strncpy(second_operand, coma_ptr, length);
+        return second_operand;
+    }
+    else
+    {
+        return NULL;
+    }
 }

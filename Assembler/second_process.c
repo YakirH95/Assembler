@@ -10,6 +10,7 @@
 #include "address_table.h"
 #include "address_analizer.h"
 #include "registers.h"
+#include "second_process.h"
 
 
 

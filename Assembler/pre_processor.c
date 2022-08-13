@@ -38,7 +38,7 @@ char* expand_macro(char* assembly_input)
 		}
 
 		//Add value of key to the output
-		else if (key_exists(macro_dict, current_line))
+		else if (key_exists(macro_dict, current_line) != -1)
 		{
 			add_string(output, get_value(macro_dict, current_line));
 		}

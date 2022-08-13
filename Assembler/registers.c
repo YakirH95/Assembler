@@ -23,14 +23,13 @@ void delete_registers_dict(dictionary* dict)
 
 int is_register(dictionary* registers_table, char* operand)
 {
-	for (int i = 0; i < registers_table->used_size; i++)
+	int key_index = key_exists(registers_table, operand);
+	if (key_index != -1)
 	{
-		if (strcmp(registers_table->items[i].key, operand) == 0)
-		{
-			return i;
-		}
+		return key_index;
 	}
-
-	return -1;
+	else
+	{
+		return -1;
+	}
 }
-
