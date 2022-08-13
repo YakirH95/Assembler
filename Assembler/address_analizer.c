@@ -11,9 +11,8 @@
 /*Encode row of operation, also encode numbers, struct fields, and registers
 Using insert_address function with NULL value where need to be filled in second process*/
 char* analize_operands(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line, 
-    symbol_table* s_t,dictionary* registers_dict, int* L, int IC)
+    symbol_table* s_t,dictionary* registers_dict, int* L, int IC, char* binary_num)
 {
-    char binary_num[10] = { 0 };
 	char* first_operand = NULL;
 	char* second_operand = NULL;
     int first_is_register = 0;
@@ -27,6 +26,8 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     second_operand = get_second_operand(current_line);
 
     char* value = get_value(operation_table, operation_name);
+
+    strncpy(binary_num, "0000000000", 10);
 
     /*9 8 7 6 bits*/
     strncpy(binary_num, value, 4);
@@ -43,22 +44,34 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
 
         /*Encode given number in next row*/
-        int output = {0};
-        if (strstr(first_operand, "-"))
-        {
-            int* num_ptr = (int*)first_operand + 2;
-            ndec_to_binary(num_ptr, output);
-            output = output << 2; // CHECK
-        }
+        int output[10] = {0};
+        char* num_ptr = first_operand + 1;
+        int num = atoi(num_ptr);
 
+        if (num >= 0)
+        {
+            dec_to_binary(num, output);
+        }
         else
         {
-            int* num_ptr = (int*)first_operand + 1;
-            dec_to_binary(num_ptr, output);
+            ndec_to_binary(num, output);
         }
+
+        for (int i = 0; i < 8; i++)
+        {
+            output[i] = output[i + 2];
+        }
+
+        output[8] = 0;
+        output[9] = 0;
+
         char binary_char[10] = { 0 };
-        sprintf(binary_char, "%d", output);
-        insert_address_entry(a_e, IC + 1, output);
+        for (int i = 0; i < 10; i++)
+        {
+            binary_char[i] = '0' + output[i];
+        }
+
+        insert_address_entry(a_e, IC + 1, binary_char);
     }
 
     /*Its symbol*/
@@ -115,12 +128,18 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
         /*Encode register number in next row*/
         int register_num = is_register(registers_dict, first_operand);
-        char* register_binary = NULL;
+        char* register_binary = calloc(5, 1);
         /*Get binary code of certain register and add 0's*/
         strncpy(register_binary, registers_dict->items[register_num].value, 4);
         strcat(register_binary, "000000");
         insert_address_entry(a_e, IC + 1, register_binary);
-    
+    }
+    else
+    {
+        (*L)++;
+        insert_address_entry(a_e, IC + *L, "?");
+        binary_num[6] = '0';
+        binary_num[7] = '1';
     }
 
     if (second_operand != NULL)
@@ -151,7 +170,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             insert_address_entry(a_e, IC + 1, output);
         }
 
-        /*It's symbol*/
+        /*It's known symbol*/
         else if (symbol_exists(s_t, second_operand) != -1)
         {
             (* L)++;
@@ -202,6 +221,14 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             strncpy(register_binary, registers_dict->items[register_num].value, 4);
             strcat(register_binary, "000000");
             insert_address_entry(a_e, IC + 1, register_binary);
+        }
+        else
+        {
+            (*L)++;
+            insert_address_entry(a_e, IC + *L, "?");
+            binary_num[6] = '0';
+            binary_num[7] = '1';
+
         }
 
         binary_num[8] = '0';
@@ -303,6 +330,11 @@ void ndec_to_binary(int decimal_num, int* output)
 char* get_first_operand(char* current_line, char* operation_name)
 {
    char* start_from_first_operand = strstr(current_line, operation_name) + strlen(operation_name);
+   while (*start_from_first_operand == ' ')
+   {
+       start_from_first_operand++;
+   }
+
    char* comma_ptr = strchr(start_from_first_operand, ',');
    if (comma_ptr != NULL)
    {

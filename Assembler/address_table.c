@@ -7,8 +7,8 @@ address_entries* initialize_address_table()
 {
 	address_entries* i_e = malloc(sizeof(address_entries));
 	i_e->entries = (address_entry*)malloc(sizeof(address_entry) * 5);
-	i_e->allocated_size = 0;
-	i_e->used_size = 5;
+	i_e->allocated_size = 5;
+	i_e->used_size = 0;
 	return i_e;
 }
 
