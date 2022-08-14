@@ -91,8 +91,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				char* operation_name = get_key(operation_dict, operation_index);
 				char binary_code[10] = { 0 };
 				analize_operands(operation_dict, code_table, operation_name,
-					                                  current_line, symbols_table, register_dict, &L, IC,
-					binary_code);
+					                                  current_line, symbols_table, register_dict, &L, IC, binary_code);
 				insert_address_entry(code_table, IC, binary_code);
 				IC += (L + 1);
 				L = 0;

@@ -16,6 +16,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 	char* first_operand = NULL;
 	char* second_operand = NULL;
     int first_is_register = 0;
+    int first_register = -1;
     /*5 4 bits*/
     first_operand = get_first_operand(current_line, operation_name);
 
@@ -32,10 +33,13 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     /*9 8 7 6 bits*/
     strncpy(binary_num, value, 4);
     
-    
+    if (first_operand == NULL)
+    {
+        return binary_num;
+    }
     
     /*its number*/
-    if (strchr(first_operand, '#'))
+    else if (strchr(first_operand, '#'))
     {
         /*Encode first row of command*/
         (*L)++;
@@ -81,8 +85,8 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         {
             binary_num[4] = '0';
             binary_num[5] = '0';
-            binary_num[6] = '1';
-            binary_num[7] = '0';
+            binary_num[6] = '0';
+            binary_num[7] = '1';
         }
         else
         {
@@ -102,7 +106,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         /*Encode struct's field*/
         char* dot_ptr = strchr(first_operand, '.');
         char* struct_field = dot_ptr + 1;
-        if (strcmp( struct_field, "1"))
+        if (strcmp( struct_field, "1") == 0)
         {
             insert_address_entry(a_e, IC + 2, "0000000100");
         }
@@ -123,12 +127,14 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         /*Encode first row of command*/
         first_is_register = 1;
         (* L)++;
-        value = get_value(registers_dict, first_operand);
-        strncpy(binary_num, value, 4);
+        binary_num[4] = '1';
+        binary_num[5] = '1';
 
         /*Encode register number in next row*/
         int register_num = is_register(registers_dict, first_operand);
         char* register_binary = calloc(5, 1);
+        first_register = register_num;
+
         /*Get binary code of certain register and add 0's*/
         strncpy(register_binary, registers_dict->items[register_num].value, 4);
         strcat(register_binary, "000000");
@@ -144,6 +150,11 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
     if (second_operand != NULL)
     {
+        while (*second_operand == ' ')
+        {
+            second_operand++;
+        }
+
         /*It's number*/
         if (strchr(second_operand, '#'))
         {
@@ -204,23 +215,37 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         }
 
         /*It's register*/
-        else if (is_register(registers_dict, second_operand) == 1)
+        else if (is_register(registers_dict, second_operand) != -1)
         {
+            int second_register_num = is_register(registers_dict, second_operand);
+            char* second_register_binary = calloc(10, 1);
+
             if (first_is_register == 0)
             {
                 (* L)++;
+
+                /*Get binary code of certain register and add 0's*/
+                strncpy(second_register_binary, "0000", 4);
+                strcat(second_register_binary, registers_dict->items[second_register_num].value);
+                strcat(second_register_binary, "00");
+
+                insert_address_entry(a_e, IC + *L, second_register_binary);
             }
 
-            value = get_value(registers_dict, second_operand);
-            strncpy(binary_num[4], value, 4);
+            else
+            {
+                strncpy(second_register_binary, registers_dict->items[first_register].value, 4);
+                strcat(second_register_binary, registers_dict->items[second_register_num].value);
+                set_address_binary_num(a_e, IC + 1, second_register_binary);
+            }
+
+            binary_num[6] = '1';
+            binary_num[7] = '1';
 
             /*Encode register number in next row*/
-            int register_num = is_register(registers_dict, first_operand);
-            char* register_binary = NULL;
+            
             /*Get binary code of certain register and add 0's*/
-            strncpy(register_binary, registers_dict->items[register_num].value, 4);
-            strcat(register_binary, "000000");
-            insert_address_entry(a_e, IC + 1, register_binary);
+          
         }
         else
         {
