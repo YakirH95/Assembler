@@ -39,18 +39,17 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, DC, 0);
-				DC++;
+				define_symbol(symbols_table, current_line, &DC, 0);
 			}
 
 			if (strstr(current_line, ".data"))
 			{
-				extract_parameters(current_line, ".data", DC, data_table);
+				extract_parameters(current_line, ".data", &DC, data_table);
 			}
 
 			else if (strstr(current_line, ".string"))
 			{
-				extract_parameters(current_line, ".string", DC, data_table);
+				extract_parameters(current_line, ".string", &DC, data_table);
 			}
 			
 			else if (strstr(current_line, ".struct"))
@@ -86,15 +85,29 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			{
 				printf("Operation name is invalid");
 			}
+			
 			else
 			{
 				char* operation_name = get_key(operation_dict, operation_index);
 				char binary_code[10] = { 0 };
-				analize_operands(operation_dict, code_table, operation_name,
-					                                  current_line, symbols_table, register_dict, &L, IC, binary_code);
-				insert_address_entry(code_table, IC, binary_code);
-				IC += (L + 1);
-				L = 0;
+				if (operation_index == 14)
+				{
+					insert_address_entry(code_table, IC, "1110000000");
+					IC += (L + 1);
+				}
+				else if (operation_index == 15)
+				{
+					insert_address_entry(code_table, IC, "1111000000");
+					IC += (L + 1);
+				}
+				else
+				{
+					analize_operands(operation_dict, code_table, operation_name,
+						current_line, symbols_table, register_dict, &L, IC, binary_code);
+					insert_address_entry(code_table, IC, binary_code);
+					IC += (L + 1);
+					L = 0;
+				}
 			}
 		}
 
@@ -106,7 +119,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	return symbols_table;
 }
 
-void extract_parameters(char* current_line, char* data_type, int* DC, address_entry* data_table)
+void extract_parameters(char* current_line, char* data_type, int* DC, address_entries* data_table)
 {
 	char* token = NULL;
 	
@@ -117,7 +130,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		token++;
 	}
 	
-	if (strcmp(data_type, ".data"))
+	if (strcmp(data_type, ".data") == 0)
 	{
 		while (token != NULL)
 		{
@@ -149,21 +162,38 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		}
 	}
 
-	else if (strcmp(data_type, ".string"))
+	else if (strcmp(data_type, ".string")== 0)
 	{
 		char* chars = strchr(token, '"') + 1;
-		int binary_converted = NULL;
+		int binary_converted[10] = {0};
+		char char_binary[10];
+		char char_to_add[10];
+		char_to_add[0] = '0';
+		char_to_add[1] = '0';
+		char_to_add[2] = '0';
+		
 		for (int i = 0; i < strlen(chars); i++)
 		{
 			char c = chars[i];
+
+			if (c  == '\"')
+			{
+				break;
+			}
+			
 			int ascii_val = (int)c;
-			dec_to_binary(ascii_val, binary_converted);
-			insert_address_entry(data_table, *DC, binary_converted);
+			_itoa(ascii_val, char_binary, 2);
+			for (int i = 0; i < 7; i++)
+			{
+				char_to_add[i + 3] = char_binary[i];
+			}
+			insert_address_entry(data_table, *DC, char_to_add);
 			(* DC)++;
+
 		}
 
-		char binary_char[10] = { 0 };
-		sprintf(binary_char, "%d", binary_converted);
+		char binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
+		//sprintf(binary_char, "%d", binary_converted);
 		insert_address_entry(data_table, *DC, binary_char);
 		(* DC)++;
 	}

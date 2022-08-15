@@ -33,13 +33,8 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     /*9 8 7 6 bits*/
     strncpy(binary_num, value, 4);
     
-    if (first_operand == NULL)
-    {
-        return binary_num;
-    }
-    
     /*its number*/
-    else if (strchr(first_operand, '#'))
+    if (strchr(first_operand, '#'))
     {
         /*Encode first row of command*/
         (*L)++;
@@ -106,7 +101,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         /*Encode struct's field*/
         char* dot_ptr = strchr(first_operand, '.');
         char* struct_field = dot_ptr + 1;
-        if (strcmp( struct_field, "1") == 0)
+        if (strstr( struct_field, "1") != NULL)
         {
             insert_address_entry(a_e, IC + 2, "0000000100");
         }
