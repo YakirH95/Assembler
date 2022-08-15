@@ -386,3 +386,8 @@ char* get_second_operand(char* current_line)
         return NULL;
     }
 }
+
+void int_to_char(int num_int, char* num_char)
+{
+
+}

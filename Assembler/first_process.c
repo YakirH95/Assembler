@@ -132,19 +132,30 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 	
 	if (strcmp(data_type, ".data") == 0)
 	{
+		int last_int = 0;
 		while (token != NULL)
 		{
 			char* comma_ptr = strchr(token, ',');
-			int length = comma_ptr - token;
-			char* parameter = calloc(length + 1, 1);
-			strncpy(parameter, token, length);
+			char* parameter = calloc(10, 1);
+
+			if (comma_ptr != NULL)
+			{
+				int length = comma_ptr - token;
+				strncpy(parameter, token, length);
+
+			}
+			else
+			{
+				strcpy(parameter, token);
+				last_int = 1;
+			}
 
 			int num_paramater = atoi(parameter);
 
 			int binary_converted[10] = {0};
 			if (parameter[0] == '-')
 			{
-				num_paramater *= -1;
+				//num_paramater *= -1;
 				ndec_to_binary(num_paramater, binary_converted);
 			}
 
@@ -154,11 +165,23 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			}
 
 			char binary_char[10] = { 0 };
-			sprintf(binary_char, "%d", binary_converted);
-				
+			//_itoa(binary_converted, binary_char, 10);
+			//sprintf(binary_char, "%d", binary_converted);
+			int i = 0;
+			int index = 0;
+			for (i = 0; i < 10; i++)
+			{
+				index += sprintf(&binary_char[index], "%d", binary_converted[i]);
+			}
+
 			insert_address_entry(data_table,  * DC, binary_char);
 			(* DC)++;
 			token = comma_ptr + 1;
+
+			if (last_int == 1)
+			{
+				break;
+			}
 		}
 	}
 
@@ -193,7 +216,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		}
 
 		char binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
-		//sprintf(binary_char, "%d", binary_converted);
 		insert_address_entry(data_table, *DC, binary_char);
 		(* DC)++;
 	}
