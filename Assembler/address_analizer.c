@@ -231,6 +231,8 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             {
                 strncpy(second_register_binary, registers_dict->items[first_register].value, 4);
                 strcat(second_register_binary, registers_dict->items[second_register_num].value);
+                strcat(second_register_binary, "00");
+
                 set_address_binary_num(a_e, IC + 1, second_register_binary);
             }
 
@@ -258,13 +260,18 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     return binary_num;
 }
 
-void analize_remaining_address(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line,
-    symbol_table* s_t, dictionary* registers_dict, int* L, int IC)
+void analize_remaining_address(address_entries* a_e, char* current_line, symbol_table* s_t,
+                               int* L, int IC, dictionary* operation_table)
 {
     char* first_operand = NULL;
     char* second_operand = NULL;
     int first_is_register = 0;
+    int operation_index = is_operation(operation_table, current_line);
+    char* operation_name = get_key(operation_table, operation_index);
    
+    first_operand = get_first_operand(current_line, operation_name);
+    second_operand = get_second_operand(current_line);
+
     /*Its symbol*/
     if (symbol_exists(s_t, first_operand) != -1)
     {
@@ -282,7 +289,12 @@ void analize_remaining_address(dictionary* operation_table, address_entries* a_e
     else if (strchr(first_operand, '.'))
     {
         (*L) += 2;
-        int symbol_value = get_value(s_t, first_operand);
+        char* dot_pointer = strchr(first_operand, '.');
+        int length = dot_pointer - first_operand;
+        char* extract_symbol_name = calloc(10, 1);
+        strncpy(extract_symbol_name, first_operand, length);
+
+        int symbol_value = symbol_exists(s_t, extract_symbol_name);
         int output = NULL;
         dec_to_binary(symbol_value, output);
         output = output << 2;

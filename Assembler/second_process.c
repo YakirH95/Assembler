@@ -14,7 +14,7 @@
 
 
 
-void fill_address_table(symbol_table* symbol_table, address_entries* address_table, char* assembly_input)
+void fill_address_table(symbol_table* symbol_table, address_entries* code_table, address_entries* data_table, char* assembly_input, dictionary* operation_table)
 {
 	
 	int L = 0;
@@ -42,7 +42,10 @@ void fill_address_table(symbol_table* symbol_table, address_entries* address_tab
 			modify_symbol_type(symbol_table, symbol_index, 3);
 		}
 
-		fill_address_table(symbol_table, address_table, current_line);
+		
+		analize_remaining_address(code_table, current_line, symbol_table, &L, IC, operation_table);
+		
+		
 		IC += (L+1);
 		L = 0;
 

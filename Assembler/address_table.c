@@ -35,7 +35,7 @@ void set_address_binary_num(address_entries* a_e, int decimal_address, char* bin
 {
 	for (int i = 0; i < a_e->used_size; i++)
 	{
-		if (a_e->entries[i].decimal_address == decimal_address)
+		if (a_e->entries[i].decimal_address == (decimal_address + 100))
 		{
 			strncpy(a_e->entries[i].binary_code, strdup(binary_code), 10);
 		}

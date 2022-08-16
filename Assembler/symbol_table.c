@@ -95,7 +95,10 @@ void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, in
 
 	}
 
-	add_symbol_entry(symbol_table, symbol_name, IC_DC, 0);
+	else
+	{
+		add_symbol_entry(symbol_table, symbol_name, IC_DC, 0);
+	}
 }
 
 void modify_symbol_type(symbol_table* symbol_table, int symbol_index, int symbol_type)

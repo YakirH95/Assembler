@@ -6,6 +6,7 @@
 #include "first_process.h"
 #include "address_table.h"
 #include "registers.h"
+#include "second_process.h"
 
 
 int main(int argc, char* argv[])
@@ -62,7 +63,19 @@ int main(int argc, char* argv[])
 	fclose(expanded_output);
 	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict);
 
-	//Return pointer to beggining of file
+	//Point to end of file
+	//fseek(expanded_output, 0, SEEK_END);
+	//Get file size
+	//length = ftell(file);
+	//Point to beggining of file
+	fseek(expanded_output, 0, SEEK_SET);
+	//Allocate memory for file
+	//buffer = malloc(length + 1);
+	//Read file to buffer
+	fread(buffer, 1, length, expanded_output);
+	buffer[length] = 0;
+	fclose(expanded_output);
+	fill_address_table(sym_table, code_table, data_table, buffer, operation_dict);
 
 	
 	delete_registers_dict(registers_dict);

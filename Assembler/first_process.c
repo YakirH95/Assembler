@@ -39,7 +39,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, &DC, 0);
+				define_symbol(symbols_table, current_line, DC + IC, 0);
 			}
 
 			if (strstr(current_line, ".data"))
@@ -66,10 +66,6 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				define_extern_symbol(symbols_table, current_line, is_symbol_define);
 			}
 
-			else if (strstr(current_line, ".entry"))
-			{
-				//in second pass
-			}
 		}
 
 		// If it's symbol + operation ex  MAIN: mov
