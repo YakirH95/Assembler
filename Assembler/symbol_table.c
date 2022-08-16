@@ -31,6 +31,20 @@ void delete_table(symbol_table* s_t)
 	free(s_t);
 }
 
+int get_symbol_address(symbol_table* s_t, char* symbol_name)
+{
+	for (int i = 0; i < s_t->used_size; i++)
+	{
+		
+		if (strstr(symbol_name, s_t->items[i].symbol_name))
+		{
+			return s_t->items[i].symbol_address;
+		}
+	}
+
+	return NULL;
+}
+
 //symbol type: 0 for data, 1 for extern, 2 for code, 3 for entry
 void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, int symbol_type)
 {

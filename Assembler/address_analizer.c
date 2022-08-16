@@ -293,14 +293,14 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         int length = dot_pointer - first_operand;
         char* extract_symbol_name = calloc(10, 1);
         strncpy(extract_symbol_name, first_operand, length);
+        int symbol_address = get_symbol_address(s_t, first_operand);
+        int* binary_num = calloc(10,1);
+        char char_to_add[10] = {0};
+        dec_to_binary(symbol_address, binary_num);
+        sprintf(char_to_add, "%d", binary_num);
+       
 
-        int symbol_value = symbol_exists(s_t, extract_symbol_name);
-        int output = NULL;
-        dec_to_binary(symbol_value, output);
-        output = output << 2;
-        char char_output[10] = { 0 };
-        sprintf(char_output, "%d", output);
-        set_address_binary_num(a_e, IC + *L - 1, output);
+        set_address_binary_num(a_e, IC + *L - 1, char_to_add);
     }
 
     if (second_operand != NULL)
@@ -309,13 +309,9 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         if (symbol_exists(s_t, second_operand) != -1)
         {
             (*L)++;
-            int symbol_value = get_value(s_t, second_operand);
-            int output = NULL;
-            dec_to_binary(symbol_value, output);
-            output = output << 2;
-            char char_output[10] = { 0 };
-            sprintf(char_output, "%d", output); //CHECK
-            set_address_binary_num(a_e, IC + *L, output);
+            int symbol_value = get_symbol_address(s_t, second_operand);
+            
+          //  set_address_binary_num(a_e, IC + *L, output);
         }
 
         /*It's struct*/

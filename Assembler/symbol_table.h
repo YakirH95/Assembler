@@ -24,3 +24,5 @@ int symbol_exists(symbol_table* s_t, char* search_symbol);
 void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is_symbol_define);
 void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, int isCode);
 void modify_symbol_type(symbol_table* symbol_table, int symbol_index, int symbol_type);
+int get_symbol_address(symbol_table* s_t, char* symbol_name);
+

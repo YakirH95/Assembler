@@ -39,7 +39,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, DC + IC, 0);
+				define_symbol(symbols_table, current_line, DC, 0);
 			}
 
 			if (strstr(current_line, ".data"))
@@ -107,7 +107,6 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			}
 		}
 
-
 		current_line = strtok(NULL, "\r\n");
 	}
 
@@ -167,11 +166,10 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 
 			char binary_char[10] = { 0 };
 			int i = 0;
-			int index = 0;
 			/*Convert int array to char array*/
 			for (i = 0; i < 10; i++)
 			{
-				index += sprintf(&binary_char[index], "%d", binary_converted[i]);
+				binary_char[i] = '0' + binary_converted[i];
 			}
 
 			insert_address_entry(data_table, *DC, binary_char);
@@ -225,7 +223,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		(*DC)++;
 	}
 
-	// EDIT
+	// It's a struct
 	else if (strcmp(data_type, ".struct") == 0)
 	{
 		/*int part*/
@@ -259,10 +257,9 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 
 		char binary_char[10] = { 0 };
 		int i = 0;
-		int index = 0;
 		for (i = 0; i < 10; i++)
 		{
-			index += sprintf(&binary_char[index], "%d", binary_converted[i]);
+			binary_char[i] = '0' + binary_converted[i];
 		}
 
 		insert_address_entry(data_table, *DC, binary_char);
