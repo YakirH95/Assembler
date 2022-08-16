@@ -54,7 +54,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			
 			else if (strstr(current_line, ".struct"))
 			{
-				extract_parameters(current_line, ".struct", DC, data_table);
+				extract_parameters(current_line, ".struct", &DC, data_table);
 			}
 		}
 
@@ -121,23 +121,28 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 
 void extract_parameters(char* current_line, char* data_type, int* DC, address_entries* data_table)
 {
-	char* token = NULL;
 	
-	//Point to after ".data"
+	char* token = NULL;
+
+	/*Point to after ".struct" */
 	token = strstr(current_line, data_type) + strlen(data_type);
+	/*Ignore empty spaces*/
 	while (token != NULL && *token == ' ')
 	{
 		token++;
 	}
-	
+
+	/*Encode numbers*/
 	if (strcmp(data_type, ".data") == 0)
 	{
+		/*Identify when last num*/
 		int last_int = 0;
 		while (token != NULL)
 		{
 			char* comma_ptr = strchr(token, ',');
 			char* parameter = calloc(10, 1);
 
+			/*Identify when reached last int*/
 			if (comma_ptr != NULL)
 			{
 				int length = comma_ptr - token;
@@ -152,10 +157,10 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 
 			int num_paramater = atoi(parameter);
 
-			int binary_converted[10] = {0};
+			int binary_converted[10] = { 0 };
+			/*Identify negative numbers*/
 			if (parameter[0] == '-')
 			{
-				//num_paramater *= -1;
 				ndec_to_binary(num_paramater, binary_converted);
 			}
 
@@ -165,17 +170,17 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			}
 
 			char binary_char[10] = { 0 };
-			//_itoa(binary_converted, binary_char, 10);
-			//sprintf(binary_char, "%d", binary_converted);
 			int i = 0;
 			int index = 0;
+			/*Convert int array to char array*/
 			for (i = 0; i < 10; i++)
 			{
 				index += sprintf(&binary_char[index], "%d", binary_converted[i]);
 			}
 
-			insert_address_entry(data_table,  * DC, binary_char);
-			(* DC)++;
+			insert_address_entry(data_table, *DC, binary_char);
+			(*DC)++;
+			/*Next num*/
 			token = comma_ptr + 1;
 
 			if (last_int == 1)
@@ -185,90 +190,126 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		}
 	}
 
-	else if (strcmp(data_type, ".string")== 0)
+	/*Encode string*/
+	else if (strcmp(data_type, ".string") == 0)
 	{
 		char* chars = strchr(token, '"') + 1;
-		int binary_converted[10] = {0};
+		int binary_converted[10] = { 0 };
 		char char_binary[10];
 		char char_to_add[10];
 		char_to_add[0] = '0';
 		char_to_add[1] = '0';
 		char_to_add[2] = '0';
-		
+
 		for (int i = 0; i < strlen(chars); i++)
 		{
 			char c = chars[i];
 
-			if (c  == '\"')
+			/*Identify end of string*/
+			if (c == '\"')
 			{
 				break;
 			}
-			
+
 			int ascii_val = (int)c;
 			_itoa(ascii_val, char_binary, 2);
+			/*Complete encoding*/
 			for (int i = 0; i < 7; i++)
 			{
 				char_to_add[i + 3] = char_binary[i];
 			}
 			insert_address_entry(data_table, *DC, char_to_add);
-			(* DC)++;
+			(*DC)++;
 
 		}
 
+		/*End of string is 0*/
 		char binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
 		insert_address_entry(data_table, *DC, binary_char);
-		(* DC)++;
+		(*DC)++;
 	}
 
 	// EDIT
-	else if (strcmp(data_type, ".struct"))
+	else if (strcmp(data_type, ".struct") == 0)
 	{
-		while (token != NULL)
+		/*int part*/
+		char* comma_ptr = strchr(token, ',');
+		char* parameter = calloc(10, 1);
+
+		if (comma_ptr != NULL)
 		{
-			char* comma_ptr = strchr(token, ',');
 			int length = comma_ptr - token;
-			char* parameter = calloc(length + 1, 1);
 			strncpy(parameter, token, length);
 
-			int num_paramater = atoi(parameter);
-
-			int binary_converted[10] = { 0 };
-			if (parameter[0] == '-')
-			{
-				num_paramater *= -1;
-				ndec_to_binary(num_paramater, binary_converted);
-			}
-
-			else
-			{
-				dec_to_binary(num_paramater, binary_converted);
-			}
-
-			char binary_char[10] = { 0 };
-			sprintf(binary_char, "%d", binary_converted);
-
-			insert_address_entry(data_table, *DC, binary_char);
-			(* DC)++;
-			token = comma_ptr + 1;
+		}
+		else
+		{
+			strcpy(parameter, token);
 		}
 
-		char* chars = strchr(token, '"') + 1;
-		int binary_converted = NULL;
-		for (int i = 0; i < strlen(chars); i++)
+		int num_paramater = atoi(parameter);
+
+		int binary_converted[10] = { 0 };
+		if (parameter[0] == '-')
 		{
-			char c = chars[i];
-			int ascii_val = (int)c;
-			dec_to_binary(ascii_val, binary_converted);
-			insert_address_entry(data_table, *DC, binary_converted);
-			(* DC)++;
+			//num_paramater *= -1;
+			ndec_to_binary(num_paramater, binary_converted);
+		}
+
+		else
+		{
+			dec_to_binary(num_paramater, binary_converted);
 		}
 
 		char binary_char[10] = { 0 };
-		sprintf(binary_char, "%d", binary_converted);
+		int i = 0;
+		int index = 0;
+		for (i = 0; i < 10; i++)
+		{
+			index += sprintf(&binary_char[index], "%d", binary_converted[i]);
+		}
+
 		insert_address_entry(data_table, *DC, binary_char);
-		(* DC)++;
+		(*DC)++;
+
+		free(parameter);
+
+		/*string part*/
+		char* chars = strchr(token, '"') + 1;
+		int struct_binary_converted[10] = { 0 };
+		char struct_char_binary[10];
+		char char_to_add[10];
+		char_to_add[0] = '0';
+		char_to_add[1] = '0';
+		char_to_add[2] = '0';
+
+		for (int i = 0; i < strlen(chars); i++)
+		{
+			char c = chars[i];
+
+			/*Identify end of string*/
+			if (c == '\"')
+			{
+				break;
+			}
+
+			int ascii_val = (int)c;
+			_itoa(ascii_val, struct_char_binary, 2);
+			/*Complete encoding*/
+			for (int i = 0; i < 7; i++)
+			{
+				char_to_add[i + 3] = struct_char_binary[i];
+			}
+			insert_address_entry(data_table, *DC, char_to_add);
+			(*DC)++;
+
+		}
+
+		/*End of string is 0*/
+		char struct_binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
+		insert_address_entry(data_table, *DC, struct_binary_char);
+		(*DC)++;
+		
+		
 	}
 }
-
-
-
