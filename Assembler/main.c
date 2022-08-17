@@ -7,6 +7,7 @@
 #include "address_table.h"
 #include "registers.h"
 #include "second_process.h"
+#include "base32.h"
 
 
 int main(int argc, char* argv[])
@@ -64,7 +65,7 @@ int main(int argc, char* argv[])
 	char* second_buffer = strdup(buffer);
 	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict);
 	fill_address_table(sym_table, code_table, data_table, second_buffer, operation_dict, registers_dict);
-	
+
 	delete_registers_dict(registers_dict);
 	delete_operations_dict(operation_dict);
 	free(buffer);

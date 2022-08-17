@@ -395,6 +395,11 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
 
 void dec_to_binary(int decimal_num, int* output)
 {
+    for (int i = 0; i < 10; i++)
+    {
+        output[i] = 0;
+    }
+
 	for (int i = 9; decimal_num > 0; i--)
 	{
 		output[i] = decimal_num % 2;
