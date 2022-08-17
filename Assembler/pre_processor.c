@@ -62,7 +62,7 @@ char* expand_macro(char* assembly_input)
 	delete_dictionary(macro_dict);
 
 	FILE* post_prep;
-	post_prep = fopen("Post Prep.am", "w");
+	post_prep = fopen("Assembler.am", "w");
 	
 	if (post_prep == NULL)
 	{
@@ -73,5 +73,5 @@ char* expand_macro(char* assembly_input)
 	char* out = get_internal_string(output);
 	fputs(out, post_prep);
 	fclose(post_prep);
-	return "Post Prep.am";
+	return "Assembler.am";
 }

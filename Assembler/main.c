@@ -9,6 +9,40 @@
 #include "second_process.h"
 #include "base32.h"
 
+void create_object_file(address_entries* code_table, address_entries* data_table)
+{
+	FILE* file = fopen("Assembler.ob", "wt");
+
+	for (int i = 0; i < code_table->used_size; i++)
+	{
+		char address_base32[3] = { 0 };
+		char binary_base32[3] = { 0 };
+
+		address_to_base32(code_table->entries[i].decimal_address, address_base32);
+		binary_to_base32(code_table->entries[i].binary_code, binary_base32);
+
+		fwrite(address_base32, 1, 2, file);
+		fwrite("\t", 1, 1, file);
+		fwrite(binary_base32, 1, 2, file);
+		fwrite("\n", 1, 1, file);
+	}
+
+	for (int i = 0; i < data_table->used_size; i++)
+	{
+		char address_base32[3] = { 0 };
+		char binary_base32[3] = { 0 };
+
+		address_to_base32(data_table->entries[i].decimal_address, address_base32);
+		binary_to_base32(data_table->entries[i].binary_code, binary_base32);
+
+		fwrite(address_base32, 1, 2, file);
+		fwrite("\t", 1, 1, file);
+		fwrite(binary_base32, 1, 2, file);
+		fwrite("\n", 1, 1, file);
+	}
+
+	fclose(file);
+}
 
 int main(int argc, char* argv[])
 {
@@ -65,6 +99,11 @@ int main(int argc, char* argv[])
 	char* second_buffer = strdup(buffer);
 	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict);
 	fill_address_table(sym_table, code_table, data_table, second_buffer, operation_dict, registers_dict);
+
+	sort_by_address(code_table);
+	sort_by_address(data_table);
+
+	create_object_file(code_table, data_table);
 
 	delete_registers_dict(registers_dict);
 	delete_operations_dict(operation_dict);

@@ -64,3 +64,7 @@ Assembler/.vs/Assembler/v16/Browse.VC.opendb
 Assembler/.vs/
 
 Assembler/Debug/
+
+*.am
+
+*.ob

@@ -49,3 +49,21 @@ void add_offset_to_table(address_entries* a_e, int offset)
 		a_e->entries[i].decimal_address += offset;
 	}
 }
+
+void sort_by_address(address_entries* a_e)
+{
+	address_entry temp = { 0 };
+
+	for (int i = 0; i < a_e->used_size; i++)
+	{
+		for (int j = i + 1; j < a_e->used_size - 1; j++)
+		{
+			if (a_e->entries[i].decimal_address > a_e->entries[j].decimal_address)
+			{
+				memcpy(&temp, &a_e->entries[i], sizeof(address_entry));
+				memcpy(&a_e->entries[i], &a_e->entries[j], sizeof(address_entry));
+				memcpy(&a_e->entries[j], &temp, sizeof(address_entry));
+			}
+		}
+	}
+}
