@@ -31,14 +31,21 @@ void insert_address_entry(address_entries* i_e, int decimal_address, char* binar
 	i_e->used_size++;
 }
 
-void set_address_binary_num(address_entries* a_e, int decimal_address, char* binary_code)
+void set_address_binary_num(address_entries* a_e, int offset, char* binary_code)
 {
 	for (int i = 0; i < a_e->used_size; i++)
 	{
-		if (a_e->entries[i].decimal_address == (decimal_address + 100))
+		if (a_e->entries[i].decimal_address == (offset + 100))
 		{
 			strncpy(a_e->entries[i].binary_code, strdup(binary_code), 10);
 		}
 	}
 }
 
+void add_offset_to_table(address_entries* a_e, int offset)
+{
+	for (int i = 0; i < a_e->used_size; i++)
+	{
+		a_e->entries[i].decimal_address += offset;
+	}
+}

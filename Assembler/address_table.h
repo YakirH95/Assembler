@@ -20,4 +20,6 @@ typedef struct
 
 address_entries* initialize_address_table();
 void insert_address_entry(address_entries* a_e, int decimal_address, char* binary_num);
-void set_address_binary_num(address_entries* a_e, int decimal_address, char* binary_code);
+void set_address_binary_num(address_entries* a_e, int offset, char* binary_code);
+
+void add_offset_to_table(address_entries* a_e, int offset);

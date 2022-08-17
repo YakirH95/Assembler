@@ -56,27 +56,14 @@ int main(int argc, char* argv[])
 	//Point to beggining of file
 	fseek(expanded_output, 0, SEEK_SET);
 	//Allocate memory for file
-	buffer = malloc(length + 1);
+	buffer = calloc(length + 1, 1);
 	//Read file to buffer
 	fread(buffer, 1, length, expanded_output);
-	buffer[length] = 0;
 	fclose(expanded_output);
+
+	char* second_buffer = strdup(buffer);
 	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict);
-
-	//Point to end of file
-	//fseek(expanded_output, 0, SEEK_END);
-	//Get file size
-	//length = ftell(file);
-	//Point to beggining of file
-	fseek(expanded_output, 0, SEEK_SET);
-	//Allocate memory for file
-	//buffer = malloc(length + 1);
-	//Read file to buffer
-	fread(buffer, 1, length, expanded_output);
-	buffer[length] = 0;
-	fclose(expanded_output);
-	fill_address_table(sym_table, code_table, data_table, buffer, operation_dict);
-
+	fill_address_table(sym_table, code_table, data_table, second_buffer, operation_dict, registers_dict);
 	
 	delete_registers_dict(registers_dict);
 	delete_operations_dict(operation_dict);

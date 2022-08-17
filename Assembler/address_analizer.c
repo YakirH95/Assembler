@@ -11,7 +11,7 @@
 /*Encode row of operation, also encode numbers, struct fields, and registers
 Using insert_address function with NULL value where need to be filled in second process*/
 char* analize_operands(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line, 
-    symbol_table* s_t,dictionary* registers_dict, int* L, int IC, char* binary_num)
+    symbol_table* s_t, dictionary* registers_dict, int* L, int IC, char* binary_num)
 {
 	char* first_operand = NULL;
 	char* second_operand = NULL;
@@ -261,7 +261,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 }
 
 void analize_remaining_address(address_entries* a_e, char* current_line, symbol_table* s_t,
-                               int* L, int IC, dictionary* operation_table)
+                               int* L, int IC, dictionary* operation_table, dictionary* registers_dict)
 {
     char* first_operand = NULL;
     char* second_operand = NULL;
@@ -276,13 +276,23 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
     if (symbol_exists(s_t, first_operand) != -1)
     {
         (*L)++;
-        int symbol_value = get_value(s_t, first_operand);
-        int output = NULL;
-        dec_to_binary(symbol_value, output);
-        output = output << 2;
+        int symbol_value = get_symbol_address(s_t, first_operand);
+        int binary_num[10] = { 0 };
+        dec_to_binary(symbol_value, binary_num);
+        for (int i = 0; i < 8; i++)
+        {
+            binary_num[i] = binary_num[i + 2];
+        }
+        binary_num[8] = 1;
+        binary_num[9] = 0;
+
         char char_output[10] = {0};
-        sprintf(char_output, "%d", output); //CHECK
-        set_address_binary_num(a_e, IC + *L, output);
+        for (int i = 0; i < 10; i++)
+        {
+            char_output[i] = '0' + binary_num[i];
+        }
+
+        set_address_binary_num(a_e, IC + *L, char_output);
     }
 
     /*It's struct*/
@@ -294,14 +304,31 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         char* extract_symbol_name = calloc(10, 1);
         strncpy(extract_symbol_name, first_operand, length);
         int symbol_address = get_symbol_address(s_t, first_operand);
-        int* binary_num = calloc(10,1);
+        int binary_num[10] = {0};
         char char_to_add[10] = {0};
-        dec_to_binary(symbol_address, binary_num);
-        sprintf(char_to_add, "%d", binary_num);
-       
 
+        dec_to_binary(symbol_address, binary_num);
+
+        for (int i = 0; i < 8; i++)
+        {
+            binary_num[i] = binary_num[i + 2];
+        }
+        binary_num[8] = 1;
+        binary_num[9] = 0;
+        
+        for (int i = 0; i < 10; i++)
+        {
+            char_to_add[i] = '0' + binary_num[i];
+        }
+       
         set_address_binary_num(a_e, IC + *L - 1, char_to_add);
     }
+    else if (is_register(registers_dict, first_operand))
+    {
+        (*L)++;
+        first_is_register = 1;
+    }
+    
 
     if (second_operand != NULL)
     {
@@ -310,8 +337,25 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         {
             (*L)++;
             int symbol_value = get_symbol_address(s_t, second_operand);
+
+            int binary_num[10] = { 0 };
+            char char_to_add[10] = { 0 };
+
+            dec_to_binary(symbol_value, binary_num);
+
+            for (int i = 0; i < 8; i++)
+            {
+                binary_num[i] = binary_num[i + 2];
+            }
+            binary_num[8] = 1;
+            binary_num[9] = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                char_to_add[i] = '0' + binary_num[i];
+            }
             
-          //  set_address_binary_num(a_e, IC + *L, output);
+            set_address_binary_num(a_e, IC + *L, char_to_add);
         }
 
         /*It's struct*/
@@ -319,12 +363,30 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         {
             (*L) += 2;
             int symbol_value = get_value(s_t, first_operand);
-            int output = NULL;
-            dec_to_binary(symbol_value, output);
-            output = output << 2;
+            int binary_num[10] = { 0 };
+
+            dec_to_binary(symbol_value, binary_num);
+            for (int i = 0; i < 8; i++)
+            {
+                binary_num[i] = binary_num[i + 2];
+            }
+            binary_num[8] = 1;
+            binary_num[9] = 0;
+
             char char_output[10] = { 0 };
-            sprintf(char_output, "%d", output);
-            set_address_binary_num(a_e, IC + *L - 1, output);
+            for (int i = 0; i < 10; i++)
+            {
+                char_output[i] = '0' + binary_num[i];
+            }
+
+            set_address_binary_num(a_e, IC + *L - 1, char_output);
+        }
+        else if (is_register(registers_dict, second_operand))
+        {
+            if (first_is_register == 0)
+            {
+                (*L)++;
+            }
         }
     }
 }

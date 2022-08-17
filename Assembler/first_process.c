@@ -110,7 +110,9 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		current_line = strtok(NULL, "\r\n");
 	}
 
-	//if there are errors, stop
+	add_offset_to_table(data_table, IC);
+	add_offset_data_symbols(symbols_table, IC);
+
 	return symbols_table;
 }
 

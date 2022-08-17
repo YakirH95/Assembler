@@ -7,7 +7,7 @@ typedef struct
 {
 	char* symbol_name;
 	int symbol_address;
-	int symbol_type; //0 for relocatable, 1 for external
+	int symbol_type;
 }   symbol_entry;
 
 typedef struct
@@ -25,4 +25,4 @@ void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is
 void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, int isCode);
 void modify_symbol_type(symbol_table* symbol_table, int symbol_index, int symbol_type);
 int get_symbol_address(symbol_table* s_t, char* symbol_name);
-
+void add_offset_data_symbols(symbol_table* s_t, int offset);

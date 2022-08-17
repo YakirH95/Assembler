@@ -119,3 +119,14 @@ void modify_symbol_type(symbol_table* symbol_table, int symbol_index, int symbol
 {
 	symbol_table->items[symbol_index].symbol_type = symbol_type;
 }
+
+void add_offset_data_symbols(symbol_table* s_t, int offset)
+{
+	for (int i = 0; i < s_t->used_size; i++)
+	{
+		if (s_t->items[i].symbol_type == 0)
+		{
+			s_t->items[i].symbol_address += offset;
+		}
+	}
+}
