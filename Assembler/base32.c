@@ -9,7 +9,7 @@ char base32_table[32] = {'!','@','#','$','%','^','&','*','<','>','a','b','c','d'
                          'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v'};
 
 /*Conver decimal address*/
-char* address_to_base32(int* bin_num)
+void address_to_base32(int* bin_num, char* base32_address)
 {
 	char* char_bin_num = NULL;
 	sprintf(char_bin_num, "%d", bin_num);
@@ -31,10 +31,8 @@ char* address_to_base32(int* bin_num)
 	int second_dec_half = bin_to_dec(second_binary_half);
 	char second_base32 = base32_table[second_dec_half];
 
-	char base32_address[2] = { 0 };
 	base32_address[0] = first_base32;
 	base32_address[1] = second_base32;
-	return base32_address;
 }
 
 /*Convert binary code*/

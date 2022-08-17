@@ -183,6 +183,8 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			{
 				break;
 			}
+
+			free(parameter);
 		}
 	}
 
@@ -209,6 +211,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 
 			int ascii_val = (int)c;
 			_itoa(ascii_val, char_binary, 2);
+
 			/*Complete encoding*/
 			for (int i = 0; i < 7; i++)
 			{

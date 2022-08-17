@@ -15,6 +15,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 {
 	char* first_operand = NULL;
 	char* second_operand = NULL;
+    char* second_operand_without_spaces = NULL;
     int first_is_register = 0;
     int first_register = -1;
     /*5 4 bits*/
@@ -22,7 +23,6 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
     char* comma_ptr = strchr(first_operand, ',');
     int length = comma_ptr - first_operand;
-    char* parameter = calloc(length + 1, 1);
     /*3 2 bits*/
     second_operand = get_second_operand(current_line);
 
@@ -127,13 +127,18 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
         /*Encode register number in next row*/
         int register_num = is_register(registers_dict, first_operand);
-        char* register_binary = calloc(5, 1);
+        char* register_binary = calloc(10, 1);
         first_register = register_num;
 
         /*Get binary code of certain register and add 0's*/
         strncpy(register_binary, registers_dict->items[register_num].value, 4);
-        strcat(register_binary, "000000");
+        for (int i = 4; i < 10; i++)
+        {
+            register_binary[i] = "0";
+        }
+
         insert_address_entry(a_e, IC + 1, register_binary);
+        free(register_binary);
     }
     else
     {
@@ -145,13 +150,14 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
     if (second_operand != NULL)
     {
-        while (*second_operand == ' ')
+        second_operand_without_spaces = second_operand;
+        while (*second_operand_without_spaces == ' ')
         {
-            second_operand++;
+            second_operand_without_spaces++;
         }
 
         /*It's number*/
-        if (strchr(second_operand, '#'))
+        if (strchr(second_operand_without_spaces, '#'))
         {
             (* L)++;
             binary_num[6] = '0';
@@ -159,9 +165,9 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
             /*Encode given number in next row*/
             int output = { 0 };
-            if (strstr(second_operand, "-"))
+            if (strstr(second_operand_without_spaces, "-"))
             {
-                int* num_ptr = (int*)second_operand + 2;
+                int* num_ptr = (int*)second_operand_without_spaces + 2;
                 ndec_to_binary(num_ptr, output);
                 output = output << 2; // CHECK
             }
@@ -177,7 +183,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         }
 
         /*It's known symbol*/
-        else if (symbol_exists(s_t, second_operand) != -1)
+        else if (symbol_exists(s_t, second_operand_without_spaces) != -1)
         {
             (* L)++;
             binary_num[6] = '0';
@@ -187,14 +193,14 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         }
 
         /*It's struct*/
-        else if (strchr(second_operand, '.'))
+        else if (strchr(second_operand_without_spaces, '.'))
         {
             (* L) += 2;
             binary_num[6] = '1';
             binary_num[7] = '0';
 
             /*Encode struct's field*/
-            char* dot_ptr = strchr(second_operand, '.');
+            char* dot_ptr = strchr(second_operand_without_spaces, '.');
             char* struct_field = dot_ptr + 1;
             if (strcmp(struct_field, "1"))
             {
@@ -210,10 +216,10 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         }
 
         /*It's register*/
-        else if (is_register(registers_dict, second_operand) != -1)
+        else if (is_register(registers_dict, second_operand_without_spaces) != -1)
         {
-            int second_register_num = is_register(registers_dict, second_operand);
-            char* second_register_binary = calloc(10, 1);
+            int second_register_num = is_register(registers_dict, second_operand_without_spaces);
+            char* second_register_binary = calloc(11, 1);
 
             if (first_is_register == 0)
             {
@@ -235,14 +241,10 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
                 set_address_binary_num(a_e, IC + 1, second_register_binary);
             }
+            free(second_register_binary);
 
             binary_num[6] = '1';
             binary_num[7] = '1';
-
-            /*Encode register number in next row*/
-            
-            /*Get binary code of certain register and add 0's*/
-          
         }
         else
         {
@@ -256,6 +258,9 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         binary_num[8] = '0';
         binary_num[9] = '0';
     }
+
+    free(first_operand);
+    free(second_operand);
 
     return binary_num;
 }
@@ -301,8 +306,6 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         (*L) += 2;
         char* dot_pointer = strchr(first_operand, '.');
         int length = dot_pointer - first_operand;
-        char* extract_symbol_name = calloc(10, 1);
-        strncpy(extract_symbol_name, first_operand, length);
         int symbol_address = get_symbol_address(s_t, first_operand);
         int binary_num[10] = {0};
         char char_to_add[10] = {0};
@@ -329,7 +332,6 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         first_is_register = 1;
     }
     
-
     if (second_operand != NULL)
     {
         /*It's symbol*/
@@ -449,6 +451,7 @@ char* get_second_operand(char* current_line)
         int length = strlen(coma_ptr);
         char* second_operand = calloc(length + 1, 1);
         strncpy(second_operand, coma_ptr, length);
+        
         return second_operand;
     }
     else

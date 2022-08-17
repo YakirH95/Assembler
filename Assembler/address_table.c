@@ -12,10 +12,10 @@ address_entries* initialize_address_table()
 	return i_e;
 }
 
-void delete_data_image(address_entries* i_e)
+void delete_address_table(address_entries* a_e)
 {
-	free(i_e->entries);
-	free(i_e);
+	free(a_e->entries);
+	free(a_e);
 }
 
 void insert_address_entry(address_entries* i_e, int decimal_address, char* binary_num)

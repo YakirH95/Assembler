@@ -67,5 +67,10 @@ int main(int argc, char* argv[])
 	
 	delete_registers_dict(registers_dict);
 	delete_operations_dict(operation_dict);
+	free(buffer);
+	free(second_buffer);
+	delete_address_table(code_table);
+	delete_address_table(data_table);
+	delete_table(sym_table);
 	return 0;
 }
