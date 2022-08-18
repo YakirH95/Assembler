@@ -11,7 +11,7 @@
 /*Encode row of operation, also encode numbers, struct fields, and registers
 Using insert_address function with NULL value where need to be filled in second process*/
 char* analize_operands(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line, 
-    symbol_table* s_t, dictionary* registers_dict, int* L, int IC, char* binary_num)
+    symbol_table* s_t, dictionary* registers_dict, int* L, int IC, char* binary_num, dictionary* entry_extern_dict)
 {
 	char* first_operand = NULL;
 	char* second_operand = NULL;
@@ -24,17 +24,39 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     char* comma_ptr = strchr(first_operand, ',');
     int length = comma_ptr - first_operand;
     /*3 2 bits*/
-    second_operand = get_second_operand(current_line);
 
+    second_operand = get_second_operand(current_line);
+    while (second_operand!= NULL && *second_operand == ' ')
+    {
+        second_operand++;
+    }
     char* value = get_value(operation_table, operation_name);
 
     strncpy(binary_num, "0000000000", 10);
 
     /*9 8 7 6 bits*/
     strncpy(binary_num, value, 4);
-    
+
+    //It's external symbol
+    if (key_exists(entry_extern_dict, first_operand) != -1)
+    {
+        int symbol_index = key_exists(entry_extern_dict, first_operand);
+
+        /*Encode first row of command*/
+        (*L)++;
+        binary_num[6] = '0';
+        binary_num[7] = '1';
+
+        if(strcmp(entry_extern_dict->items[symbol_index].value, "1") == 0)
+        {
+            char binary_char[10] = { '0','0','0','0','0','0','0','0','0','1' };
+            insert_address_entry(a_e, IC + 1, binary_char);
+
+        }
+
+    }
     /*its number*/
-    if (strchr(first_operand, '#'))
+    else if (strchr(first_operand, '#'))
     {
         /*Encode first row of command*/
         (*L)++;
@@ -134,7 +156,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         strncpy(register_binary, registers_dict->items[register_num].value, 4);
         for (int i = 4; i < 10; i++)
         {
-            register_binary[i] = "0";
+            register_binary[i] = '0';
         }
 
         insert_address_entry(a_e, IC + 1, register_binary);
@@ -259,8 +281,8 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         binary_num[9] = '0';
     }
 
-    free(first_operand);
-    free(second_operand);
+    //free(first_operand);
+   // free(second_operand);
 
     return binary_num;
 }

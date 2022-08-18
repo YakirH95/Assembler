@@ -99,7 +99,7 @@ void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, in
 
 	if (symbol_exists(symbol_table, symbol_name)!= -1)
 	{
-		printf("label already exist");
+		printf("label %s already exist", symbol_name);
 		return;
 	}
 
@@ -130,3 +130,15 @@ void add_offset_data_symbols(symbol_table* s_t, int offset)
 		}
 	}
 }
+
+void define_entry_symbol(symbol_table* symbol_table, char* current_line, int IC)
+{
+	char* symbol_name = strstr(current_line, ".entry") + 6;
+	while (*symbol_name == ' ')
+	{
+		symbol_name++;
+	}
+
+	add_symbol_entry(symbol_table, symbol_name, IC, 3);
+}
+

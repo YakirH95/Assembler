@@ -56,6 +56,7 @@ int main(int argc, char* argv[])
 	address_entries* data_table = initialize_address_table();
 	address_entries* code_table = initialize_address_table();
 	dictionary* registers_dict = create_registers_dict();
+	dictionary* entry_external_dict = create_dictionary();
 	
 	char* buffer = 0;
 	int length;
@@ -97,7 +98,7 @@ int main(int argc, char* argv[])
 	fclose(expanded_output);
 
 	char* second_buffer = strdup(buffer);
-	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict);
+	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict, entry_external_dict);
 	fill_address_table(sym_table, code_table, data_table, second_buffer, operation_dict, registers_dict);
 
 	sort_by_address(code_table);
@@ -112,5 +113,6 @@ int main(int argc, char* argv[])
 	delete_address_table(code_table);
 	delete_address_table(data_table);
 	delete_table(sym_table);
+	delete_dictionary(entry_external_dict);
 	return 0;
 }

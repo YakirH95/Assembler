@@ -13,7 +13,7 @@
 
 
 symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
-	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict)
+	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict, dictionary* entry_external_dict)
 {
 	int is_symbol_define = 0;
 	int L = 0;
@@ -32,6 +32,30 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		if (strstr(current_line, ":") != NULL)
 		{
 			is_symbol_define = 1;
+		}
+
+		if (is_symbol_define)
+		{
+			char* colon_start = strchr(current_line, ':');
+			int symbol_name_length = colon_start - current_line;
+			char* symbol_name = calloc(symbol_name_length + 1, 1);
+			strncpy(symbol_name, current_line, symbol_name_length);
+
+			
+			/*If its entry or external*/
+			if (key_exists(entry_external_dict, symbol_name) != -1)
+			{
+				int symbol_index = key_exists(entry_external_dict, symbol_name);
+				/*If it's entry*/
+				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
+				{
+					define_symbol(symbols_table, current_line, IC, 1);
+				}
+			
+			}
+			else
+			{
+			}
 		}
 
 		// Check if .data .string or .struct line for Ex LENGTH: .data 6
@@ -63,9 +87,23 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (strstr(current_line, ".extern"))
 			{
-				define_extern_symbol(symbols_table, current_line, is_symbol_define);
+			    char* symbol_name = strstr(current_line, ".extern") + 7;
+				while (*symbol_name == ' ')
+				{
+					symbol_name++;
+				}
+				add_entry(entry_external_dict, symbol_name, "1"); //1 for external, 3 for entry
 			}
 
+			else if (strstr(current_line, ".entry"))
+			{
+				char* symbol_name = strstr(current_line, ".entry") + 6;
+				while (*symbol_name == ' ')
+				{
+					symbol_name++;
+				}
+				add_entry(entry_external_dict, symbol_name, "3"); //1 for external, 3 for entry
+			}
 		}
 
 		// If it's symbol + operation ex  MAIN: mov
@@ -99,7 +137,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				else
 				{
 					analize_operands(operation_dict, code_table, operation_name,
-						current_line, symbols_table, register_dict, &L, IC, binary_code);
+						current_line, symbols_table, register_dict, &L, IC, binary_code, entry_external_dict);
 					insert_address_entry(code_table, IC, binary_code);
 					IC += (L + 1);
 					L = 0;

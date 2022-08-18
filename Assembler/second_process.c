@@ -37,9 +37,11 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 			char* symbol_after_entry = strstr(current_line, ".entry") + strlen(".entry");
 			int symbol_index = symbol_exists(symbol_table, symbol_after_entry);
 			modify_symbol_type(symbol_table, symbol_index, 3);
+
+			current_line = strtok(NULL, "\r\n");
+			continue;
 		}
 
-		
 		analize_remaining_address(code_table, current_line, symbol_table, &L, IC, operation_table, registers_dict);
 		
 		IC += (L+1);
