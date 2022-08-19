@@ -11,7 +11,7 @@
 /*Encode row of operation, also encode numbers, struct fields, and registers
 Using insert_address function with NULL value where need to be filled in second process*/
 char* analize_operands(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line, 
-    symbol_table* s_t, dictionary* registers_dict, int* L, int IC, char* binary_num, dictionary* entry_extern_dict)
+    symbol_table* s_t, dictionary* registers_dict, int* L, int IC, char* binary_num, dictionary* entry_extern_dict, symbol_table* external_symbols_address)
 {
 	char* first_operand = NULL;
 	char* second_operand = NULL;
@@ -51,7 +51,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         {
             char binary_char[10] = { '0','0','0','0','0','0','0','0','0','1' };
             insert_address_entry(a_e, IC + 1, binary_char);
-
+            add_symbol_entry(external_symbols_address, first_operand, IC + *L, 0);
         }
 
     }
@@ -178,8 +178,26 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             second_operand_without_spaces++;
         }
 
+        if (key_exists(entry_extern_dict, second_operand) != -1)
+        {
+            int symbol_index = key_exists(entry_extern_dict, second_operand);
+
+            /*Encode first row of command*/
+            (*L)++;
+            binary_num[6] = '0';
+            binary_num[7] = '1';
+
+            if (strcmp(entry_extern_dict->items[symbol_index].value, "1") == 0)
+            {
+                char binary_char[10] = { '0','0','0','0','0','0','0','0','0','1' };
+                insert_address_entry(a_e, IC + *L, binary_char);
+                add_symbol_entry(external_symbols_address, second_operand, IC + *L, 0);
+            }
+
+        }
+
         /*It's number*/
-        if (strchr(second_operand_without_spaces, '#'))
+        else if (strchr(second_operand_without_spaces, '#'))
         {
             (* L)++;
             binary_num[6] = '0';

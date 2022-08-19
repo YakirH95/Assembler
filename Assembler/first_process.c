@@ -13,7 +13,7 @@
 
 
 symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
-	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict, dictionary* entry_external_dict)
+	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict, dictionary* entry_external_dict, symbol_table* external_symbols_address)
 {
 	int is_symbol_define = 0;
 	int L = 0;
@@ -49,13 +49,11 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				/*If it's entry*/
 				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
 				{
-					define_symbol(symbols_table, current_line, IC, 1);
+					define_symbol(symbols_table, current_line, IC+DC, 1);
 				}
 			
 			}
-			else
-			{
-			}
+		
 		}
 
 		// Check if .data .string or .struct line for Ex LENGTH: .data 6
@@ -63,7 +61,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, DC, 0);
+				define_symbol(symbols_table, current_line, DC , 0);
 			}
 
 			if (strstr(current_line, ".data"))
@@ -137,7 +135,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				else
 				{
 					analize_operands(operation_dict, code_table, operation_name,
-						current_line, symbols_table, register_dict, &L, IC, binary_code, entry_external_dict);
+						current_line, symbols_table, register_dict, &L, IC, binary_code, entry_external_dict, external_symbols_address);
 					insert_address_entry(code_table, IC, binary_code);
 					IC += (L + 1);
 					L = 0;

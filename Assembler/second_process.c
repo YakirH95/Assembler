@@ -13,7 +13,7 @@
 #include "second_process.h"
 
 
-void fill_address_table(symbol_table* symbol_table, address_entries* code_table, address_entries* data_table, char* assembly_input, dictionary* operation_table, dictionary* registers_dict)
+void fill_address_table(symbol_table* symbol_table, address_entries* code_table, address_entries* data_table, char* assembly_input, dictionary* operation_table, dictionary* registers_dict, dictionary* entry_external_dict)
 {
 	int L = 0;
 	int IC = 0;
@@ -26,21 +26,32 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 
 	while (current_line != NULL)
 	{
-		if (strstr(current_line, ".data") || strstr(current_line, ".string") || strstr(current_line, ".struct") || strstr(current_line, "extern"))
+		if (strstr(current_line, ":") != NULL)
+		{
+			char* colon_start = strchr(current_line, ':');
+			int symbol_name_length = colon_start - current_line;
+			char* symbol_name = calloc(symbol_name_length + 1, 1);
+			strncpy(symbol_name, current_line, symbol_name_length);
+			if (key_exists(entry_external_dict, symbol_name) != -1)
+			{
+				int symbol_index = key_exists(entry_external_dict, symbol_name);
+				int main_symbol_index = symbol_exists(symbol_table, symbol_name);
+				/*If it's entry*/
+				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
+				{
+					modify_symbol_type(symbol_table, main_symbol_index, 3);
+				}
+			}
+		} 
+
+		if (strstr(current_line, ".data") || strstr(current_line, ".string") ||
+			strstr(current_line, ".struct") || strstr(current_line, "extern") || strstr(current_line, ".entry"))
 		{
 			current_line = strtok(NULL, "\r\n");
 			continue;
 		}
 		
-		else if (strstr(current_line, ".entry"))
-		{
-			char* symbol_after_entry = strstr(current_line, ".entry") + strlen(".entry");
-			int symbol_index = symbol_exists(symbol_table, symbol_after_entry);
-			modify_symbol_type(symbol_table, symbol_index, 3);
-
-			current_line = strtok(NULL, "\r\n");
-			continue;
-		}
+		
 
 		analize_remaining_address(code_table, current_line, symbol_table, &L, IC, operation_table, registers_dict);
 		
