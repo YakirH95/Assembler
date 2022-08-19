@@ -12,7 +12,7 @@
 #include "registers.h"
 #include "second_process.h"
 
-
+/*Second process, replace fields of "?" on code table*/
 void fill_address_table(symbol_table* symbol_table, address_entries* code_table, address_entries* data_table, char* assembly_input, dictionary* operation_table, dictionary* registers_dict, dictionary* entry_external_dict)
 {
 	int L = 0;
@@ -21,11 +21,12 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 
 	char* current_line = NULL;
 
-	//Next line
+	/*Next line*/
 	current_line = strtok(assembly_input, "\r\n");
 
 	while (current_line != NULL)
 	{
+		/*If theres entry symbol, modify its type on symbol table */
 		if (strstr(current_line, ":") != NULL)
 		{
 			char* colon_start = strchr(current_line, ':');
@@ -44,6 +45,7 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 			}
 		} 
 
+		/*Irrelevant for second process, move to next line*/
 		if (strstr(current_line, ".data") || strstr(current_line, ".string") ||
 			strstr(current_line, ".struct") || strstr(current_line, "extern") || strstr(current_line, ".entry"))
 		{
@@ -57,7 +59,7 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 		
 		IC += (L+1);
 		L = 0;
-
+		/*Next line*/
 		current_line = strtok(NULL, "\r\n");
 	}
 }

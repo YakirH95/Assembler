@@ -1,5 +1,6 @@
 #include "dictionary.h"
 
+/*Const dictioany for registers*/
 dictionary* create_registers_dict()
 {
 	dictionary* registers_table = create_dictionary();
@@ -15,12 +16,13 @@ dictionary* create_registers_dict()
 	return registers_table;
 }
 
+/*Destructor*/
 void delete_registers_dict(dictionary* dict)
 {
 	delete_dictionary(dict);
 }
 
-
+/*Search register, return its index*/
 int is_register(dictionary* registers_table, char* operand)
 {
 	int key_index = key_exists(registers_table, operand);

@@ -9,27 +9,32 @@
 #include "registers.h"
 
 /*Encode row of operation, also encode numbers, struct fields, and registers
-Using insert_address function with NULL value where need to be filled in second process*/
+Using insert_address function with "?" value where need to be filled in second process*/
 char* analize_operands(dictionary* operation_table, address_entries* a_e, char* operation_name, char* current_line, 
     symbol_table* s_t, dictionary* registers_dict, int* L, int IC, char* binary_num, dictionary* entry_extern_dict, symbol_table* external_symbols_address)
 {
 	char* first_operand = NULL;
 	char* second_operand = NULL;
     char* second_operand_without_spaces = NULL;
+    /*Flag for using 2 registers in one row*/
     int first_is_register = 0;
+    /*Save first register num for later*/
     int first_register = -1;
+    
     /*5 4 bits*/
     first_operand = get_first_operand(current_line, operation_name);
 
     char* comma_ptr = strchr(first_operand, ',');
     int length = comma_ptr - first_operand;
+    
     /*3 2 bits*/
-
     second_operand = get_second_operand(current_line);
+    /*Remove spaces*/
     while (second_operand!= NULL && *second_operand == ' ')
     {
         second_operand++;
     }
+    /*Get first 4 bits from operation name*/
     char* value = get_value(operation_table, operation_name);
 
     strncpy(binary_num, "0000000000", 10);
@@ -37,7 +42,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     /*9 8 7 6 bits*/
     strncpy(binary_num, value, 4);
 
-    //It's external symbol
+    //It's external/entry symbol
     if (key_exists(entry_extern_dict, first_operand) != -1)
     {
         int symbol_index = key_exists(entry_extern_dict, first_operand);
@@ -47,6 +52,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         binary_num[6] = '0';
         binary_num[7] = '1';
 
+        /*If it's external add row*/
         if(strcmp(entry_extern_dict->items[symbol_index].value, "1") == 0)
         {
             char binary_char[10] = { '0','0','0','0','0','0','0','0','0','1' };
@@ -58,7 +64,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     /*its number*/
     else if (strchr(first_operand, '#'))
     {
-        /*Encode first row of command*/
+        /*Encode first operand of command*/
         (*L)++;
         binary_num[4] = '0';
         binary_num[5] = '0';
@@ -83,9 +89,11 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             output[i] = output[i + 2];
         }
 
+        /*ARE*/
         output[8] = 0;
         output[9] = 0;
 
+        /*Conver to char array*/
         char binary_char[10] = { 0 };
         for (int i = 0; i < 10; i++)
         {
@@ -173,11 +181,12 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     if (second_operand != NULL)
     {
         second_operand_without_spaces = second_operand;
+        /*Get rid of spaces*/
         while (*second_operand_without_spaces == ' ')
         {
             second_operand_without_spaces++;
         }
-
+        /*If it's entry/extern symbol*/
         if (key_exists(entry_extern_dict, second_operand) != -1)
         {
             int symbol_index = key_exists(entry_extern_dict, second_operand);
@@ -187,6 +196,7 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
             binary_num[6] = '0';
             binary_num[7] = '1';
 
+            /*If it's external*/
             if (strcmp(entry_extern_dict->items[symbol_index].value, "1") == 0)
             {
                 char binary_char[10] = { '0','0','0','0','0','0','0','0','0','1' };
@@ -300,11 +310,12 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     }
 
     //free(first_operand);
-   // free(second_operand);
+    //free(second_operand);
 
     return binary_num;
 }
 
+/*Second process*/
 void analize_remaining_address(address_entries* a_e, char* current_line, symbol_table* s_t,
                                int* L, int IC, dictionary* operation_table, dictionary* registers_dict)
 {
@@ -332,6 +343,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         binary_num[9] = 0;
 
         char char_output[10] = {0};
+        /*Convert to char array*/
         for (int i = 0; i < 10; i++)
         {
             char_output[i] = '0' + binary_num[i];
@@ -344,6 +356,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
     else if (strchr(first_operand, '.'))
     {
         (*L) += 2;
+        /*Get struct name only*/
         char* dot_pointer = strchr(first_operand, '.');
         int length = dot_pointer - first_operand;
         int symbol_address = get_symbol_address(s_t, first_operand);
@@ -352,6 +365,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
 
         dec_to_binary(symbol_address, binary_num);
 
+        /*Move binary num 2 to the left*/
         for (int i = 0; i < 8; i++)
         {
             binary_num[i] = binary_num[i + 2];
@@ -359,6 +373,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
         binary_num[8] = 1;
         binary_num[9] = 0;
         
+        /*Convert to binary char*/
         for (int i = 0; i < 10; i++)
         {
             char_to_add[i] = '0' + binary_num[i];
@@ -366,6 +381,8 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
        
         set_address_binary_num(a_e, IC + *L - 1, char_to_add);
     }
+
+    /*It's register*/
     else if (is_register(registers_dict, first_operand))
     {
         (*L)++;
@@ -385,6 +402,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
 
             dec_to_binary(symbol_value, binary_num);
 
+            /*Move binary num 2 to the left*/
             for (int i = 0; i < 8; i++)
             {
                 binary_num[i] = binary_num[i + 2];
@@ -392,6 +410,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
             binary_num[8] = 1;
             binary_num[9] = 0;
 
+            /*Convert to binary char*/
             for (int i = 0; i < 10; i++)
             {
                 char_to_add[i] = '0' + binary_num[i];
@@ -408,6 +427,8 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
             int binary_num[10] = { 0 };
 
             dec_to_binary(symbol_value, binary_num);
+
+            /*Move binary num 2 to the left*/
             for (int i = 0; i < 8; i++)
             {
                 binary_num[i] = binary_num[i + 2];
@@ -416,6 +437,8 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
             binary_num[9] = 0;
 
             char char_output[10] = { 0 };
+            
+            /*Convert to binary char*/
             for (int i = 0; i < 10; i++)
             {
                 char_output[i] = '0' + binary_num[i];
@@ -433,6 +456,7 @@ void analize_remaining_address(address_entries* a_e, char* current_line, symbol_
     }
 }
 
+/*Convert decimal to binary*/
 void dec_to_binary(int decimal_num, int* output)
 {
     for (int i = 0; i < 10; i++)
@@ -447,6 +471,7 @@ void dec_to_binary(int decimal_num, int* output)
 	}
 }
 
+/*Convert negative decimal to binary*/
 void ndec_to_binary(int decimal_num, int* output)
 {
     int i = 0;
@@ -464,9 +489,12 @@ void ndec_to_binary(int decimal_num, int* output)
     }
 }
 
+/*Get first operand from the current line*/
 char* get_first_operand(char* current_line, char* operation_name)
 {
    char* start_from_first_operand = strstr(current_line, operation_name) + strlen(operation_name);
+  
+   /*Get rid of spaces*/
    while (*start_from_first_operand == ' ')
    {
        start_from_first_operand++;
@@ -487,6 +515,7 @@ char* get_first_operand(char* current_line, char* operation_name)
    }
 }
 
+/*Get second operand from the current line*/
 char* get_second_operand(char* current_line)
 {
     char* coma_ptr = strchr(current_line, ',');
@@ -505,7 +534,3 @@ char* get_second_operand(char* current_line)
     }
 }
 
-void int_to_char(int num_int, char* num_char)
-{
-
-}

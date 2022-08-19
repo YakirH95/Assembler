@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "operations_table.h"
 
-
+/*Main symbols table*/
 symbol_table* create_table()
 {
 	symbol_table* s_t = malloc(sizeof(symbol_table));
@@ -18,7 +18,7 @@ symbol_table* create_table()
 	return s_t;
 }
 
-//Dictionary destructor
+/*Dictionary destructor*/
 void delete_table(symbol_table* s_t)
 {
 	for (int i = 0; i < s_t->used_size; i++)
@@ -31,6 +31,7 @@ void delete_table(symbol_table* s_t)
 	free(s_t);
 }
 
+/*Get address*/
 int get_symbol_address(symbol_table* s_t, char* symbol_name)
 {
 	for (int i = 0; i < s_t->used_size; i++)
@@ -45,7 +46,7 @@ int get_symbol_address(symbol_table* s_t, char* symbol_name)
 	return NULL;
 }
 
-//symbol type: 0 for data, 1 for extern, 2 for code, 3 for entry
+/*symbol type: 0 for data, 1 for extern, 2 for code, 3 for entry*/
 void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, int symbol_type)
 {
 	if (s_t->used_size == s_t->allocated_size)
@@ -60,6 +61,7 @@ void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, 
 	s_t->used_size++;
 }
 
+/*Search symbol, return its index*/
 int symbol_exists(symbol_table* s_t, char* search_symbol)
 {
 	for (int i = 0; i < s_t->used_size; i++)
@@ -74,6 +76,7 @@ int symbol_exists(symbol_table* s_t, char* search_symbol)
 	return -1;
 }
 
+/*Define extern symbols on main table*/
 void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is_symbol_define)
 {
 	if (is_symbol_define)
@@ -88,6 +91,7 @@ void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is
 	add_symbol_entry(symbol_table, extern_symbol_name, 0, 1);
 }
 
+/*Add symbol to table*/
 void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, int isCode)
 {
 	char* colon_start = strchr(current_line, ':');
@@ -120,6 +124,7 @@ void modify_symbol_type(symbol_table* symbol_table, int symbol_index, int symbol
 	symbol_table->items[symbol_index].symbol_type = symbol_type;
 }
 
+/*Synch addreses*/
 void add_offset_data_symbols(symbol_table* s_t, int offset)
 {
 	for (int i = 0; i < s_t->used_size; i++)
@@ -131,6 +136,7 @@ void add_offset_data_symbols(symbol_table* s_t, int offset)
 	}
 }
 
+/*Define entry symbols on main table*/
 void define_entry_symbol(symbol_table* symbol_table, char* current_line, int IC)
 {
 	char* symbol_name = strstr(current_line, ".entry") + 6;

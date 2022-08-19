@@ -63,6 +63,7 @@ void binary_to_base32(char* bin_num, char* base32_address)
 	base32_address[1] = second_base32;
 }
 
+/*Convert binary to decimal*/
 int bin_to_dec(char* bin)
 {
 	int bin_int = atoi(bin);

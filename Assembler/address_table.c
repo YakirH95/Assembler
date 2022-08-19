@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*Code and data table constructor*/
 address_entries* initialize_address_table()
 {
 	address_entries* i_e = malloc(sizeof(address_entries));
@@ -12,12 +13,14 @@ address_entries* initialize_address_table()
 	return i_e;
 }
 
+/*Destructor*/
 void delete_address_table(address_entries* a_e)
 {
 	free(a_e->entries);
 	free(a_e);
 }
 
+/*Add line to code/data table dynamically*/
 void insert_address_entry(address_entries* i_e, int decimal_address, char* binary_num)
 {
 	if (i_e->used_size == i_e->allocated_size)
@@ -31,6 +34,7 @@ void insert_address_entry(address_entries* i_e, int decimal_address, char* binar
 	i_e->used_size++;
 }
 
+/*Set address for missing values at second process*/
 void set_address_binary_num(address_entries* a_e, int offset, char* binary_code)
 {
 	for (int i = 0; i < a_e->used_size; i++)
@@ -42,6 +46,7 @@ void set_address_binary_num(address_entries* a_e, int offset, char* binary_code)
 	}
 }
 
+/*Synchronize data and code tables indexes*/
 void add_offset_to_table(address_entries* a_e, int offset)
 {
 	for (int i = 0; i < a_e->used_size; i++)
@@ -50,6 +55,7 @@ void add_offset_to_table(address_entries* a_e, int offset)
 	}
 }
 
+/*Arrange indexes in the correct order*/
 void sort_by_address(address_entries* a_e)
 {
 	address_entry temp = { 0 };

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-//Dictionary constructor 
+/*Dictionary constructor*/
 dictionary* create_dictionary()
 {
 	dictionary* d = (dictionary*)malloc(sizeof(dictionary));
@@ -15,7 +15,7 @@ dictionary* create_dictionary()
 	return d;
 }
 
-//Dictionary destructor
+/*Dictionary destructor*/
 void delete_dictionary(dictionary* d)
 {
 	for (int i = 0; i < d->used_size; i++)
@@ -28,6 +28,7 @@ void delete_dictionary(dictionary* d)
 	free(d);
 }
 
+/*Add entry dynaimcally*/
 void add_entry(dictionary* d, char* k, char* v)
 {
 	if (d->used_size == d->allocated_size)
@@ -41,6 +42,7 @@ void add_entry(dictionary* d, char* k, char* v)
 	d->used_size++;
 }
 
+/*Get specific value*/
 char* get_value(dictionary* d, char* key)
 {
 	for (int i = 0; i < d->used_size; i++)
@@ -54,7 +56,7 @@ char* get_value(dictionary* d, char* key)
 	return NULL;
 }
 
-
+/*Check if key is already in dict*/
 int key_exists(dictionary* d, char* search_key)
 {
 	for (int i = 0; i < d->used_size; i++)
@@ -69,6 +71,7 @@ int key_exists(dictionary* d, char* search_key)
 	return -1;
 }
 
+/*Get specific key*/
 char* get_key(dictionary* d, int index)
 {
 	return d->items[index].key;

@@ -7,8 +7,10 @@
 const char* search_word = "macro ";
 const char* exit_word = "endmacro";
 
+/*Pre process*/
 char* expand_macro(char* assembly_input)
 {
+	/*Contain all macros*/
 	dictionary* macro_dict = create_dictionary();
 
 	char* current_line = NULL;
@@ -18,10 +20,10 @@ char* expand_macro(char* assembly_input)
 	dynamic_string* output = create_dynamic_string();
 	int is_in_macro = 0;
 
-	//Next line
+	/*Next line*/
 	current_line = strtok(assembly_input, "\r\n");
 	
-	//Write new string compared to original
+	/*Write new string compared to original*/
 	while (current_line != NULL)
 	{
 		//Add entry 
@@ -37,13 +39,13 @@ char* expand_macro(char* assembly_input)
 			add_string(macro_body, "\n");
 		}
 
-		//Add value of key to the output
+		/*Add value of key to the output*/
 		else if (key_exists(macro_dict, current_line) != -1)
 		{
 			add_string(output, get_value(macro_dict, current_line));
 		}
 
-		//Identify macro name and add to dictionary
+		/*Identify macro name and add to dictionary*/
 		else if (strstr(current_line, "macro") != NULL)
 		{
 			is_in_macro = 1;

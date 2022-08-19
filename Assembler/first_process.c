@@ -11,10 +11,11 @@
 #include "address_analizer.h"
 #include "registers.h"
 
-
+/*Building symbol table, starting first process*/
 symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict, dictionary* entry_external_dict, symbol_table* external_symbols_address)
 {
+	/*Flag for symbol found*/
 	int is_symbol_define = 0;
 	int L = 0;
 	int IC = 0;
@@ -23,19 +24,22 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	
 	char* current_line = NULL;
 
-	//Next line
+	/*Next line*/
 	current_line = strtok(assembly_input, "\r\n");
 
 	while (current_line != NULL)
 	{
 		is_symbol_define = 0;
+		/*If found symbol definition*/
 		if (strstr(current_line, ":") != NULL)
 		{
 			is_symbol_define = 1;
 		}
 
+		/*It's symbol*/
 		if (is_symbol_define)
 		{
+			/*Extract symbol name*/
 			char* colon_start = strchr(current_line, ':');
 			int symbol_name_length = colon_start - current_line;
 			char* symbol_name = calloc(symbol_name_length + 1, 1);
@@ -49,16 +53,16 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				/*If it's entry*/
 				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
 				{
+					/*Insert to main symbol table*/
 					define_symbol(symbols_table, current_line, IC+DC, 1);
 				}
-			
 			}
-		
 		}
 
-		// Check if .data .string or .struct line for Ex LENGTH: .data 6
+		/* Check if.data.string or .struct line, extract paramaters*/
 		if (strstr(current_line, ".data") || strstr(current_line, ".string") || strstr(current_line, ".struct"))
 		{
+			/*If line also contain symbol*/
 			if (is_symbol_define)
 			{
 				define_symbol(symbols_table, current_line, DC , 0);
@@ -80,7 +84,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			}
 		}
 
-		//EX .extern HELLO
+		/*If it's entry or extern, save on dictionary for entries and externals*/
 		else if (strstr(current_line, ".extern") || strstr(current_line, ".entry"))
 		{
 			if (strstr(current_line, ".extern"))
@@ -90,7 +94,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				{
 					symbol_name++;
 				}
-				add_entry(entry_external_dict, symbol_name, "1"); //1 for external, 3 for entry
+				add_entry(entry_external_dict, symbol_name, "1"); /*1 for external, 3 for entry*/
 			}
 
 			else if (strstr(current_line, ".entry"))
@@ -100,18 +104,20 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				{
 					symbol_name++;
 				}
-				add_entry(entry_external_dict, symbol_name, "3"); //1 for external, 3 for entry
+				add_entry(entry_external_dict, symbol_name, "3"); /*1 for external, 3 for entry*/
 			}
 		}
 
-		// If it's symbol + operation ex  MAIN: mov
+		/* If it's operation */
 		else 
 		{
+			/*Found symbol*/
 			if (is_symbol_define)
 			{
 				define_symbol(symbols_table, current_line, IC, 1);
 			}
 
+			/*Check that operation is valid*/
 			int operation_index = is_operation(operation_dict, current_line);
 			if (operation_index == -1)
 			{
@@ -122,6 +128,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			{
 				char* operation_name = get_key(operation_dict, operation_index);
 				char binary_code[10] = { 0 };
+				/*Identify special operations*/
 				if (operation_index == 14)
 				{
 					insert_address_entry(code_table, IC, "1110000000");
@@ -132,6 +139,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 					insert_address_entry(code_table, IC, "1111000000");
 					IC += (L + 1);
 				}
+				/*Analize operands*/
 				else
 				{
 					analize_operands(operation_dict, code_table, operation_name,
@@ -142,16 +150,17 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				}
 			}
 		}
-
 		current_line = strtok(NULL, "\r\n");
 	}
 
+	/*Synch addresses to show chorologiacaly*/
 	add_offset_to_table(data_table, IC);
 	add_offset_data_symbols(symbols_table, IC);
 
 	return symbols_table;
 }
 
+/*Get integers or strings, encode them */
 void extract_parameters(char* current_line, char* data_type, int* DC, address_entries* data_table)
 {
 	
@@ -246,7 +255,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			}
 
 			int ascii_val = (int)c;
-			_itoa(ascii_val, char_binary, 2);
+			itoas(ascii_val, char_binary, 2);
 
 			/*Complete encoding*/
 			for (int i = 0; i < 7; i++)
@@ -264,7 +273,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		(*DC)++;
 	}
 
-	// It's a struct
+	/* Encode struct*/
 	else if (strcmp(data_type, ".struct") == 0)
 	{
 		/*int part*/
@@ -287,7 +296,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		int binary_converted[10] = { 0 };
 		if (parameter[0] == '-')
 		{
-			//num_paramater *= -1;
 			ndec_to_binary(num_paramater, binary_converted);
 		}
 
@@ -328,7 +336,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			}
 
 			int ascii_val = (int)c;
-			_itoa(ascii_val, struct_char_binary, 2);
+			itoas(ascii_val, struct_char_binary, 2);
 			/*Complete encoding*/
 			for (int i = 0; i < 7; i++)
 			{
@@ -345,5 +353,50 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		(*DC)++;
 		
 		
+	}
+}
+
+/* convert n to characters in s, with minimum field width */
+void itoas(int n, char s[], int width)
+{
+	int i, sign;
+	if ((sign = n) < 0)
+		/* record sign */
+		n = -1 * n;  /* make n positive */
+	i = 0;
+	do
+	{     /* generate digits in reverse order */
+		s[i++] = n % 10 + '0';  /* get next digit */
+		printf("%d %% %d + '0' = %d\n", n, 10, s[i - 1]);
+	}
+	while ((n /= 10) > 0); /* delete it */
+
+	if (sign < 0)
+	{
+		s[i++] = '-';
+	}
+
+	while (i < width)
+	{
+		/*  addition to original function  */
+		s[i++] = ' ';
+	}
+
+	s[i] = '\0';
+
+	reverse(s);
+}
+
+
+
+/* reverse characters in s */ 
+void reverse(char s[])
+{
+	int c, i, j;
+	for (i = 0, j = strlen(s) - 1; i < j; i++, j--)
+	{
+		c = s[i];
+		s[i] = s[j];     
+		s[j] = c;
 	}
 }

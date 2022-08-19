@@ -2,6 +2,7 @@
 #include <string.h>
 #include "dictionary.h"
 
+/*Constant operation table*/
 dictionary* create_operations_dict()
 {
 	dictionary* operations_table = create_dictionary();
@@ -25,12 +26,13 @@ dictionary* create_operations_dict()
 	return operations_table;
 }
 
+/*Destructor*/
 void delete_operations_dict(dictionary* dict)
 {
 	delete_dictionary(dict);
 }
 
-
+/*If operation exist, return its index*/
 int is_operation(dictionary* operation_table, char* current_line)
 {
 	for (int i = 0; i < operation_table->used_size; i++)
