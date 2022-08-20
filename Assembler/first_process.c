@@ -13,7 +13,7 @@
 
 /*Building symbol table, starting first process*/
 symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
-	                   address_entries* data_table, address_entries* code_table, dictionary* register_dict, dictionary* entry_external_dict, symbol_table* external_symbols_address)
+	address_entries* data_table, address_entries* code_table, dictionary* register_dict, dictionary* entry_external_dict, symbol_table* external_symbols_address)
 {
 	/*Flag for symbol found*/
 	int is_symbol_define = 0;
@@ -21,7 +21,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	int IC = 0;
 	int DC = 0;
 	symbol_table* symbols_table = create_table();
-	
+
 	char* current_line = NULL;
 
 	/*Next line*/
@@ -45,7 +45,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			char* symbol_name = calloc(symbol_name_length + 1, 1);
 			strncpy(symbol_name, current_line, symbol_name_length);
 
-			
+
 			/*If its entry or external*/
 			if (key_exists(entry_external_dict, symbol_name) != -1)
 			{
@@ -54,7 +54,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
 				{
 					/*Insert to main symbol table*/
-					define_symbol(symbols_table, current_line, IC+DC, 1);
+					define_symbol(symbols_table, current_line, IC + DC, 1);
 				}
 			}
 		}
@@ -65,7 +65,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			/*If line also contain symbol*/
 			if (is_symbol_define)
 			{
-				define_symbol(symbols_table, current_line, DC , 0);
+				define_symbol(symbols_table, current_line, DC, 0);
 			}
 
 			if (strstr(current_line, ".data"))
@@ -77,7 +77,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			{
 				extract_parameters(current_line, ".string", &DC, data_table);
 			}
-			
+
 			else if (strstr(current_line, ".struct"))
 			{
 				extract_parameters(current_line, ".struct", &DC, data_table);
@@ -89,7 +89,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (strstr(current_line, ".extern"))
 			{
-			    char* symbol_name = strstr(current_line, ".extern") + 7;
+				char* symbol_name = strstr(current_line, ".extern") + 7;
 				while (*symbol_name == ' ')
 				{
 					symbol_name++;
@@ -109,7 +109,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		}
 
 		/* If it's operation */
-		else 
+		else
 		{
 			/*Found symbol*/
 			if (is_symbol_define)
@@ -123,7 +123,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			{
 				printf("Operation name is invalid");
 			}
-			
+
 			else
 			{
 				char* operation_name = get_key(operation_dict, operation_index);
@@ -163,7 +163,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 /*Get integers or strings, encode them */
 void extract_parameters(char* current_line, char* data_type, int* DC, address_entries* data_table)
 {
-	
+
 	char* token = NULL;
 
 	/*Point to after ".struct" */
@@ -237,7 +237,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 	else if (strcmp(data_type, ".string") == 0)
 	{
 		char* chars = strchr(token, '"') + 1;
-		int binary_converted[10] = { 0 };
 		char char_binary[10];
 		char char_to_add[10];
 		char_to_add[0] = '0';
@@ -318,7 +317,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 
 		/*string part*/
 		char* chars = strchr(token, '"') + 1;
-		int struct_binary_converted[10] = { 0 };
 		char struct_char_binary[10];
 		char char_to_add[10];
 		char_to_add[0] = '0';
@@ -351,8 +349,8 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		char struct_binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
 		insert_address_entry(data_table, *DC, struct_binary_char);
 		(*DC)++;
-		
-		
+
+
 	}
 }
 
@@ -368,8 +366,7 @@ void itoas(int n, char s[], int width)
 	{     /* generate digits in reverse order */
 		s[i++] = n % 10 + '0';  /* get next digit */
 		printf("%d %% %d + '0' = %d\n", n, 10, s[i - 1]);
-	}
-	while ((n /= 10) > 0); /* delete it */
+	} while ((n /= 10) > 0); /* delete it */
 
 	if (sign < 0)
 	{
@@ -389,14 +386,14 @@ void itoas(int n, char s[], int width)
 
 
 
-/* reverse characters in s */ 
+/* reverse characters in s */
 void reverse(char s[])
 {
 	int c, i, j;
 	for (i = 0, j = strlen(s) - 1; i < j; i++, j--)
 	{
 		c = s[i];
-		s[i] = s[j];     
+		s[i] = s[j];
 		s[j] = c;
 	}
 }

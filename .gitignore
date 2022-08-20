@@ -68,3 +68,5 @@ Assembler/Debug/
 *.am
 
 *.ob
+
+Assembler/out

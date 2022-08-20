@@ -17,7 +17,6 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 {
 	int L = 0;
 	int IC = 0;
-	int DC = 0;
 
 	char* current_line = NULL;
 
@@ -43,7 +42,7 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 					modify_symbol_type(symbol_table, main_symbol_index, 3);
 				}
 			}
-		} 
+		}
 
 		/*Irrelevant for second process, move to next line*/
 		if (strstr(current_line, ".data") || strstr(current_line, ".string") ||
@@ -52,12 +51,12 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 			current_line = strtok(NULL, "\r\n");
 			continue;
 		}
-		
-		
+
+
 
 		analize_remaining_address(code_table, current_line, symbol_table, &L, IC, operation_table, registers_dict);
-		
-		IC += (L+1);
+
+		IC += (L + 1);
 		L = 0;
 		/*Next line*/
 		current_line = strtok(NULL, "\r\n");

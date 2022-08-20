@@ -75,14 +75,14 @@ void create_extern_file(symbol_table* extern_address)
 	for (int i = 0; i < extern_address->used_size; i++)
 	{
 		char address_base32[3] = { 0 };
-	
-		
+
+
 		address_to_base32(extern_address->items[i].symbol_address, address_base32);
 		fwrite(extern_address->items[i].symbol_name, 1, strlen(extern_address->items[i].symbol_name), file);
 		fwrite("\t", 1, 1, file);
 		fwrite(address_base32, 1, 2, file);
 		fwrite("\n", 1, 1, file);
-		
+
 	}
 
 	fclose(file);
@@ -108,8 +108,8 @@ int main(int argc, char* argv[])
 	/*Contain entry and extern symbols only, to be used later for main symbols table*/
 	dictionary* entry_external_dict = create_dictionary();
 	/*Contains external symbols only with their addresses on code table*/
-	symbol_table* external_symbols_address = create_dictionary();
-	
+	symbol_table* external_symbols_address = create_table();
+
 	char* buffer = 0;
 	int length;
 	/*Open file given as paramater at argv[1]*/
@@ -119,7 +119,6 @@ int main(int argc, char* argv[])
 		printf("File not exist");
 	}
 
-	
 	/*Point to end of file*/
 	fseek(file, 0, SEEK_END);
 	/*Get file size*/
@@ -137,7 +136,7 @@ int main(int argc, char* argv[])
 	char* expanded_output_file_name = expand_macro(buffer);
 
 	FILE* expanded_output = fopen(expanded_output_file_name, "rt");
-	
+
 	/*Point to end of file*/
 	fseek(expanded_output, 0, SEEK_END);
 	/*Get file size*/

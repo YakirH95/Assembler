@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "dictionary.h"
 
 /*Const dictioany for registers*/

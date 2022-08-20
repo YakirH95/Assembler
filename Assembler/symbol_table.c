@@ -24,7 +24,7 @@ void delete_table(symbol_table* s_t)
 	for (int i = 0; i < s_t->used_size; i++)
 	{
 		free(s_t->items[i].symbol_name);
-		
+
 	}
 
 	free(s_t->items);
@@ -36,14 +36,14 @@ int get_symbol_address(symbol_table* s_t, char* symbol_name)
 {
 	for (int i = 0; i < s_t->used_size; i++)
 	{
-		
+
 		if (strstr(symbol_name, s_t->items[i].symbol_name))
 		{
 			return s_t->items[i].symbol_address;
 		}
 	}
 
-	return NULL;
+	return 0;
 }
 
 /*symbol type: 0 for data, 1 for extern, 2 for code, 3 for entry*/
@@ -102,7 +102,7 @@ void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, in
 	strncpy(symbol_name, current_line, symbol_name_length);
 
 
-	if (symbol_exists(symbol_table, symbol_name)!= -1)
+	if (symbol_exists(symbol_table, symbol_name) != -1)
 	{
 		printf("label %s already exist", symbol_name);
 		return;
