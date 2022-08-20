@@ -37,7 +37,8 @@ void insert_address_entry(address_entries* i_e, int decimal_address, char* binar
 /*Set address for missing values at second process*/
 void set_address_binary_num(address_entries* a_e, int offset, char* binary_code)
 {
-	for (int i = 0; i < a_e->used_size; i++)
+	int i;
+	for (i = 0; i < a_e->used_size; i++)
 	{
 		if (a_e->entries[i].decimal_address == (offset + 100))
 		{
@@ -48,8 +49,9 @@ void set_address_binary_num(address_entries* a_e, int offset, char* binary_code)
 
 /*Synchronize data and code tables indexes*/
 void add_offset_to_table(address_entries* a_e, int offset)
-{
-	for (int i = 0; i < a_e->used_size; i++)
+{ 
+	int i;
+	for (i = 0; i < a_e->used_size; i++)
 	{
 		a_e->entries[i].decimal_address += offset;
 	}
@@ -60,9 +62,11 @@ void sort_by_address(address_entries* a_e)
 {
 	address_entry temp = { 0 };
 
-	for (int i = 0; i < a_e->used_size; i++)
+	int i;
+	for (i = 0; i < a_e->used_size; i++)
 	{
-		for (int j = i + 1; j < a_e->used_size - 1; j++)
+		int j;
+		for (j = i + 1; j < a_e->used_size - 1; j++)
 		{
 			if (a_e->entries[i].decimal_address > a_e->entries[j].decimal_address)
 			{

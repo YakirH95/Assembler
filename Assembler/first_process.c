@@ -21,6 +21,14 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 	int IC = 0;
 	int DC = 0;
 	symbol_table* symbols_table = create_table();
+	char* colon_start = NULL;
+	int symbol_name_length = 0;
+	char* symbol_name = NULL;
+	int symbol_index = 0;
+	int operation_index = 0;
+	char* operation_name = NULL;
+	char binary_code[10] = { 0 };
+
 
 	char* current_line = NULL;
 
@@ -40,16 +48,16 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		if (is_symbol_define)
 		{
 			/*Extract symbol name*/
-			char* colon_start = strchr(current_line, ':');
-			int symbol_name_length = colon_start - current_line;
-			char* symbol_name = calloc(symbol_name_length + 1, 1);
+			colon_start = strchr(current_line, ':');
+			symbol_name_length = colon_start - current_line;
+			symbol_name = calloc(symbol_name_length + 1, 1);
 			strncpy(symbol_name, current_line, symbol_name_length);
 
 
 			/*If its entry or external*/
 			if (key_exists(entry_external_dict, symbol_name) != -1)
 			{
-				int symbol_index = key_exists(entry_external_dict, symbol_name);
+				symbol_index = key_exists(entry_external_dict, symbol_name);
 				/*If it's entry*/
 				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
 				{
@@ -91,7 +99,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 		{
 			if (strstr(current_line, ".extern"))
 			{
-				char* symbol_name = strstr(current_line, ".extern") + 7;
+				symbol_name = strstr(current_line, ".extern") + 7;
 				while (*symbol_name == ' ')
 				{
 					symbol_name++;
@@ -101,7 +109,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 
 			else if (strstr(current_line, ".entry"))
 			{
-				char* symbol_name = strstr(current_line, ".entry") + 6;
+				symbol_name = strstr(current_line, ".entry") + 6;
 				while (*symbol_name == ' ')
 				{
 					symbol_name++;
@@ -120,7 +128,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			}
 
 			/*Check that operation is valid*/
-			int operation_index = is_operation(operation_dict, current_line);
+			operation_index = is_operation(operation_dict, current_line);
 			if (operation_index == -1)
 			{
 				printf("Operation name is invalid\n");
@@ -128,8 +136,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 
 			else
 			{
-				char* operation_name = get_key(operation_dict, operation_index);
-				char binary_code[10] = { 0 };
+				operation_name = get_key(operation_dict, operation_index);
 				/*Identify special operations*/
 				if (operation_index == 14)
 				{
@@ -165,8 +172,23 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 /*Get integers or strings, encode them */
 void extract_parameters(char* current_line, char* data_type, int* DC, address_entries* data_table)
 {
-
 	char* token = NULL;
+	int last_int = 0;
+	char* comma_ptr = NULL;
+	char* parameter = NULL;
+	int length = 0;
+	int num_paramater = 0;
+	int binary_converted[10] = { 0 };
+	char* chars = NULL;
+	char char_binary[10] = {0};
+	char char_to_add[10] = {0};
+	char c = 0;
+	int ascii_val = 0;
+	int i = 0;
+	char binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
+	char struct_char_binary[10] = {0};
+	char struct_binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
+
 
 	/*Point to after ".struct" */
 	token = strstr(current_line, data_type) + strlen(data_type);
@@ -180,16 +202,15 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 	if (strcmp(data_type, ".data") == 0)
 	{
 		/*Identify when last num*/
-		int last_int = 0;
 		while (token != NULL)
 		{
-			char* comma_ptr = strchr(token, ',');
-			char* parameter = calloc(10, 1);
+			comma_ptr = strchr(token, ',');
+			parameter = calloc(10, 1);
 
 			/*Identify when reached last int*/
 			if (comma_ptr != NULL)
 			{
-				int length = comma_ptr - token;
+				length = comma_ptr - token;
 				strncpy(parameter, token, length);
 
 			}
@@ -199,9 +220,8 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 				last_int = 1;
 			}
 
-			int num_paramater = atoi(parameter);
+			num_paramater = atoi(parameter);
 
-			int binary_converted[10] = { 0 };
 			/*Identify negative numbers*/
 			if (parameter[0] == '-')
 			{
@@ -213,7 +233,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 				dec_to_binary(num_paramater, binary_converted);
 			}
 
-			char binary_char[10] = { 0 };
 			int i = 0;
 			/*Convert int array to char array*/
 			for (i = 0; i < 10; i++)
@@ -237,16 +256,16 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 	/*Encode string*/
 	else if (strcmp(data_type, ".string") == 0)
 	{
-		char* chars = strchr(token, '"') + 1;
-		char char_binary[10];
-		char char_to_add[10];
+		chars = strchr(token, '"') + 1;
+		
 		char_to_add[0] = '0';
 		char_to_add[1] = '0';
 		char_to_add[2] = '0';
 
-		for (int i = 0; i < strlen(chars); i++)
+		int i;
+		for (i = 0; i < strlen(chars); i++)
 		{
-			char c = chars[i];
+			c = chars[i];
 
 			/*Identify end of string*/
 			if (c == '\"')
@@ -254,11 +273,11 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 				break;
 			}
 
-			int ascii_val = (int)c;
+			ascii_val = (int)c;
 			itoas(ascii_val, char_binary, 2);
 
 			/*Complete encoding*/
-			for (int i = 0; i < 7; i++)
+			for (i = 0; i < 7; i++)
 			{
 				char_to_add[i + 3] = char_binary[i];
 			}
@@ -268,7 +287,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		}
 
 		/*End of string is 0*/
-		char binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
 		insert_address_entry(data_table, *DC, binary_char);
 		(*DC)++;
 	}
@@ -277,12 +295,12 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 	else if (strcmp(data_type, ".struct") == 0)
 	{
 		/*int part*/
-		char* comma_ptr = strchr(token, ',');
-		char* parameter = calloc(10, 1);
+		comma_ptr = strchr(token, ',');
+		parameter = calloc(10, 1);
 
 		if (comma_ptr != NULL)
 		{
-			int length = comma_ptr - token;
+			length = comma_ptr - token;
 			strncpy(parameter, token, length);
 
 		}
@@ -291,9 +309,8 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			strcpy(parameter, token);
 		}
 
-		int num_paramater = atoi(parameter);
+		num_paramater = atoi(parameter);
 
-		int binary_converted[10] = { 0 };
 		if (parameter[0] == '-')
 		{
 			ndec_to_binary(num_paramater, binary_converted);
@@ -304,8 +321,7 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			dec_to_binary(num_paramater, binary_converted);
 		}
 
-		char binary_char[10] = { 0 };
-		int i = 0;
+		
 		for (i = 0; i < 10; i++)
 		{
 			binary_char[i] = '0' + binary_converted[i];
@@ -317,16 +333,14 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		free(parameter);
 
 		/*string part*/
-		char* chars = strchr(token, '"') + 1;
-		char struct_char_binary[10];
-		char char_to_add[10];
+		chars = strchr(token, '"') + 1;
 		char_to_add[0] = '0';
 		char_to_add[1] = '0';
 		char_to_add[2] = '0';
 
-		for (int i = 0; i < strlen(chars); i++)
+		for (i = 0; i < strlen(chars); i++)
 		{
-			char c = chars[i];
+			c = chars[i];
 
 			/*Identify end of string*/
 			if (c == '\"')
@@ -334,24 +348,20 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 				break;
 			}
 
-			int ascii_val = (int)c;
+			ascii_val = (int)c;
 			itoas(ascii_val, struct_char_binary, 2);
 			/*Complete encoding*/
-			for (int i = 0; i < 7; i++)
+			for (i = 0; i < 7; i++)
 			{
 				char_to_add[i + 3] = struct_char_binary[i];
 			}
 			insert_address_entry(data_table, *DC, char_to_add);
 			(*DC)++;
-
 		}
 
 		/*End of string is 0*/
-		char struct_binary_char[10] = { '0','0','0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' ,'0' };
 		insert_address_entry(data_table, *DC, struct_binary_char);
 		(*DC)++;
-
-
 	}
 }
 

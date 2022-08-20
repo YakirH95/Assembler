@@ -35,7 +35,8 @@ void delete_operations_dict(dictionary* dict)
 /*If operation exist, return its index*/
 int is_operation(dictionary* operation_table, char* current_line)
 {
-	for (int i = 0; i < operation_table->used_size; i++)
+	int i;
+	for (i = 0; i < operation_table->used_size; i++)
 	{
 		if (strstr(current_line, get_key(operation_table, i)) != NULL)
 		{

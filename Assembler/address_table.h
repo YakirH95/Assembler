@@ -3,14 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-//Line 
+/*Line*/
 typedef struct
 {
 	int decimal_address;
 	char binary_code[10];
 }   address_entry;
 
-//All gruops
+/*All gruops*/
 typedef struct
 {
 	address_entry* entries;

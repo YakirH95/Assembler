@@ -12,6 +12,9 @@ char* expand_macro(char* assembly_input)
 {
 	/*Contain all macros*/
 	dictionary* macro_dict = create_dictionary();
+	
+	FILE* post_prep = NULL;
+	char* out = NULL;
 
 	char* current_line = NULL;
 
@@ -63,7 +66,6 @@ char* expand_macro(char* assembly_input)
 
 	delete_dictionary(macro_dict);
 
-	FILE* post_prep;
 	post_prep = fopen("Assembler.am", "w");
 	if (post_prep == NULL)
 	{
@@ -71,7 +73,7 @@ char* expand_macro(char* assembly_input)
 		printf("Unable to create file.\n");
 		return NULL;
 	}
-	char* out = get_internal_string(output);
+	out = get_internal_string(output);
 	fputs(out, post_prep);
 	fclose(post_prep);
 	delete_dynamic_string(output);

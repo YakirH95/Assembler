@@ -19,6 +19,11 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 	int IC = 0;
 
 	char* current_line = NULL;
+	char* colon_start = NULL;
+	int symbol_name_length = 0;
+	char* symbol_name = NULL;
+	int symbol_index = 0;
+	int main_symbol_index = 0;
 
 	/*Next line*/
 	current_line = strtok(assembly_input, "\r\n");
@@ -28,14 +33,14 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 		/*If theres entry symbol, modify its type on symbol table */
 		if (strstr(current_line, ":") != NULL)
 		{
-			char* colon_start = strchr(current_line, ':');
-			int symbol_name_length = colon_start - current_line;
-			char* symbol_name = calloc(symbol_name_length + 1, 1);
+			colon_start = strchr(current_line, ':');
+			symbol_name_length = colon_start - current_line;
+			symbol_name = calloc(symbol_name_length + 1, 1);
 			strncpy(symbol_name, current_line, symbol_name_length);
 			if (key_exists(entry_external_dict, symbol_name) != -1)
 			{
-				int symbol_index = key_exists(entry_external_dict, symbol_name);
-				int main_symbol_index = symbol_exists(symbol_table, symbol_name);
+			    symbol_index = key_exists(entry_external_dict, symbol_name);
+			    main_symbol_index = symbol_exists(symbol_table, symbol_name);
 				/*If it's entry*/
 				if (strcmp(entry_external_dict->items[symbol_index].value, "3") == 0)
 				{

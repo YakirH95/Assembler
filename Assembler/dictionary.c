@@ -18,7 +18,8 @@ dictionary* create_dictionary()
 /*Dictionary destructor*/
 void delete_dictionary(dictionary* d)
 {
-	for (int i = 0; i < d->used_size; i++)
+	int i;
+	for (i = 0; i < d->used_size; i++)
 	{
 		free(d->items[i].key);
 		free(d->items[i].value);
@@ -45,7 +46,8 @@ void add_entry(dictionary* d, char* k, char* v)
 /*Get specific value*/
 char* get_value(dictionary* d, char* key)
 {
-	for (int i = 0; i < d->used_size; i++)
+	int i;
+	for (i = 0; i < d->used_size; i++)
 	{
 		if (strcmp(d->items[i].key, key) == 0)
 		{
@@ -59,7 +61,8 @@ char* get_value(dictionary* d, char* key)
 /*Check if key is already in dict*/
 int key_exists(dictionary* d, char* search_key)
 {
-	for (int i = 0; i < d->used_size; i++)
+	int i;
+	for (i = 0; i < d->used_size; i++)
 	{
 		//If string are equal
 		if (strcmp(d->items[i].key, search_key) == 0)

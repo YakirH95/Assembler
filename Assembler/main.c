@@ -13,12 +13,13 @@
 void create_object_file(address_entries* code_table, address_entries* data_table)
 {
 	FILE* file = fopen("Assembler.ob", "wt");
+	int i;
+	char address_base32[3] = { 0 };
+	char binary_base32[3] = { 0 };
 
-	for (int i = 0; i < code_table->used_size; i++)
+
+	for (i = 0; i < code_table->used_size; i++)
 	{
-		char address_base32[3] = { 0 };
-		char binary_base32[3] = { 0 };
-
 		address_to_base32(code_table->entries[i].decimal_address, address_base32);
 		binary_to_base32(code_table->entries[i].binary_code, binary_base32);
 
@@ -28,11 +29,8 @@ void create_object_file(address_entries* code_table, address_entries* data_table
 		fwrite("\n", 1, 1, file);
 	}
 
-	for (int i = 0; i < data_table->used_size; i++)
+	for (i = 0; i < data_table->used_size; i++)
 	{
-		char address_base32[3] = { 0 };
-		char binary_base32[3] = { 0 };
-
 		address_to_base32(data_table->entries[i].decimal_address, address_base32);
 		binary_to_base32(data_table->entries[i].binary_code, binary_base32);
 
@@ -49,11 +47,11 @@ void create_object_file(address_entries* code_table, address_entries* data_table
 void create_entry_file(symbol_table* sym_table)
 {
 	FILE* file = fopen("Assembler.ent", "wt");
+	char address_base32[3] = { 0 };
 
-	for (int i = 0; i < sym_table->used_size; i++)
+	int i;
+	for (i = 0; i < sym_table->used_size; i++)
 	{
-		char address_base32[3] = { 0 };
-
 		if (sym_table->items[i].symbol_type == 3)
 		{
 			address_to_base32(sym_table->items[i].symbol_address, address_base32);
@@ -71,18 +69,16 @@ void create_entry_file(symbol_table* sym_table)
 void create_extern_file(symbol_table* extern_address)
 {
 	FILE* file = fopen("Assembler.ext", "wt");
+	char address_base32[3] = { 0 };
 
-	for (int i = 0; i < extern_address->used_size; i++)
+	int i;
+	for (i = 0; i < extern_address->used_size; i++)
 	{
-		char address_base32[3] = { 0 };
-
-
 		address_to_base32(extern_address->items[i].symbol_address, address_base32);
 		fwrite(extern_address->items[i].symbol_name, 1, strlen(extern_address->items[i].symbol_name), file);
 		fwrite("\t", 1, 1, file);
 		fwrite(address_base32, 1, 2, file);
 		fwrite("\n", 1, 1, file);
-
 	}
 
 	fclose(file);
@@ -170,7 +166,8 @@ int main(int argc, char* argv[])
 
 	int extern_counter = 0;
 	int entry_counter = 0;
-	for (int i = 0; i < entry_external_dict->used_size; i++)
+	int i;
+	for (i = 0; i < entry_external_dict->used_size; i++)
 	{
 		if (strcmp(entry_external_dict->items[i].value, "1"))
 		{
