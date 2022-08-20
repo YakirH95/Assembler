@@ -41,7 +41,7 @@ void set_address_binary_num(address_entries* a_e, int offset, char* binary_code)
 	{
 		if (a_e->entries[i].decimal_address == (offset + 100))
 		{
-			strncpy(a_e->entries[i].binary_code, strdup(binary_code), 10);
+			strncpy(a_e->entries[i].binary_code, binary_code, 10);
 		}
 	}
 }

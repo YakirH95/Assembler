@@ -57,6 +57,8 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 					define_symbol(symbols_table, current_line, IC + DC, 1);
 				}
 			}
+
+			free(symbol_name);
 		}
 
 		/* Check if.data.string or .struct line, extract paramaters*/
@@ -121,7 +123,7 @@ symbol_table* identify_symbols(char* assembly_input, dictionary* operation_dict,
 			int operation_index = is_operation(operation_dict, current_line);
 			if (operation_index == -1)
 			{
-				printf("Operation name is invalid");
+				printf("Operation name is invalid\n");
 			}
 
 			else
@@ -224,12 +226,11 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 			/*Next num*/
 			token = comma_ptr + 1;
 
+			free(parameter);
 			if (last_int == 1)
 			{
 				break;
 			}
-
-			free(parameter);
 		}
 	}
 

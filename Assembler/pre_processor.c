@@ -65,7 +65,6 @@ char* expand_macro(char* assembly_input)
 
 	FILE* post_prep;
 	post_prep = fopen("Assembler.am", "w");
-	
 	if (post_prep == NULL)
 	{
 		/* File not created hence exit */
@@ -75,5 +74,6 @@ char* expand_macro(char* assembly_input)
 	char* out = get_internal_string(output);
 	fputs(out, post_prep);
 	fclose(post_prep);
+	delete_dynamic_string(output);
 	return "Assembler.am";
 }

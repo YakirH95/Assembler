@@ -73,7 +73,7 @@ int symbol_exists(symbol_table* s_t, char* search_symbol)
 		}
 	}
 	//if not exists
-	printf("symbol not exist");
+	printf("symbol not exist\n");
 	return -1;
 }
 
@@ -82,7 +82,7 @@ void define_extern_symbol(symbol_table* symbol_table, char* current_line, int is
 {
 	if (is_symbol_define)
 	{
-		printf("Warning- symbol defined before extern won't be added to the symbol table");
+		printf("Warning- symbol defined before extern won't be added to the symbol table\n");
 	}
 
 	char* extern_symbol_name = NULL;
@@ -104,7 +104,7 @@ void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, in
 
 	if (symbol_exists(symbol_table, symbol_name) != -1)
 	{
-		printf("label %s already exist", symbol_name);
+		printf("label %s already exist\n", symbol_name);
 		return;
 	}
 
@@ -118,6 +118,8 @@ void define_symbol(symbol_table* symbol_table, char* current_line, int IC_DC, in
 	{
 		add_symbol_entry(symbol_table, symbol_name, IC_DC, 0);
 	}
+
+	free(symbol_name);
 }
 
 void modify_symbol_type(symbol_table* symbol_table, int symbol_index, int symbol_type)

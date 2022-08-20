@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
-		printf("Bad parameter");
+		printf("Bad parameter\n");
 		return 1;
 	}
 
@@ -116,7 +116,8 @@ int main(int argc, char* argv[])
 	FILE* file = fopen(argv[1], "rb");
 	if (file == NULL)
 	{
-		printf("File not exist");
+		printf("File not exist\n");
+		return 0;
 	}
 
 	/*Point to end of file*/
@@ -134,13 +135,19 @@ int main(int argc, char* argv[])
 
 	/*pre processor*/
 	char* expanded_output_file_name = expand_macro(buffer);
+	free(buffer);
 
 	FILE* expanded_output = fopen(expanded_output_file_name, "rt");
+	if (expanded_output == NULL)
+	{
+		printf("Unable to create file.\n");
+		return 0;
+	}
 
 	/*Point to end of file*/
 	fseek(expanded_output, 0, SEEK_END);
 	/*Get file size*/
-	length = ftell(file);
+	length = ftell(expanded_output);
 	/*Point to beggining of file*/
 	fseek(expanded_output, 0, SEEK_SET);
 	/*Allocate memory for file*/

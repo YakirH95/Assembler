@@ -42,6 +42,8 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 					modify_symbol_type(symbol_table, main_symbol_index, 3);
 				}
 			}
+
+			free(symbol_name);
 		}
 
 		/*Irrelevant for second process, move to next line*/

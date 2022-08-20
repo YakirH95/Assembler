@@ -44,7 +44,7 @@ int is_operation(dictionary* operation_table, char* current_line)
 	}
 
 	/* if operation not found, return -1*/
-	printf("Operation not exist");
+	printf("Operation not exist\n");
 	return -1;
 }
 
