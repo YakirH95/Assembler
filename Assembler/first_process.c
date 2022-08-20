@@ -237,7 +237,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 	else if (strcmp(data_type, ".string") == 0)
 	{
 		char* chars = strchr(token, '"') + 1;
-		int binary_converted[10] = { 0 };
 		char char_binary[10];
 		char char_to_add[10];
 		char_to_add[0] = '0';
@@ -318,7 +317,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 
 		/*string part*/
 		char* chars = strchr(token, '"') + 1;
-		int struct_binary_converted[10] = { 0 };
 		char struct_char_binary[10];
 		char char_to_add[10];
 		char_to_add[0] = '0';

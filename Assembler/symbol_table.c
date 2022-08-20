@@ -43,7 +43,7 @@ int get_symbol_address(symbol_table* s_t, char* symbol_name)
 		}
 	}
 
-	return NULL;
+	return 0;
 }
 
 /*symbol type: 0 for data, 1 for extern, 2 for code, 3 for entry*/

@@ -4,10 +4,28 @@
 #include "dictionary.h"
 #include <stdlib.h>
 #include <math.h>
+#include "address_analizer.h"
 #include <string.h>
 
 char base32_table[32] = {'!','@','#','$','%','^','&','*','<','>','a','b','c','d','e','f',
                          'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v'};
+
+/*Convert binary to decimal*/
+int bin_to_dec(char* bin)
+{
+	int bin_int = atoi(bin);
+	int dec = 0, i = 0, rem;
+
+	while (bin_int != 0)
+	{
+		rem = bin_int % 10;
+		bin_int /= 10;
+		dec += rem * pow(2, i);
+		++i;
+	}
+
+	return dec;
+}
 
 /*Conver decimal address*/
 void address_to_base32(int bin_num, char* base32_address)
@@ -61,21 +79,4 @@ void binary_to_base32(char* bin_num, char* base32_address)
 
 	base32_address[0] = first_base32;
 	base32_address[1] = second_base32;
-}
-
-/*Convert binary to decimal*/
-int bin_to_dec(char* bin)
-{
-	int bin_int = atoi(bin);
-	int dec = 0, i = 0, rem;
-
-	while (bin_int != 0)
-	{
-		rem = bin_int % 10;
-		bin_int /= 10;
-		dec += rem * pow(2, i);
-		++i;
-	}
-
-	return dec;
 }

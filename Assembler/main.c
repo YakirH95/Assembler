@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
 	/*Contain entry and extern symbols only, to be used later for main symbols table*/
 	dictionary* entry_external_dict = create_dictionary();
 	/*Contains external symbols only with their addresses on code table*/
-	symbol_table* external_symbols_address = create_dictionary();
+	symbol_table* external_symbols_address = create_table();
 	
 	char* buffer = 0;
 	int length;
@@ -118,7 +118,6 @@ int main(int argc, char* argv[])
 	{
 		printf("File not exist");
 	}
-
 	
 	/*Point to end of file*/
 	fseek(file, 0, SEEK_END);
@@ -142,6 +141,7 @@ int main(int argc, char* argv[])
 	fseek(expanded_output, 0, SEEK_END);
 	/*Get file size*/
 	length = ftell(file);
+	return;
 	/*Point to beggining of file*/
 	fseek(expanded_output, 0, SEEK_SET);
 	/*Allocate memory for file*/

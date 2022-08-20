@@ -17,7 +17,6 @@ void fill_address_table(symbol_table* symbol_table, address_entries* code_table,
 {
 	int L = 0;
 	int IC = 0;
-	int DC = 0;
 
 	char* current_line = NULL;
 
