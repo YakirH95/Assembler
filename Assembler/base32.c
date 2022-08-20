@@ -34,7 +34,7 @@ void address_to_base32(int bin_num, char* base32_address)
 
 	dec_to_binary(bin_num, bin_num_char);
 
-	char first_binary_half[5] = { 0 };
+	char first_binary_half[6] = { 0 };
 	for (int i = 0; i < 5; i++)
 	{
 		first_binary_half[i] = '0' + bin_num_char[i];
@@ -43,7 +43,7 @@ void address_to_base32(int bin_num, char* base32_address)
 	int first_dec_half = bin_to_dec(first_binary_half);
 	char first_base32 = base32_table[first_dec_half];
 
-	char second_binary_half[5] = { 0 };
+	char second_binary_half[6] = { 0 };
 	for (int i = 0; i < 5; i++)
 	{
 		second_binary_half[i] = '0' + bin_num_char[i + 5];
@@ -59,7 +59,7 @@ void address_to_base32(int bin_num, char* base32_address)
 /*Convert binary code*/
 void binary_to_base32(char* bin_num, char* base32_address)
 {
-	char first_binary_half[5] = { 0 };
+	char first_binary_half[6] = { 0 };
 	for (int i = 0; i < 5; i++)
 	{
 		first_binary_half[i] = bin_num[i];
@@ -68,7 +68,7 @@ void binary_to_base32(char* bin_num, char* base32_address)
 	int first_dec_half = bin_to_dec(first_binary_half);
 	char first_base32 = base32_table[first_dec_half];
 
-	char second_binary_half[5] = { 0 };
+	char second_binary_half[6] = { 0 };
 	for (int i = 0; i < 5; i++)
 	{
 		second_binary_half[i] = bin_num[i + 5];
