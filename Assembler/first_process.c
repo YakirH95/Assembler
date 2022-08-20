@@ -233,7 +233,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 				dec_to_binary(num_paramater, binary_converted);
 			}
 
-			int i = 0;
 			/*Convert int array to char array*/
 			for (i = 0; i < 10; i++)
 			{
@@ -262,7 +261,6 @@ void extract_parameters(char* current_line, char* data_type, int* DC, address_en
 		char_to_add[1] = '0';
 		char_to_add[2] = '0';
 
-		int i;
 		for (i = 0; i < strlen(chars); i++)
 		{
 			c = chars[i];
@@ -395,7 +393,12 @@ void itoas(int n, char s[], int width)
 	reverse(s);
 }
 
-
+char* strdups(char* str)
+{
+	char* result = calloc(strlen(str) + 1, 1);
+	strcpy(result, str);
+	return result;
+}
 
 /* reverse characters in s */
 void reverse(char s[])

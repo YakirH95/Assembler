@@ -31,27 +31,31 @@ int bin_to_dec(char* bin)
 void address_to_base32(int bin_num, char* base32_address)
 {
 	int bin_num_char[10] = { 0 };
+	char first_binary_half[6] = { 0 };
+	int i;
+	int first_dec_half = 0;
+	char first_base32 = 0;
+	char second_binary_half[6] = { 0 };
+	int second_dec_half = 0;
+	char second_base32 = 0;
 
 	dec_to_binary(bin_num, bin_num_char);
 
-	char first_binary_half[6] = { 0 };
-	int i;
 	for (i = 0; i < 5; i++)
 	{
 		first_binary_half[i] = '0' + bin_num_char[i];
 	}
 
-	int first_dec_half = bin_to_dec(first_binary_half);
-	char first_base32 = base32_table[first_dec_half];
+	first_dec_half = bin_to_dec(first_binary_half);
+	first_base32 = base32_table[first_dec_half];
 
-	char second_binary_half[6] = { 0 };
 	for (i = 0; i < 5; i++)
 	{
 		second_binary_half[i] = '0' + bin_num_char[i + 5];
 	}
 
-	int second_dec_half = bin_to_dec(second_binary_half);
-	char second_base32 = base32_table[second_dec_half];
+	second_dec_half = bin_to_dec(second_binary_half);
+	second_base32 = base32_table[second_dec_half];
 
 	base32_address[0] = first_base32;
 	base32_address[1] = second_base32;
@@ -62,22 +66,27 @@ void binary_to_base32(char* bin_num, char* base32_address)
 {
 	char first_binary_half[6] = { 0 };
 	int i;
+	int first_dec_half = 0;
+	char first_base32 = 0;
+	char second_binary_half[6] = { 0 };
+	int second_dec_half = 0;
+	char second_base32 = 0;
+
 	for (i = 0; i < 5; i++)
 	{
 		first_binary_half[i] = bin_num[i];
 	}
 
-	int first_dec_half = bin_to_dec(first_binary_half);
-	char first_base32 = base32_table[first_dec_half];
+	first_dec_half = bin_to_dec(first_binary_half);
+	first_base32 = base32_table[first_dec_half];
 
-	char second_binary_half[6] = { 0 };
 	for (i = 0; i < 5; i++)
 	{
 		second_binary_half[i] = bin_num[i + 5];
 	}
 
-	int second_dec_half = bin_to_dec(second_binary_half);
-	char second_base32 = base32_table[second_dec_half];
+	second_dec_half = bin_to_dec(second_binary_half);
+	second_base32 = base32_table[second_dec_half];
 
 	base32_address[0] = first_base32;
 	base32_address[1] = second_base32;

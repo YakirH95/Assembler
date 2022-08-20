@@ -6,14 +6,16 @@
 #include <stdlib.h>
 #include "operations_table.h"
 
+char* strdups(char* str);
+
 /*Main symbols table*/
 symbol_table* create_table()
 {
 	symbol_table* s_t = malloc(sizeof(symbol_table));
 	s_t->items = malloc(sizeof(symbol_entry) * 5);
-	//Used space in dictionary
+	/* Used space in dictionary */
 	s_t->used_size = 0;
-	//Allocated memory for dictionary
+	/* Allocated memory for dictionary */
 	s_t->allocated_size = 5;
 	return s_t;
 }
@@ -56,7 +58,7 @@ void add_symbol_entry(symbol_table* s_t, char* symbol_name, int symbol_address, 
 		s_t->items = realloc(s_t->items, s_t->allocated_size * sizeof(symbol_entry));
 	}
 
-	s_t->items[s_t->used_size].symbol_name = strdup(symbol_name);
+	s_t->items[s_t->used_size].symbol_name = strdups(symbol_name);
 	s_t->items[s_t->used_size].symbol_address = symbol_address + 100;
 	s_t->items[s_t->used_size].symbol_type = symbol_type;
 	s_t->used_size++;
@@ -68,13 +70,14 @@ int symbol_exists(symbol_table* s_t, char* search_symbol)
 	int i;
 	for (i = 0; i < s_t->used_size; i++)
 	{
-		//If string are equal
+		/* If string are equal */
 		if (strcmp(s_t->items[i].symbol_name, search_symbol) == 0)
 		{
 			return i;
 		}
 	}
-	//if not exists
+
+	/* if not exists */
 	printf("symbol not exist\n");
 	return -1;
 }

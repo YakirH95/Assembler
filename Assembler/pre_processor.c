@@ -29,7 +29,7 @@ char* expand_macro(char* assembly_input)
 	/*Write new string compared to original*/
 	while (current_line != NULL)
 	{
-		//Add entry 
+		/* Add entry */
 		if (strstr(current_line, "endmacro") != NULL)
 		{
 			is_in_macro = 0;

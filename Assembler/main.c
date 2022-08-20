@@ -9,14 +9,15 @@
 #include "second_process.h"
 #include "base32.h"
 
+char* strdups(char* str);
+
 /*Address and binary table*/
 void create_object_file(address_entries* code_table, address_entries* data_table)
 {
 	FILE* file = fopen("Assembler.ob", "wt");
-	int i;
+	int i = 0;
 	char address_base32[3] = { 0 };
 	char binary_base32[3] = { 0 };
-
 
 	for (i = 0; i < code_table->used_size; i++)
 	{
@@ -87,6 +88,23 @@ void create_extern_file(symbol_table* extern_address)
 
 int main(int argc, char* argv[])
 {
+	dictionary* operation_dict = NULL;
+	address_entries* data_table = NULL;
+	address_entries* code_table = NULL;
+	dictionary* registers_dict = NULL;
+	dictionary* entry_external_dict = NULL;
+	symbol_table* external_symbols_address = NULL;
+	char* second_buffer = NULL;
+	char* buffer = 0;
+	int length;
+	char* expanded_output_file_name = NULL;
+	FILE* file = NULL;
+	FILE* expanded_output = NULL;
+	symbol_table* sym_table = NULL;
+	int extern_counter = 0;
+	int entry_counter = 0;
+	int i = 0;
+
 	if (argc != 2)
 	{
 		printf("Bad parameter\n");
@@ -94,22 +112,20 @@ int main(int argc, char* argv[])
 	}
 
 	/*Contain all operations and value*/
-	dictionary* operation_dict = create_operations_dict();
+	operation_dict = create_operations_dict();
 	/*Contain all data entries and binary code*/
-	address_entries* data_table = initialize_address_table();
+	data_table = initialize_address_table();
 	/*Contain all code entries and binary code*/
-	address_entries* code_table = initialize_address_table();
+	code_table = initialize_address_table();
 	/*Contain all registers and binary code*/
-	dictionary* registers_dict = create_registers_dict();
+	registers_dict = create_registers_dict();
 	/*Contain entry and extern symbols only, to be used later for main symbols table*/
-	dictionary* entry_external_dict = create_dictionary();
+	entry_external_dict = create_dictionary();
 	/*Contains external symbols only with their addresses on code table*/
-	symbol_table* external_symbols_address = create_table();
+	external_symbols_address = create_table();
 
-	char* buffer = 0;
-	int length;
 	/*Open file given as paramater at argv[1]*/
-	FILE* file = fopen(argv[1], "rb");
+	file = fopen(argv[1], "rb");
 	if (file == NULL)
 	{
 		printf("File not exist\n");
@@ -130,10 +146,10 @@ int main(int argc, char* argv[])
 	fclose(file);
 
 	/*pre processor*/
-	char* expanded_output_file_name = expand_macro(buffer);
+	expanded_output_file_name = expand_macro(buffer);
 	free(buffer);
 
-	FILE* expanded_output = fopen(expanded_output_file_name, "rt");
+	expanded_output = fopen(expanded_output_file_name, "rt");
 	if (expanded_output == NULL)
 	{
 		printf("Unable to create file.\n");
@@ -152,9 +168,9 @@ int main(int argc, char* argv[])
 	fread(buffer, 1, length, expanded_output);
 	fclose(expanded_output);
 
-	char* second_buffer = strdup(buffer);
+	second_buffer = strdups(buffer);
 	/*Firest process*/
-	symbol_table* sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict, entry_external_dict, external_symbols_address);
+	sym_table = identify_symbols(buffer, operation_dict, data_table, code_table, registers_dict, entry_external_dict, external_symbols_address);
 	/*Second process*/
 	fill_address_table(sym_table, code_table, data_table, second_buffer, operation_dict, registers_dict, entry_external_dict);
 
@@ -164,9 +180,6 @@ int main(int argc, char* argv[])
 
 	create_object_file(code_table, data_table);
 
-	int extern_counter = 0;
-	int entry_counter = 0;
-	int i;
 	for (i = 0; i < entry_external_dict->used_size; i++)
 	{
 		if (strcmp(entry_external_dict->items[i].value, "1"))
