@@ -73,6 +73,7 @@ int symbol_exists(symbol_table* s_t, char* search_symbol)
 		}
 	}
 	//if not exists
+	printf("symbol not exist");
 	return -1;
 }
 

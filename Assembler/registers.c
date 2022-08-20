@@ -32,6 +32,7 @@ int is_register(dictionary* registers_table, char* operand)
 	}
 	else
 	{
+		printf("Invalid register");
 		return -1;
 	}
 }

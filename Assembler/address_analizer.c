@@ -29,11 +29,17 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
     
     /*3 2 bits*/
     second_operand = get_second_operand(current_line);
-    /*Remove spaces*/
-    while (second_operand!= NULL && *second_operand == ' ')
+
+    if (second_operand != NULL)
     {
-        second_operand++;
+        second_operand_without_spaces = second_operand;
+        /*Get rid of spaces*/
+        while (*second_operand_without_spaces == ' ')
+        {
+            second_operand_without_spaces++;
+        }
     }
+
     /*Get first 4 bits from operation name*/
     char* value = get_value(operation_table, operation_name);
 
@@ -180,12 +186,6 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
 
     if (second_operand != NULL)
     {
-        second_operand_without_spaces = second_operand;
-        /*Get rid of spaces*/
-        while (*second_operand_without_spaces == ' ')
-        {
-            second_operand_without_spaces++;
-        }
         /*If it's entry/extern symbol*/
         if (key_exists(entry_extern_dict, second_operand) != -1)
         {
@@ -309,8 +309,8 @@ char* analize_operands(dictionary* operation_table, address_entries* a_e, char* 
         binary_num[9] = '0';
     }
 
-    //free(first_operand);
-    //free(second_operand);
+    free(first_operand);
+    free(second_operand);
 
     return binary_num;
 }
